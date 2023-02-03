@@ -1,0 +1,306 @@
+import jwt_decode from 'jwt-decode'
+
+import {
+  changePassword as changePasswordAPI,
+  confirmEmail as confirmEmailAPI,
+  forgotPassword as forgotPasswordAPI,
+  login as loginAPI,
+  refresh as refreshAPI,
+  register as registerAPI,
+  resendEmail as resendEmailAPI,
+  resetPassword as resetPasswordAPI,
+} from 'api/backend/zaap/auth'
+
+import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from 'constants/localStorageKey'
+
+import { ForgotPasswordResponse } from 'types/dto'
+import { ArtCategory, ConfirmEmailStatus, LoginStatus } from 'types/enums'
+import { FunctionResult, JwtPayload } from 'types/types'
+
+import { accountService } from 'services/accountService'
+
+import { accountStore } from 'stores/accountStore'
+
+class AuthService {
+  public getJwtTokenData = (token: string): JwtPayload => {
+    try {
+      const tokenParts = jwt_decode<JwtPayload>(token)
+
+      const isRefreshToken: boolean | undefined = tokenParts.isRefreshToken
+      const email: string = tokenParts.email
+      const username: string = tokenParts.username
+      const isConfirmed: boolean = tokenParts.isConfirmed
+      const exp: number = tokenParts.exp
+      const iat: number = tokenParts.iat
+
+      return {
+        isRefreshToken,
+        email,
+        username,
+        isConfirmed,
+        exp,
+        iat,
+      }
+    } catch (err) {
+      throw new Error('getJwtTokenData error')
+    }
+  }
+
+  /**
+   * @returns isExpire
+   */
+  public isRefreshTokenInvalid = (): boolean => {
+    const refreshToken = localStorage.getItem(REFRESH_TOKEN_KEY)
+    if (!refreshToken) {
+      return true
+    }
+
+    const { exp } = this.getJwtTokenData(refreshToken)
+    return exp * 1000 < Date.now()
+  }
+
+  /**
+   * @returns isConfirmed undefined if refreshToken doesn't exist
+   */
+  public isEmailConfirmed = (): boolean | undefined => {
+    const refreshToken = localStorage.getItem(REFRESH_TOKEN_KEY)
+    if (!refreshToken) {
+      return
+    }
+
+    const { isConfirmed } = this.getJwtTokenData(refreshToken)
+    return isConfirmed
+  }
+
+  public initUser = () => {
+    const refreshToken = localStorage.getItem(REFRESH_TOKEN_KEY)
+    if (!refreshToken) {
+      return
+    }
+
+    const tokenParts = jwt_decode<JwtPayload>(refreshToken)
+
+    const isRefreshToken: boolean | undefined = tokenParts.isRefreshToken
+
+    if (!isRefreshToken) {
+      this.logout()
+      return
+    }
+
+    const email: string = tokenParts.email
+    const username: string = tokenParts.username
+    const isConfirmed: boolean = tokenParts.isConfirmed
+
+    accountStore.setEmail(email)
+    accountStore.setUsername(username)
+    accountStore.setIsConfirmedEmail(isConfirmed)
+    accountStore.setIsLoggedIn(true)
+
+    accountService.getArtistProfileFromBackend()
+  }
+
+  public logout = () => {
+    localStorage.removeItem(ACCESS_TOKEN_KEY)
+    localStorage.removeItem(REFRESH_TOKEN_KEY)
+    accountStore.setEmail(undefined)
+    accountStore.setUsername(undefined)
+    accountStore.setIsConfirmedEmail(undefined)
+    accountStore.setIsLoggedIn(false)
+    accountStore.setArtistProfile(undefined)
+    accountStore.setReferral({
+      id: '',
+      max: 0,
+      owner: '',
+      referralData: [],
+    })
+  }
+
+  /**
+   *
+   * @param username Username
+   * @param email Email
+   * @param password Password
+   * @param displayName Display Name
+   * @param bio BIO
+   * @param categories Categories
+   * @returns isSuccess
+   */
+  public register = async (
+    username: string,
+    email: string,
+    password: string,
+    displayName: string,
+    referralId: string,
+    bio: string = '',
+    categories: ArtCategory[] = [],
+  ): Promise<FunctionResult> => {
+    try {
+      const { accessToken, refreshToken, tokenType } = await registerAPI({
+        username,
+        email,
+        password,
+        displayName,
+        bio,
+        categories,
+        referralId,
+      })
+      if (tokenType === 'Bearer') {
+        localStorage.setItem(ACCESS_TOKEN_KEY, accessToken)
+        localStorage.setItem(REFRESH_TOKEN_KEY, refreshToken)
+
+        this.initUser()
+
+        return { success: true }
+      }
+    } catch (err) {
+      console.error(err)
+      if (Array.isArray(err.response?.data?.message)) {
+        return { success: false, message: err.response?.data?.message?.join('\n') }
+      }
+
+      return { success: false, message: err.response?.data?.message }
+    }
+    return { success: false }
+  }
+
+  /**
+   *
+   * @param identifier Username / Email
+   * @param password Password
+   * @returns LoginStatus
+   */
+  public login = async (identifier: string, password: string): Promise<LoginStatus> => {
+    try {
+      const { accessToken, refreshToken, tokenType } = await loginAPI({ identifier, password })
+      if (tokenType === 'Bearer') {
+        const { isConfirmed: isAccessTokenConfirmed } = this.getJwtTokenData(accessToken)
+        const { isConfirmed: isRefreshTokenConfirmed } = this.getJwtTokenData(refreshToken)
+
+        localStorage.setItem(ACCESS_TOKEN_KEY, accessToken)
+        localStorage.setItem(REFRESH_TOKEN_KEY, refreshToken)
+
+        this.initUser()
+
+        if (!isAccessTokenConfirmed || !isRefreshTokenConfirmed) {
+          return LoginStatus.NOT_CONFIRMED
+        }
+
+        return LoginStatus.SUCCESS
+      }
+    } catch (err) {
+      console.error(err)
+      if (err.response?.status === 401) {
+        return LoginStatus.UNAUTHORIZED
+      }
+    }
+
+    return LoginStatus.FAIL
+  }
+
+  /**
+   *
+   * @param refreshToken Refresh-Token
+   * @returns isSuccess
+   */
+  public refresh = async (refreshToken: string): Promise<boolean> => {
+    try {
+      const {
+        accessToken: newAccessToken,
+        refreshToken: newRefreshToken,
+        tokenType,
+      } = await refreshAPI({ refreshToken })
+      if (tokenType === 'Bearer') {
+        localStorage.setItem(ACCESS_TOKEN_KEY, newAccessToken)
+        localStorage.setItem(REFRESH_TOKEN_KEY, newRefreshToken)
+        this.initUser()
+        return true
+      }
+    } catch (err) {
+      console.error(err)
+    }
+
+    return false
+  }
+
+  /**
+   *
+   * @param email Email
+   * @param key Key that use to confirm email
+   * @returns ConfirmEmailStatus ConfirmEmailStatus can be 'SUCCESS', 'EXPIRE', 'FAIL'
+   */
+  public confirmEmail = async (email: string, key: string): Promise<ConfirmEmailStatus> => {
+    try {
+      const status = await confirmEmailAPI({ email, key })
+      if (status === ConfirmEmailStatus.SUCCESS) {
+        const refreshToken = localStorage.getItem(REFRESH_TOKEN_KEY)
+        if (!refreshToken) {
+          this.logout()
+          window.location.href = '/login'
+          return ConfirmEmailStatus.FAIL
+        }
+
+        const isSuccess = await this.refresh(refreshToken)
+        if (isSuccess) {
+          return ConfirmEmailStatus.SUCCESS
+        } else {
+          this.logout()
+          window.location.href = '/login'
+          return ConfirmEmailStatus.FAIL
+        }
+      }
+
+      // * return Expire status
+      return status
+    } catch (err) {
+      console.error(err)
+    }
+
+    return ConfirmEmailStatus.FAIL
+  }
+
+  /**
+   *
+   * @returns isSuccess
+   */
+  public resendEmail = async (): Promise<boolean> => {
+    try {
+      await resendEmailAPI()
+      return true
+    } catch (err) {
+      console.error(err)
+      return false
+    }
+  }
+
+  public forgotPassword = async (identifier: string): Promise<FunctionResult<ForgotPasswordResponse>> => {
+    try {
+      const data = await forgotPasswordAPI(identifier)
+      return { success: true, data }
+    } catch (err) {
+      console.error(err)
+      return { success: false, message: err.message }
+    }
+  }
+
+  public resetPassword = async (identifier: string, otp: string, password: string): Promise<FunctionResult> => {
+    try {
+      await resetPasswordAPI({ identifier, otp, password })
+      return { success: true }
+    } catch (err) {
+      console.error(err)
+      return { success: false, message: err.message }
+    }
+  }
+
+  public changePassword = async (currentPassword: string, newPassword: string): Promise<FunctionResult> => {
+    try {
+      await changePasswordAPI(currentPassword, newPassword)
+      return { success: true }
+    } catch (err) {
+      console.error(err)
+      return { success: false, message: err.message }
+    }
+  }
+}
+
+export const authService = new AuthService()
