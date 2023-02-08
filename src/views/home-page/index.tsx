@@ -15,6 +15,7 @@ export const HomePage = () => {
             style={{
               objectPosition: 'right center',
             }}
+            priority
             fill
           />
         </ImageContainer>

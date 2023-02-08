@@ -12,6 +12,7 @@ export const StyledContainer = styled(Container)(() => ({
   justifyContent: 'space-between',
   alignItems: 'center',
   width: '100%',
+  minHeight: 420,
 }))
 
 export const ImageContainer = styled('div')(() => ({

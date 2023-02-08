@@ -5,6 +5,8 @@ import Head from 'next/head'
 
 import { mulish as mulishFont } from 'font/config'
 
+import { I18nProvider } from 'i18n/provider'
+
 import { PageWrapper } from 'components/core/CoreWrapper'
 
 import { createEmotionCache } from 'libs/emotion'
@@ -31,9 +33,11 @@ const CustomApp = ({ Component, emotionCache = clientSideEmotionCache, pageProps
             <EmotionThemeProvider theme={theme}>
               <main style={mulishFont.style}>
                 <CssBaseline />
-                <PageWrapper>
-                  <Component {...pageProps} />
-                </PageWrapper>
+                <I18nProvider>
+                  <PageWrapper>
+                    <Component {...pageProps} />
+                  </PageWrapper>
+                </I18nProvider>
               </main>
             </EmotionThemeProvider>
           </MaterialThemeProvider>

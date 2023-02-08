@@ -1,4 +1,4 @@
-import { AppBar, Stack, Toolbar, alpha, styled } from '@mui/material'
+import { AppBar, Button, Stack, Toolbar, alpha, styled } from '@mui/material'
 
 export const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   background: theme.palette.background.default,
@@ -27,5 +27,9 @@ export const LogoWrapper = styled('div')(() => ({
 }))
 
 export const SignInButtonWrapper = styled('div')(({ theme }) => ({
-  paddingLeft: theme.spacing(4),
+  paddingLeft: theme.spacing(1),
+}))
+
+export const SignInButton = styled(Button)(() => ({
+  minWidth: 112,
 }))

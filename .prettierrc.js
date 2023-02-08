@@ -9,9 +9,11 @@ module.exports = {
   importOrder: [
     '^api/(.*)$',
     '^font/(.*)$',
+    '^i18n/(.*)$',
     '^constants/(.*)$',
     '^components/core/(.*)$',
     '^components/common/(.*)$',
+    '^components/layouts/(.*)$',
     '^pages/(.*)$',
     '^routes/(.*)$',
     '^data/(.*)$',
