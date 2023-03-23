@@ -5,6 +5,6 @@ export const InternalLinkContainer = styled(Box, { shouldForwardProp })<{ isLink
   ({ theme, isLinkStyle }) => ({
     cursor: 'pointer',
     display: 'contents',
-    color: isLinkStyle ? theme.palette.link : 'unset',
+    color: isLinkStyle ? theme.palette.info.main : 'unset',
   }),
 )

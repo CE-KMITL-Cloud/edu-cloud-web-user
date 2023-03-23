@@ -17,7 +17,7 @@ export const Description = () => {
         {t`description`}
       </Typography>
       <ButtonWrapper>
-        <Button variant="contained" color="primary" size="large">
+        <Button variant="contained" color="primary" size="medium">
           {t`more`}
         </Button>
       </ButtonWrapper>

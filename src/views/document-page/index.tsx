@@ -1,5 +1,10 @@
-import { PaperLayout } from 'components/layouts/PaperLayout'
+import { PaperLayout } from 'layouts/PaperLayout'
+import { Screen } from 'layouts/Screen'
 
-export const DocumentPage = () => {
-  return <PaperLayout textHeader="document">Document</PaperLayout>
+import { Page } from 'types/page'
+
+export const DocumentPage: Page = () => {
+  return <PaperLayout textHeader="document and Q&A">Document</PaperLayout>
 }
+
+DocumentPage.getLayout = (page) => <Screen>{page}</Screen>

@@ -8,7 +8,7 @@ const i18nextInstance = createInstance()
 
 i18nextInstance
   .use(initReactI18next)
-  .use(resourcesToBackend((language: string, namespace: string) => import(`../locales/${language}/${namespace}.json`)))
+  .use(resourcesToBackend((language: string, namespace: string) => import(`../locales/${language}/${namespace}.ts`)))
   .init(getOptions())
 
 export { i18nextInstance as i18n }

@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import { PropsWithChildren, useCallback, useEffect, useState } from 'react'
+import { type PropsWithChildren, useCallback, useEffect, useState } from 'react'
 import { I18nextProvider, useTranslation } from 'react-i18next'
 
 import { i18n } from 'i18n/instance/client'

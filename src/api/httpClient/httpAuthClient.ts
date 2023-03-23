@@ -2,7 +2,7 @@ import axios from 'axios'
 import axiosRetry from 'axios-retry'
 
 import { BACKEND_URL } from 'constants/constants'
-import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from 'constants/localStorageKey'
+import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from 'constants/storageKey'
 
 // import { authService } from 'services/authService'
 

@@ -1,15 +1,16 @@
-import { RouteRole } from 'types/enums'
+import { paths } from 'routes/paths'
+
+import { Prettify } from 'types/prettify'
 
 export type UiRouteConfigType = {
   showNavbar: boolean
   showFooter: boolean
 }
 
-export type RouteType = {
-  path: string
-  role: RouteRole
-}
+export type UiRouteConfigTypeOptional = Partial<UiRouteConfigType>
 
-export type RouteConfig = RouteType & Partial<UiRouteConfigType>
+export type PathsType = typeof paths
 
-export type Routes = RouteConfig[]
+export type PathsValueType = (typeof paths)[keyof PathsType]
+
+export type RoutesConfigType = Prettify<Record<PathsValueType, UiRouteConfigTypeOptional>>

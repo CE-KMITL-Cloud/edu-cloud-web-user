@@ -1,10 +1,14 @@
 import { Typography } from '@mui/material'
 import Image from 'next/image'
 
+import { Screen } from 'layouts/Screen'
+
+import { Page } from 'types/page'
+
 import { LoginSection } from './LoginSection'
 import { ImgCon1, ImgCon2, Root, StyledBox, StyledStack, TextWrapper } from './styled'
 
-export const LoginPage = () => {
+export const LoginPage: Page = () => {
   return (
     <Root>
       <StyledBox>
@@ -27,3 +31,5 @@ export const LoginPage = () => {
     </Root>
   )
 }
+
+LoginPage.getLayout = (page) => <Screen>{page}</Screen>

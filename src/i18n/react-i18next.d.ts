@@ -2,16 +2,17 @@
 import 'react-i18next'
 
 // * import all namespaces (for the default language, only)
-import home_ns from './locales/en/home.json'
-import translation_ns from './locales/en/translation.json'
+import home_ns from 'i18n/locales/en/home'
+import translation_ns from 'i18n/locales/en/translation'
+import { HomeTokenType, TranslationTokenType } from 'i18n/tokens'
 
 declare module 'react-i18next' {
   interface CustomTypeOptions {
     defaultNS: 'translation'
 
     resources: {
-      home: typeof home_ns
-      translation: typeof translation_ns
+      home: HomeTokenType
+      translation: TranslationTokenType
     }
   }
 }

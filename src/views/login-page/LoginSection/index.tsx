@@ -1,21 +1,10 @@
-import { Box, Checkbox, FormControlLabel, FormGroup, Typography } from '@mui/material'
+import { Box, Button, Checkbox, FormControlLabel, FormGroup, TextField, Typography } from '@mui/material'
 import { ChangeEvent, useState } from 'react'
 
+import { HideableTextField } from 'components/common/HideableTextField'
 import { CoreLink } from 'components/core/CoreLink'
-import { CoreSvg } from 'components/core/CoreSvg'
 
-import { TextField } from 'components/common/TextField'
-
-import {
-  AgreementBox,
-  ButtonGroup,
-  ContentsWrapper,
-  LogoWrapper,
-  Root,
-  StyledLoginButton,
-  StyledOAuthButton,
-  TextFieldWrapper,
-} from './styled'
+import { AgreementBox, ButtonGroup, ContentsWrapper, LogoWrapper, Root, TextFieldWrapper } from './styled'
 
 export const LoginSection = () => {
   const [email, setEmail] = useState<string>('')
@@ -37,14 +26,14 @@ export const LoginSection = () => {
         </CoreLink>
         <Box width="100%">
           <TextFieldWrapper>
-            <TextField label="username / email" value={email} setValue={(value) => setEmail(value)} fullWidth />
+            <TextField label="username / email" value={email} onChange={(e) => setEmail(e.target.value)} fullWidth />
           </TextFieldWrapper>
           <TextFieldWrapper>
-            <TextField
+            <HideableTextField
               type="password"
               label="password"
               value={password}
-              setValue={(value) => setPassword(value)}
+              onChange={(e) => setPassword(e.target.value)}
               fullWidth
             />
           </TextFieldWrapper>
@@ -62,21 +51,18 @@ export const LoginSection = () => {
           </AgreementBox>
         </Box>
         <ButtonGroup>
-          <StyledLoginButton variant="contained" color="primary" size="medium" disabled={!isCheck} fullWidth>
+          <Button variant="contained" color="primary" size="medium" disabled={!isCheck} fullWidth>
             Login
-          </StyledLoginButton>
-          <Typography variant="body2" color="text.light">
+          </Button>
+          <Typography variant="body2" color="text.dark">
             or
           </Typography>
-          <StyledOAuthButton
-            variant="contained"
-            color="primary"
-            size="medium"
-            startIcon={<CoreSvg src="/static/icons/google.svg" />}
-            fullWidth
-          >
-            Sign In with @kmitl.ac.th
-          </StyledOAuthButton>
+          {/* TODO: Link to register page*/}
+          <CoreLink path="#">
+            <Button variant="contained" color="secondary" size="medium" fullWidth>
+              Register
+            </Button>
+          </CoreLink>
         </ButtonGroup>
       </ContentsWrapper>
     </Root>

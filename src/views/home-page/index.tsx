@@ -1,9 +1,14 @@
 import Image from 'next/image'
 
-import { Description } from './Description'
+import { Screen } from 'layouts/Screen'
+
+import { Page } from 'types/page'
+
+import { Description } from 'views/home-page/Description'
+
 import { ImageContainer, Root, StyledContainer } from './styled'
 
-export const HomePage = () => {
+export const HomePage: Page = () => {
   return (
     <Root>
       <StyledContainer>
@@ -23,3 +28,5 @@ export const HomePage = () => {
     </Root>
   )
 }
+
+HomePage.getLayout = (page) => <Screen>{page}</Screen>

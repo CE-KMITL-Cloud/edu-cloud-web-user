@@ -14,9 +14,7 @@ export const initI18next = async (language: string, namespace: string) => {
 
   await i18nInstance
     .use(initReactI18next)
-    .use(
-      resourcesToBackend((language: string, namespace: string) => import(`../locales/${language}/${namespace}.json`)),
-    )
+    .use(resourcesToBackend((language: string, namespace: string) => import(`../locales/${language}/${namespace}.ts`)))
     .init(getOptions(language, namespace))
 
   return i18nInstance

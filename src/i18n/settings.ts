@@ -1,8 +1,8 @@
-import { InitOptions } from 'i18next'
+import { type InitOptions } from 'i18next'
 
 export const cookieName = 'i18next'
 
-export const allNS = ['translation', 'home'] as const
+export const allNS = ['translation', 'home', 'sidebar'] as const
 export const languages = ['en', 'th'] as const
 export const defaultNS = 'translation'
 export const fallbackLanguage = 'en'

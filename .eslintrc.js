@@ -7,6 +7,7 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
     'plugin:react/recommended',
     'plugin:react-hooks/recommended',
+    'plugin:storybook/recommended',
   ],
   env: {
     browser: true,
@@ -27,6 +28,11 @@ module.exports = {
     '@typescript-eslint/no-non-null-assertion': 'off',
     '@typescript-eslint/no-extra-semi': 'off',
     '@typescript-eslint/no-inferrable-types': 'off',
-    '@typescript-eslint/array-type': ['error', { default: 'array-simple' }],
+    '@typescript-eslint/array-type': [
+      'error',
+      {
+        default: 'array-simple',
+      },
+    ],
   },
 }

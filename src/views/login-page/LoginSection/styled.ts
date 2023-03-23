@@ -1,4 +1,4 @@
-import { Box, Button, Stack, alpha, styled } from '@mui/material'
+import { Box, Button, Stack, styled } from '@mui/material'
 
 export const Root = styled('section')(({ theme }) => ({
   backgroundColor: theme.palette.background.default,
@@ -41,15 +41,4 @@ export const TextFieldWrapper = styled('div')(({ theme }) => ({
 
 export const BaseButton = styled(Button)(() => ({
   height: 48,
-}))
-
-export const StyledLoginButton = styled(BaseButton)(({ theme }) => ({
-  backgroundColor: theme.palette.primary.light,
-}))
-
-export const StyledOAuthButton = styled(BaseButton)(({ theme }) => ({
-  backgroundColor: theme.palette.background.dark,
-  '&:hover': {
-    backgroundColor: alpha(theme.palette.background.dark, 0.8),
-  },
 }))

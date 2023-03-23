@@ -4,7 +4,7 @@ export const Root = styled(Stack)(({ theme }) => ({
   flexDirection: 'row',
   height: '100%',
   width: '100%',
-  backgroundColor: theme.palette.background.grey,
+  backgroundColor: theme.palette.secondary.light,
 }))
 
 export const StyledBox = styled('div')(({ theme }) => ({

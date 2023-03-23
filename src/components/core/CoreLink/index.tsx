@@ -4,7 +4,7 @@ import { type ReactNode } from 'react'
 
 import { InternalLinkContainer } from './styled'
 
-export type CoreLinkProps = {
+export interface CoreLinkProps {
   href?: string
   path?: string
   children: ReactNode

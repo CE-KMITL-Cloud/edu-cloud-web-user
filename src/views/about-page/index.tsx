@@ -1,10 +1,14 @@
 import { Box, Stack, Typography } from '@mui/material'
-import { PaperLayout } from 'components/layouts/PaperLayout'
 import Image from 'next/image'
+
+import { PaperLayout } from 'layouts/PaperLayout'
+import { Screen } from 'layouts/Screen'
+
+import { Page } from 'types/page'
 
 import { ContentBox } from './styled'
 
-export const AboutPage = () => {
+export const AboutPage: Page = () => {
   return (
     <PaperLayout textHeader="about">
       <Stack direction="row" gap={4}>
@@ -27,3 +31,5 @@ export const AboutPage = () => {
     </PaperLayout>
   )
 }
+
+AboutPage.getLayout = (page) => <Screen>{page}</Screen>
