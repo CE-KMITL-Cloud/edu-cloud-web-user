@@ -45,6 +45,10 @@ export const ROUTES_CONFIG: RoutesConfigType = {
     showNavbar: false,
     showFooter: true,
   },
+  [paths.pool]: {
+    showNavbar: false,
+    showFooter: true,
+  },
 
   // * Status
   [paths[401]]: {

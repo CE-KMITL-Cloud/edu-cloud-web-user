@@ -1,3 +1,4 @@
+import GroupIcon from '@mui/icons-material/Group'
 import { SvgIcon } from '@mui/material'
 import { type ReactNode, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -56,6 +57,15 @@ export const useSections = () => {
             icon: (
               <SvgIcon fontSize="small">
                 <BuildingIcon />
+              </SvgIcon>
+            ),
+          },
+          {
+            title: 'Pool',
+            path: paths.pool,
+            icon: (
+              <SvgIcon fontSize="small">
+                <GroupIcon />
               </SvgIcon>
             ),
           },
