@@ -24,7 +24,7 @@ import { Aside, Contents, Section } from './styled'
 export const VmTemplatePage: Page = () => {
   return (
     <>
-      <HeaderBar iconSrc="/static/icons/server-black.png">VM Template</HeaderBar>
+      <HeaderBar iconSrc="ic:round-copy-all">VM Template</HeaderBar>
       <Contents>
         <Section>
           <OSCard />

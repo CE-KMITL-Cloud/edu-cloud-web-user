@@ -1,14 +1,14 @@
 import { type TranslationTokenType, translation } from 'i18n/tokens'
 
 const table: TranslationTokenType = {
-  [translation.home]: 'home',
-  [translation.about]: 'about',
-  [translation.service]: 'service',
-  [translation.blog]: 'blog',
-  [translation.document]: 'document',
-  [translation.dashboard]: 'dashboard',
+  [translation.home]: 'Home',
+  [translation.about]: 'About',
+  [translation.service]: 'Service',
+  [translation.blog]: 'Blog',
+  [translation.document]: 'Document',
+  [translation.dashboard]: 'Dashboard',
   [translation.signIn]: 'sign in',
-  [translation.more]: 'more',
+  [translation.more]: 'More',
 }
 
 export default table

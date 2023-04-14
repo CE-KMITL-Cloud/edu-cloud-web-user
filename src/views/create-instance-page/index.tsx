@@ -39,7 +39,7 @@ const mock: Props[] = [
 export const CreateInstancePage: Page = () => {
   return (
     <>
-      <HeaderBar iconSrc="/static/icons/server-black.png">Create instance</HeaderBar>
+      <HeaderBar iconSrc="solar:server-minimalistic-bold">Create instance</HeaderBar>
       <Background>
         <StyledPaper>
           <Typography variant="h6">Create instance</Typography>
