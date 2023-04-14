@@ -2,11 +2,11 @@ import { SvgIcon } from '@mui/material'
 import { type ReactNode, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { sidebar } from 'i18n/tokens'
+import { sidebar, translation } from 'i18n/tokens'
 
-import BarChartSquare02Icon from 'icons/untitled-ui/duocolor/bar-chart-square-02'
-import Building04Icon from 'icons/untitled-ui/duocolor/building-04'
-import HomeSmileIcon from 'icons/untitled-ui/duocolor/home-smile'
+import { BarChart as BarChartIcon } from 'icons/BarChart'
+import { Building as BuildingIcon } from 'icons/Building'
+import { HomeSmile as HomeSmileIcon } from 'icons/HomeSmile'
 
 import { paths } from 'routes/paths'
 
@@ -26,13 +26,14 @@ export interface Section {
 }
 
 export const useSections = () => {
-  const { t } = useTranslation('sidebar')
+  const { t } = useTranslation(['translation', 'sidebar'])
+
   return useMemo(
     () => [
       {
         items: [
           {
-            title: t(sidebar.dashboard),
+            title: t(translation.dashboard),
             path: paths.dashboard,
             icon: (
               <SvgIcon fontSize="small">
@@ -45,7 +46,7 @@ export const useSections = () => {
             path: paths.vmInstance,
             icon: (
               <SvgIcon fontSize="small">
-                <BarChartSquare02Icon />
+                <BarChartIcon />
               </SvgIcon>
             ),
           },
@@ -54,7 +55,7 @@ export const useSections = () => {
             path: paths.vmTemplate,
             icon: (
               <SvgIcon fontSize="small">
-                <Building04Icon />
+                <BuildingIcon />
               </SvgIcon>
             ),
           },

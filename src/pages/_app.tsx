@@ -4,13 +4,15 @@ import { type AppProps } from 'next/app'
 import Head from 'next/head'
 import 'simplebar-react/dist/simplebar.min.css'
 
-import { mulish as mulishFont } from 'font/config'
-
 import { I18nProvider } from 'i18n/provider'
 
 import { CoreRTL } from 'components/core/CoreRtl'
 
+import { LoadingScreen } from 'components/common/LoadingScreen'
+
 import { createEmotionCache } from 'libs/emotion'
+
+import { useSetup } from 'hooks/useSetup'
 
 import { SettingsConsumer, SettingsProvider } from 'contexts/settings-context'
 
@@ -21,6 +23,8 @@ const clientSideEmotionCache = createEmotionCache()
 
 const CustomApp = ({ Component, emotionCache = clientSideEmotionCache, pageProps }: AppProps) => {
   const getLayout = Component.getLayout ?? ((page) => page)
+
+  const { isReady } = useSetup()
 
   return (
     <>
@@ -59,10 +63,8 @@ const CustomApp = ({ Component, emotionCache = clientSideEmotionCache, pageProps
                             <meta name="color-scheme" content={settings.paletteMode} />
                             <meta name="theme-color" content={theme.palette.neutral[900]} />
                           </Head>
-                          <main style={mulishFont.style}>
-                            <CssBaseline />
-                            {getLayout(<Component {...pageProps} />)}
-                          </main>
+                          <CssBaseline />
+                          {isReady ? getLayout(<Component {...pageProps} />) : <LoadingScreen />}
                         </CoreRTL>
                       </EmotionThemeProvider>
                     </MaterialThemeProvider>

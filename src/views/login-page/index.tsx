@@ -1,14 +1,16 @@
 import { Typography } from '@mui/material'
 import Image from 'next/image'
 
-import { Screen } from 'layouts/Screen'
+import { NavbarLayout } from 'layouts/NavbarLayout'
+
+import { withGuestGuard } from 'components/hocs/with-guest-guard'
 
 import { Page } from 'types/page'
 
 import { LoginSection } from './LoginSection'
 import { ImgCon1, ImgCon2, Root, StyledBox, StyledStack, TextWrapper } from './styled'
 
-export const LoginPage: Page = () => {
+export const LoginPage: Page = withGuestGuard(() => {
   return (
     <Root>
       <StyledBox>
@@ -20,7 +22,7 @@ export const LoginPage: Page = () => {
             </Typography>
           </TextWrapper>
           <ImgCon1>
-            <Image src="/static/images/desktop.svg" alt="computer" height={250} width={400} />
+            <Image src="/static/images/desktop.svg" alt="computer" priority height={250} width={400} />
           </ImgCon1>
           <ImgCon2>
             <Image src="/static/images/server-iso.png" alt="server iso" height={240} width={280} />
@@ -30,6 +32,6 @@ export const LoginPage: Page = () => {
       <LoginSection />
     </Root>
   )
-}
+})
 
-LoginPage.getLayout = (page) => <Screen>{page}</Screen>
+LoginPage.getLayout = (page) => <NavbarLayout>{page}</NavbarLayout>

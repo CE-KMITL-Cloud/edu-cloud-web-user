@@ -1,7 +1,7 @@
 import { Box, Button, Container, type Theme, Typography, useMediaQuery } from '@mui/material'
 
-import { CoreSeo } from 'components/core/CoreSeo'
 import { CoreLink } from 'components/core/CoreLink'
+import { CoreSeo } from 'components/core/CoreSeo'
 
 import { paths } from 'routes/paths'
 

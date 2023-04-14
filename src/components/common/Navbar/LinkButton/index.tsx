@@ -10,14 +10,7 @@ type LinkButtonProps = CoreLinkProps & {
 export const LinkButton = ({ children, glow = false, ...coreLinkRestProps }: LinkButtonProps) => {
   return (
     <CoreLink {...coreLinkRestProps}>
-      <StyledButton
-        variant="text"
-        color="primary"
-        glow={glow}
-        size="medium"
-        disableRipple
-        disableTouchRipple
-      >
+      <StyledButton variant="text" color="primary" glow={glow} size="medium" disableRipple disableTouchRipple>
         {children}
       </StyledButton>
     </CoreLink>

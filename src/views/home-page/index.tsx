@@ -1,6 +1,6 @@
 import Image from 'next/image'
 
-import { Screen } from 'layouts/Screen'
+import { NavbarLayout } from 'layouts/NavbarLayout'
 
 import { Page } from 'types/page'
 
@@ -29,4 +29,4 @@ export const HomePage: Page = () => {
   )
 }
 
-HomePage.getLayout = (page) => <Screen>{page}</Screen>
+HomePage.getLayout = (page) => <NavbarLayout>{page}</NavbarLayout>

@@ -5,10 +5,11 @@ import User01Icon from '@untitled-ui/icons-react/build/esm/User01'
 import { useRouter } from 'next/router'
 import { useMemo } from 'react'
 
-import { Logo } from 'components/common/Logo'
-import { Scrollbar } from 'components/common/Scrollbar'
 import { SideNavSection } from 'components/core/CoreSidebar/Section'
 import type { Section } from 'components/core/CoreSidebar/config'
+
+import { Logo } from 'components/common/Logo'
+import { Scrollbar } from 'components/common/Scrollbar'
 
 import { paths } from 'routes/paths'
 

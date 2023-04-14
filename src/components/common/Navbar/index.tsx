@@ -1,25 +1,34 @@
-import { Button, Container, Typography } from '@mui/material'
+import OutputIcon from '@mui/icons-material/Output'
+import { Button, Container, IconButton, Typography } from '@mui/material'
+import { observer } from 'mobx-react-lite'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { Logo } from 'components/common/Logo'
-import { LinkButton } from 'components/common/Navbar/LinkButton'
+import { translation } from 'i18n/tokens'
+
 import { CoreLink } from 'components/core/CoreLink'
 
-import { Languages } from 'types/languages'
-import { isAcceptLanguage } from 'types/type-guards'
+import { Logo } from 'components/common/Logo'
+import { LinkButton } from 'components/common/Navbar/LinkButton'
+
+import { authService } from 'services/auth-service'
+
+import { accountStore } from 'store/account-store'
+
+import { type Languages, isAcceptLanguage } from 'types/languages'
 
 import {
   SignInButton,
   SignInButtonWrapper,
+  SignOutButtonWrapper,
   StyledAppBar,
   StyledButtonsGroupWrapper,
   StyledRows,
   StyledToolbar,
 } from './styled'
 
-export const Navbar = () => {
+export const Navbar = observer(() => {
   const router = useRouter()
 
   const { t } = useTranslation()
@@ -61,9 +70,9 @@ export const Navbar = () => {
                 Document
               </LinkButton>
               <SignInButtonWrapper>
-                <CoreLink path="/login">
+                <CoreLink path={accountStore.isLoggedIn ? 'dashboard' : '/login'}>
                   <SignInButton variant="contained" color="primary">
-                    {t`sign in`}
+                    {t(accountStore.isLoggedIn ? translation.dashboard : translation.signIn)}
                   </SignInButton>
                 </CoreLink>
               </SignInButtonWrapper>
@@ -79,10 +88,17 @@ export const Navbar = () => {
                   {language}
                 </Typography>
               </Button>
+              {accountStore.isLoggedIn && (
+                <SignOutButtonWrapper>
+                  <IconButton size="small" color="primary" onClick={() => authService.logout()}>
+                    <OutputIcon />
+                  </IconButton>
+                </SignOutButtonWrapper>
+              )}
             </StyledButtonsGroupWrapper>
           </StyledRows>
         </Container>
       </StyledToolbar>
     </StyledAppBar>
   )
-}
+})

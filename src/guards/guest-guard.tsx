@@ -1,30 +1,36 @@
+import { needBackend } from 'dev'
+import { observer } from 'mobx-react-lite'
 import { useRouter } from 'next/router'
 import { type ReactNode, useCallback, useEffect, useState } from 'react'
 
 import { paths } from 'routes/paths'
 
-import { useAuth } from 'hooks/useAuth'
+import { accountStore } from 'store/account-store'
 
 interface GuestGuardProps {
   children: ReactNode
 }
 
-export const GuestGuard = ({ children }: GuestGuardProps) => {
-  const { isAuthenticated } = useAuth()
+export const GuestGuard = observer(({ children }: GuestGuardProps) => {
   const router = useRouter()
 
   const [checked, setChecked] = useState<boolean>(false)
 
   const check = useCallback(() => {
-    if (isAuthenticated) {
+    if (accountStore.isLoggedIn) {
       router.replace(paths.index)
     } else {
       setChecked(true)
     }
-  }, [isAuthenticated, router])
+  }, [accountStore.isLoggedIn, router])
 
   useEffect(() => {
-    check()
+    // Todo: remove `needBackend`
+    if (needBackend) {
+      check()
+    } else {
+      setChecked(true)
+    }
   }, [])
 
   if (!checked) {
@@ -32,4 +38,4 @@ export const GuestGuard = ({ children }: GuestGuardProps) => {
   }
 
   return <>{children}</>
-}
+})

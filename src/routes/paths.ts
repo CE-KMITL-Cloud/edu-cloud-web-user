@@ -6,6 +6,7 @@ export const paths = {
   blog: '/blog',
   document: '/document',
   dashboard: '/dashboard',
+  createInstance: '/create-instance',
   vmInstance: '/vm-instance',
   vmTemplate: '/vm-template',
 

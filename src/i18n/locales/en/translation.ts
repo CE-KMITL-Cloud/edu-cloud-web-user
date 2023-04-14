@@ -6,7 +6,8 @@ const table: TranslationTokenType = {
   [translation.service]: 'service',
   [translation.blog]: 'blog',
   [translation.document]: 'document',
-  [translation.signIn]: 'sing in',
+  [translation.dashboard]: 'dashboard',
+  [translation.signIn]: 'sign in',
   [translation.more]: 'more',
 }
 

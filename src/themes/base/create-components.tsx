@@ -299,7 +299,7 @@ export const createComponents = (): Components => {
     MuiTableCell: {
       styleOverrides: {
         root: {
-          padding: '15px 16px',
+          padding: '12px 16px',
         },
       },
     },
@@ -307,6 +307,7 @@ export const createComponents = (): Components => {
       styleOverrides: {
         root: {
           borderBottom: 'none',
+          backgroundColor: 'inherit',
           [`& .${tableCellClasses.root}`]: {
             borderBottom: 'none',
             fontSize: 12,

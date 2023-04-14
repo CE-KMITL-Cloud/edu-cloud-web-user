@@ -30,5 +30,6 @@ export const withAlphas = (color: PaletteColor): PaletteColor => {
     alpha12: alpha(color.main, 0.12),
     alpha30: alpha(color.main, 0.3),
     alpha50: alpha(color.main, 0.5),
+    alpha80: alpha(color.main, 0.8),
   }
 }

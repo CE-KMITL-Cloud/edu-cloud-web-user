@@ -9,12 +9,12 @@ export const translation = {
   service: 'service',
   blog: 'blog',
   document: 'document',
-  signIn: 'sing in',
+  signIn: 'sign in',
+  dashboard: 'dashboard',
   more: 'more',
 } as const
 
 export const sidebar = {
-  dashboard: 'dashboard',
   vmInstance: 'VM Instance',
   vmTemplate: 'VM Template',
 } as const

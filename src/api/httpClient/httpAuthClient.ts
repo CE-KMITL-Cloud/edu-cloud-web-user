@@ -1,13 +1,13 @@
 import axios from 'axios'
 import axiosRetry from 'axios-retry'
 
-import { BACKEND_URL } from 'constants/constants'
+import { AUTH_BACKEND_URL } from 'constants/constants'
 import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from 'constants/storageKey'
 
-// import { authService } from 'services/authService'
+import { authService } from 'services/auth-service'
 
 const httpAuthClient = axios.create({
-  baseURL: BACKEND_URL,
+  baseURL: AUTH_BACKEND_URL,
   timeout: 5000,
 })
 
@@ -30,7 +30,7 @@ httpAuthClient.interceptors.response.use(
     if (error.response.status === 401) {
       if (originalRequest._retry) {
         // * Still get 401 after refresh token.
-        // authService.logout()
+        authService.logout()
         window.location.href = '/login'
         return Promise.reject(error)
       } else {
@@ -38,16 +38,16 @@ httpAuthClient.interceptors.response.use(
 
         const refreshToken = localStorage.getItem(REFRESH_TOKEN_KEY)
         if (!refreshToken) {
-          // authService.logout()
+          authService.logout()
           window.location.href = '/login'
           return Promise.reject(error)
         }
 
-        // await authService.refresh(refreshToken)
+        await authService.refresh(refreshToken)
 
         const newAccessToken = localStorage.getItem(ACCESS_TOKEN_KEY)
         if (!newAccessToken) {
-          // authService.logout()
+          authService.logout()
           window.location.href = '/login'
           return Promise.reject(error)
         }

@@ -1,4 +1,4 @@
-import { Box, Button, Stack, styled } from '@mui/material'
+import { Button, Stack, styled } from '@mui/material'
 
 export const Root = styled('section')(({ theme }) => ({
   backgroundColor: theme.palette.background.default,
@@ -25,13 +25,9 @@ export const ButtonGroup = styled(Stack)(({ theme }) => ({
   gap: theme.spacing(1.5),
 }))
 
-export const AgreementBox = styled(Box)(({ theme }) => ({
-  paddingLeft: theme.spacing(2),
+export const AgreementBoxRoot = styled('div')(({ theme }) => ({
   width: '100%',
-}))
-
-export const LogoWrapper = styled('div')(() => ({
-  display: 'contents',
+  paddingLeft: theme.spacing(2),
 }))
 
 export const TextFieldWrapper = styled('div')(({ theme }) => ({

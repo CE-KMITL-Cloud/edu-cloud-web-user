@@ -1,8 +1,8 @@
 import { Box, Stack, Typography } from '@mui/material'
 import Image from 'next/image'
 
+import { NavbarLayout } from 'layouts/NavbarLayout'
 import { PaperLayout } from 'layouts/PaperLayout'
-import { Screen } from 'layouts/Screen'
 
 import { Page } from 'types/page'
 
@@ -32,4 +32,4 @@ export const AboutPage: Page = () => {
   )
 }
 
-AboutPage.getLayout = (page) => <Screen>{page}</Screen>
+AboutPage.getLayout = (page) => <NavbarLayout>{page}</NavbarLayout>

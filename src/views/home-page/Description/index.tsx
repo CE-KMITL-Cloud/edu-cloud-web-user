@@ -1,6 +1,8 @@
 import { Button, Typography } from '@mui/material'
 import { Trans, useTranslation } from 'react-i18next'
 
+import { home, translation } from 'i18n/tokens'
+
 import { ButtonWrapper, Root } from './styled'
 
 export const Description = () => {
@@ -14,11 +16,11 @@ export const Description = () => {
         </Trans>
       </Typography>
       <Typography variant="body2" color="text.darken">
-        {t`description`}
+        {t(home.description)}
       </Typography>
       <ButtonWrapper>
         <Button variant="contained" color="primary" size="medium">
-          {t`more`}
+          {t(translation.more)}
         </Button>
       </ButtonWrapper>
     </Root>

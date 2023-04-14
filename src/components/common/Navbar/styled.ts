@@ -30,6 +30,10 @@ export const SignInButtonWrapper = styled('div')(({ theme }) => ({
   paddingLeft: theme.spacing(1),
 }))
 
+export const SignOutButtonWrapper = styled('div')(({ theme }) => ({
+  paddingLeft: theme.spacing(1),
+}))
+
 export const SignInButton = styled(Button)(() => ({
   minWidth: 112,
 }))

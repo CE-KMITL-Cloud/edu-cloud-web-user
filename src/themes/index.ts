@@ -49,6 +49,7 @@ declare module '@mui/material/styles' {
     alpha12?: string
     alpha30?: string
     alpha50?: string
+    alpha80?: string
   }
 
   interface TypeBackground {

@@ -1,34 +1,38 @@
-'auth'
-
-import { Box, Button, Paper, Stack, Typography } from '@mui/material'
-import { useRouter } from 'next/router'
-import { useEffect } from 'react'
+import { Box } from '@mui/material'
 
 import { MainLayout } from 'layouts/MainLayout'
 
 import { HeaderBar } from 'components/common/HeaderBar'
 
+import { withAuthGuard } from 'components/hocs/with-auth-guard'
+
+import { mockVmInstances } from 'mock/vm-instance'
+
 import { Page } from 'types/page'
 
-export const VmInstancePage: Page = () => {
-  const r = useRouter()
-  useEffect(() => {
-    r.push('/')
-  }, [])
+import { Header } from 'views/vm-instance-page/Header'
+import { InstanceTable } from 'views/vm-instance-page/InstanceTable'
 
+import { Background, ScreenFlex, StyledPaper } from './styled'
+
+export const VmInstancePage: Page = withAuthGuard(() => {
   return (
-    <div>
-      <HeaderBar iconSrc="/static/icons/info.svg">VM Instance</HeaderBar>
-      <Box p={4} sx={{ backgroundColor: (theme) => theme.palette.secondary.light }}>
-        <Paper sx={{ p: 4 }}>
-          <Stack direction="row" justifyContent="space-between" alignItems="center">
-            <Typography variant="body1">My instance</Typography>
-            <Button variant="contained">create instance</Button>
-          </Stack>
-        </Paper>
-      </Box>
-    </div>
+    <>
+      <HeaderBar iconSrc="/static/icons/server-black.png">VM Instance</HeaderBar>
+      <Background>
+        <StyledPaper>
+          <Box pb={4}>
+            <Header />
+          </Box>
+          <InstanceTable instances={mockVmInstances} />
+        </StyledPaper>
+      </Background>
+    </>
   )
-}
+})
 
-VmInstancePage.getLayout = (page) => <MainLayout>{page}</MainLayout>
+VmInstancePage.getLayout = (page) => (
+  <MainLayout>
+    <ScreenFlex>{page}</ScreenFlex>
+  </MainLayout>
+)

@@ -4,7 +4,7 @@ import ChevronRightIcon from '@untitled-ui/icons-react/build/esm/ChevronRight'
 import Link, { type LinkProps } from 'next/link'
 import { type FC, type ReactNode, forwardRef, useCallback, useState } from 'react'
 
-const RouterLink = forwardRef((props: LinkProps, ref: any) => <Link ref={ref} {...props} />)
+const RouterLink = forwardRef<HTMLAnchorElement, LinkProps>((props: LinkProps, ref) => <Link ref={ref} {...props} />)
 
 interface SideNavItemProps {
   active?: boolean

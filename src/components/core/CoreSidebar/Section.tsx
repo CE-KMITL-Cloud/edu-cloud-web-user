@@ -43,7 +43,7 @@ const reduceChildRoutes = ({
   depth: number
   item: Item
   pathname?: string | null
-}): Array<JSX.Element> => {
+}): JSX.Element[] => {
   const checkPath = !!(item.path && pathname)
   const partialMatch = checkPath ? pathname.includes(item.path!) : false
   const exactMatch = checkPath ? pathname === item.path : false

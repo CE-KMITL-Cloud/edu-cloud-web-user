@@ -1,10 +1,10 @@
 import type { TypographyOptions } from '@mui/material/styles/createTypography'
 
-import { mulishFontCSSKey } from 'font/config'
+import { mulish } from 'font/config'
 
 export const createTypography = (): TypographyOptions => {
   return {
-    fontFamily: `var(${mulishFontCSSKey})`,
+    fontFamily: mulish.style.fontFamily,
     body1: {
       fontSize: '1rem',
       fontWeight: 400,
@@ -41,37 +41,37 @@ export const createTypography = (): TypographyOptions => {
       textTransform: 'uppercase',
     },
     h1: {
-      fontFamily: `var(${mulishFontCSSKey})`,
+      fontFamily: mulish.style.fontFamily,
       fontWeight: 700,
       fontSize: '3.5rem',
       lineHeight: 1.2,
     },
     h2: {
-      fontFamily: `var(${mulishFontCSSKey})`,
+      fontFamily: mulish.style.fontFamily,
       fontWeight: 700,
       fontSize: '3rem',
       lineHeight: 1.2,
     },
     h3: {
-      fontFamily: `var(${mulishFontCSSKey})`,
+      fontFamily: mulish.style.fontFamily,
       fontWeight: 700,
       fontSize: '2.25rem',
       lineHeight: 1.2,
     },
     h4: {
-      fontFamily: `var(${mulishFontCSSKey})`,
+      fontFamily: mulish.style.fontFamily,
       fontWeight: 700,
       fontSize: '2rem',
       lineHeight: 1.2,
     },
     h5: {
-      fontFamily: `var(${mulishFontCSSKey})`,
+      fontFamily: mulish.style.fontFamily,
       fontWeight: 700,
       fontSize: '1.5rem',
       lineHeight: 1.2,
     },
     h6: {
-      fontFamily: `var(${mulishFontCSSKey})`,
+      fontFamily: mulish.style.fontFamily,
       fontWeight: 700,
       fontSize: '1.125rem',
       lineHeight: 1.2,

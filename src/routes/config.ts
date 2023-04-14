@@ -32,6 +32,20 @@ export const ROUTES_CONFIG: RoutesConfigType = {
     showFooter: false,
   },
 
+  // TODO: fixed to footer layout
+  [paths.createInstance]: {
+    showNavbar: false,
+    showFooter: true,
+  },
+  [paths.vmTemplate]: {
+    showNavbar: false,
+    showFooter: true,
+  },
+  [paths.vmInstance]: {
+    showNavbar: false,
+    showFooter: true,
+  },
+
   // * Status
   [paths[401]]: {
     showNavbar: false,

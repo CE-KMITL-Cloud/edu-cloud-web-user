@@ -29,6 +29,7 @@ const deleteSettings = () => {
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const storeSettings = (value: Record<string, any>) => {
   try {
     window.localStorage.setItem(SETTINGS_STORAGE_KEY, JSON.stringify(value))
