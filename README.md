@@ -5,7 +5,6 @@ Automation list
 - [x] Build Docker-compose
 - [ ] Make github workflow
 
-## Step to run
 ### Docker
 Step 1 : build image
 ```
@@ -27,5 +26,3 @@ Step: 2 run
 ```
 docker-compose up -d
 ```
-
-

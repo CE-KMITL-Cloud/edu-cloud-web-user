@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 
-import { Task } from 'types/job'
+import { type Task } from 'types/job'
 
 export const useScheduler = (task: Task | Task[], ms: number) => {
   useEffect(() => {

@@ -30,6 +30,12 @@ const nextConfig = {
     APP_ENV: process.env.APP_ENV,
   },
 
+  i18n: {
+    locales: ['en', 'th'],
+    defaultLocale: 'en',
+    localeDetection: false,
+  },
+
   async headers() {
     return [
       {

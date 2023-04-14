@@ -7,6 +7,7 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
     'plugin:react/recommended',
     'plugin:react-hooks/recommended',
+    'plugin:storybook/recommended',
   ],
   env: {
     browser: true,
@@ -18,6 +19,7 @@ module.exports = {
     'react/display-name': 'off',
     'react/prop-types': 'off',
     'react-hooks/exhaustive-deps': 'warn',
+    'unused-imports/no-unused-imports': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-undef': 'off',
     '@typescript-eslint/no-explicit-any': 'error',
@@ -27,6 +29,11 @@ module.exports = {
     '@typescript-eslint/no-non-null-assertion': 'off',
     '@typescript-eslint/no-extra-semi': 'off',
     '@typescript-eslint/no-inferrable-types': 'off',
-    '@typescript-eslint/array-type': ['error', { default: 'array-simple' }],
+    '@typescript-eslint/array-type': [
+      'error',
+      {
+        default: 'array-simple',
+      },
+    ],
   },
 }

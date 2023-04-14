@@ -1,41 +1,62 @@
-import { RouteRole } from 'types/enums'
-import { Routes } from 'types/route'
+import { paths } from 'routes/paths'
 
-export const ROUTES_CONFIG: Routes = [
-  {
-    path: '/',
-    role: RouteRole.ALL,
+import { type RoutesConfigType } from 'types/route'
+
+export const ROUTES_CONFIG: RoutesConfigType = {
+  [paths.index]: {
     showNavbar: true,
     showFooter: true,
   },
-  {
-    path: '/login',
-    role: RouteRole.NOT_AUTH,
+  [paths.login]: {
     showNavbar: false,
     showFooter: true,
   },
-  {
-    path: '/about',
-    role: RouteRole.ALL,
+  [paths.about]: {
     showNavbar: true,
     showFooter: true,
   },
-  {
-    path: '/service',
-    role: RouteRole.ALL,
+  [paths.service]: {
     showNavbar: true,
     showFooter: true,
   },
-  {
-    path: '/blog',
-    role: RouteRole.ALL,
+  [paths.blog]: {
     showNavbar: true,
     showFooter: true,
   },
-  {
-    path: '/document',
-    role: RouteRole.ALL,
+  [paths.document]: {
     showNavbar: true,
     showFooter: true,
   },
-]
+  [paths.dashboard]: {
+    showNavbar: false,
+    showFooter: false,
+  },
+
+  // TODO: fixed to footer layout
+  [paths.createInstance]: {
+    showNavbar: false,
+    showFooter: true,
+  },
+  [paths.vmTemplate]: {
+    showNavbar: false,
+    showFooter: true,
+  },
+  [paths.vmInstance]: {
+    showNavbar: false,
+    showFooter: true,
+  },
+
+  // * Status
+  [paths[401]]: {
+    showNavbar: false,
+    showFooter: true,
+  },
+  [paths[404]]: {
+    showNavbar: false,
+    showFooter: true,
+  },
+  [paths[500]]: {
+    showNavbar: false,
+    showFooter: false,
+  },
+}

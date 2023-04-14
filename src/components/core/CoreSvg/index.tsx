@@ -27,7 +27,7 @@ const StyledSVG = styled(ReactSVG, {
   },
 }))
 
-type Props = {
+interface CoreSvgProps {
   src: string
   color?: string
   width?: number
@@ -60,7 +60,7 @@ export const CoreSvg = ({
   display,
   marginLeft,
   marginRight,
-}: Props) => {
+}: CoreSvgProps) => {
   const { width, height } = useSmartSize(widthProps, heightProps)
 
   return (
