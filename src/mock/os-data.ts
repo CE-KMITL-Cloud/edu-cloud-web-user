@@ -2,7 +2,7 @@ import { OSBoxProps } from 'components/common/OSBox'
 
 import { Os } from 'types/enums'
 
-import { OsItemCardProps } from 'views/vm-template-page/StarterCard/Item'
+import { OsItemCardProps } from 'views/vm-create-page/StarterCard/Item'
 
 export const osMockData: OSBoxProps[] = [
   {

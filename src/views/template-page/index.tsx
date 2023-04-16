@@ -2,7 +2,7 @@ import { Box } from '@mui/material'
 import { useCallback, useEffect, useState } from 'react'
 
 import { accessApi } from 'api/backend/service/access'
-import { instancesApi } from 'api/backend/service/instance'
+import { templatesApi } from 'api/backend/service/template'
 
 import { MainLayout } from 'layouts/MainLayout'
 
@@ -12,22 +12,22 @@ import { withAuthGuard } from 'components/hocs/with-auth-guard'
 
 import { Instance } from 'types/instance'
 import { Page } from 'types/page'
+import {Header} from './Header'
 
-import { Header } from 'views/vm-instance-page/Header'
-import { InstanceTable } from 'views/vm-instance-page/InstanceTable'
+import { TemplateTable } from 'views/template-page/TemplateTable'
 
 import { Background, ScreenFlex, StyledPaper } from './styled'
 
-const useInstancesStore = () => {
+const useTemplatesStore = () => {
   const [state, setState] = useState<Instance[]>([])
-  const handleInstancesGet = useCallback(async () => {
+  const handleTemplatesGet = useCallback(async () => {
     try {
       //////////////////////////////////////////////////////////////////////
       // ! mock ticket
       const ticket = await accessApi.fetchTicket('teacher2', 'teacher2')
       console.log(ticket)
       //////////////////////////////////////////////////////////////////////
-      const response = await instancesApi.fetchInstances('teacher1')
+      const response = await templatesApi.fetchTemplates('teacher2')
       setState(response)
     } catch (err) {
       console.error(err)
@@ -35,14 +35,7 @@ const useInstancesStore = () => {
   }, [])
 
   useEffect(() => {
-    handleInstancesGet()
-    const intervalId = setInterval(() => {
-      handleInstancesGet()
-    }, 3000) // Fetches data every 3 seconds
-
-    return () => {
-      clearInterval(intervalId) // Clears the interval when the component is unmounted
-    }
+    handleTemplatesGet()
   }, [])
 
   useEffect(() => {
@@ -50,28 +43,28 @@ const useInstancesStore = () => {
   }, [state])
 
   return {
-    instances: state,
+    templates: state,
   }
 }
 
-export const VmInstancePage: Page = withAuthGuard(() => {
-  const { instances } = useInstancesStore()
+export const TemplatePage: Page = withAuthGuard(() => {
+  const { templates } = useTemplatesStore()
   return (
     <>
-      <HeaderBar iconSrc="/static/icons/server-black.png">VM Instance</HeaderBar>
+      <HeaderBar iconSrc="/static/icons/server-black.png">Template</HeaderBar>
       <Background>
         <StyledPaper>
-          <Box pb={4}>
+        <Box pb={4}>
             <Header />
           </Box>
-          <InstanceTable instances={instances} />
+          <TemplateTable templates={templates} />
         </StyledPaper>
       </Background>
     </>
   )
 })
 
-VmInstancePage.getLayout = (page) => (
+TemplatePage.getLayout = (page) => (
   <MainLayout>
     <ScreenFlex>{page}</ScreenFlex>
   </MainLayout>

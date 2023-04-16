@@ -3,8 +3,8 @@ import { httpClient } from 'api/httpClient'
 class PoolsApi {
   public async fetchMemberPools(username: string) {
     try {
-      const poolsResponse = await httpClient.get(`/pool/list?username=${username}`)
-      return poolsResponse.data.message
+      const response = await httpClient.get(`/pool/list?username=${username}`)
+      return response.data.message
     } catch (error) {
       console.error('Error fetching by member pools:', error)
     }
@@ -13,8 +13,8 @@ class PoolsApi {
 
   public async fetchOwnerPools(sender: string, owner: string) {
     try {
-      const poolsResponse = await httpClient.get(`/pool/owner/${owner}?username=${sender}`)
-      return poolsResponse.data.message
+      const response = await httpClient.get(`/pool/owner/${owner}?username=${sender}`)
+      return response.data.message
     } catch (error) {
       console.error('Error fetching by owner pools:', error)
     }
@@ -23,8 +23,8 @@ class PoolsApi {
 
   public async fetchPool(sender: string, owner: string, code: string) {
     try {
-      const poolResponse = await httpClient.get(`/pool/${code}/owner/${owner}?username=${sender}`)
-      return poolResponse.data.message
+      const response = await httpClient.get(`/pool/${code}/owner/${owner}?username=${sender}`)
+      return response.data.message
     } catch (error) {
       console.error('Error fetching by code, owner pool:', error)
     }
@@ -33,8 +33,8 @@ class PoolsApi {
 
   public async DeletePool(sender: string, owner: string, code: string) {
     try {
-      const poolResponse = await httpClient.delete(`/pool/${code}/owner/${owner}?username=${sender}`)
-      return poolResponse.data.message
+      const response = await httpClient.delete(`/pool/${code}/owner/${owner}?username=${sender}`)
+      return response.data.message
     } catch (error) {
       console.error('Error fetching by code, owner pool:', error)
     }
@@ -46,11 +46,11 @@ class PoolsApi {
       const requestBody = {
         vmid: vmid,
       }
-      const poolResponse = await httpClient.post(
+      const response = await httpClient.post(
         `/pool/${code}/owner/${owner}/instances/add?username=${sender}`,
         requestBody,
       )
-      return poolResponse.data.message
+      return response.data.message
     } catch (error) {
       console.error('Error fetching by code, owner pool:', error)
     }
@@ -69,8 +69,8 @@ class PoolsApi {
         owner: owner,
         name: name,
       }
-      const poolResponse = await httpClient.post(`/pool/create?username=${sender}`, requestBody)
-      return { success: true, message: poolResponse.data.message }
+      const response = await httpClient.post(`/pool/create?username=${sender}`, requestBody)
+      return { success: true, message: response.data.message }
     } catch (error) {
       console.error('Error creating pool', error)
       return { success: false, warning: 'Error creating pool' }

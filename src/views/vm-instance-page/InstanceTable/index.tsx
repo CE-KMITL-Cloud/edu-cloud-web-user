@@ -1,63 +1,82 @@
-import { Divider, Table, TableBody, TableCell, TableRow } from '@mui/material'
+import { IconButton, Table, TableBody, TableCell, TableRow } from '@mui/material'
+import PropTypes from 'prop-types'
+import type { FC } from 'react'
+import { useState } from 'react'
+
+import { consoleApi } from 'api/backend/service/console'
 
 import { CoreSvg } from 'components/core/CoreSvg'
 
-import { SeverityPill } from 'components/common/ServerityPill'
-import { SeverityPillColor } from 'components/common/ServerityPill/styled'
-
-import { VmInstanceType, VmSpec } from 'types/vm-instance'
+import { Instance, InstanceSpec } from 'types/instance'
 
 import { TableTextCell } from './TableCell'
 import { Center, StyledTableHead, StyledTableRow } from './styled'
 
-const RenderVmSpec = ({ spec }: { spec: VmSpec }) => {
+const RenderVmSpec = ({ spec }: { spec: InstanceSpec }) => {
   return (
     <>
-      {spec.os} <br /> {spec.vCPUs}, {spec.RAM}, {spec.storage}
+      {spec.maxcpu} vCPU, RAM {spec.maxmem / 1073741824} GB <br /> Disk size : {spec.maxdisk / 1073741824} GB
     </>
   )
 }
 
 export interface InstanceTableProps {
-  instances?: VmInstanceType[]
+  instances?: Instance[]
 }
 
-export const InstanceTable = ({ instances = [] }: InstanceTableProps) => {
+export const InstanceTable: FC<InstanceTableProps> = (props) => {
+  const { instances = [] } = props
+  const [url, setUrl] = useState('')
+  const handleButtonClick = async (instance: Instance) => {
+    console.log('Clicked row data:', instance)
+    const response = await consoleApi.fetchConsoleVM(instance.node, `${instance.vmid}`, 'admin')
+    console.log(response)
+    setUrl(response)
+  }
   return (
     <Table>
       <StyledTableHead>
         <TableRow>
           <TableTextCell type="header"> </TableTextCell>
           <TableTextCell type="header">Name</TableTextCell>
+          <TableTextCell type="header">VMID</TableTextCell>
           <TableTextCell type="header">Spec</TableTextCell>
-          <TableTextCell type="header">IP Addresses</TableTextCell>
           <TableTextCell type="header">Status</TableTextCell>
           <TableTextCell type="header">Console</TableTextCell>
         </TableRow>
       </StyledTableHead>
       <TableBody>
-        {instances.map((instance: VmInstanceType) => {
-          const pillColor: SeverityPillColor = instance.isActive ? 'success' : 'error'
-          const pillText: string = instance.isActive ? 'active' : 'inactive'
+        {/* console iframe */}
+        {url && (
+          <iframe
+            src={url}
+            title="My iframe"
+            width="900"
+            height="600"
+            sandbox="allow-same-origin allow-scripts"
+          ></iframe>
+        )}
+        {/* console iframe */}
+        {instances.map((instance: Instance) => {
           return (
-            <StyledTableRow key={instance.id}>
+            <StyledTableRow key={instance.vmid}>
               <TableCell>
                 <Center>
                   <CoreSvg src="/static/icons/cloud-server.svg" width={30} />
                 </Center>
               </TableCell>
               <TableTextCell>{instance.name}</TableTextCell>
+              <TableTextCell>{instance.vmid}</TableTextCell>
               <TableTextCell>
-                <RenderVmSpec spec={instance.spec} />
+                <RenderVmSpec spec={{ maxcpu: instance.maxcpu, maxmem: instance.maxmem, maxdisk: instance.maxdisk }} />
               </TableTextCell>
-              <TableTextCell>{instance.ipAddress}</TableTextCell>
+              <TableTextCell>{instance.status}</TableTextCell>
               <TableCell>
-                <SeverityPill color={pillColor} text={pillText} minWidth={80} />
-              </TableCell>
-              <TableCell>
-                <Center>
-                  <CoreSvg src="/static/icons/console.svg" width={24} />
-                </Center>
+                <IconButton onClick={() => handleButtonClick(instance)}>
+                  <Center>
+                    <CoreSvg src="/static/icons/console.svg" width={24} />
+                  </Center>
+                </IconButton>
               </TableCell>
             </StyledTableRow>
           )
@@ -65,4 +84,8 @@ export const InstanceTable = ({ instances = [] }: InstanceTableProps) => {
       </TableBody>
     </Table>
   )
+}
+
+InstanceTable.propTypes = {
+  instances: PropTypes.array,
 }

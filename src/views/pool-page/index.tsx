@@ -31,6 +31,13 @@ const usePoolsStore = () => {
 
   useEffect(() => {
     handlePoolsGet()
+    const intervalId = setInterval(() => {
+      handlePoolsGet()
+    }, 3000) // Fetches data every 3 seconds
+
+    return () => {
+      clearInterval(intervalId) // Clears the interval when the component is unmounted
+    }
   }, [])
 
   useEffect(() => {

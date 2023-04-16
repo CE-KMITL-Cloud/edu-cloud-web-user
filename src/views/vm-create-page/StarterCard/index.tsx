@@ -2,7 +2,7 @@ import { useState } from 'react'
 
 import { osStarterMockData } from 'mock/os-data'
 
-import { TemplateCard } from 'views/vm-template-page/TemplateCard'
+import { TemplateCard } from 'views/vm-create-page/TemplateCard'
 
 import { OsItemCard } from './Item'
 import { ItemsContainer } from './styled'

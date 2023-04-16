@@ -16,9 +16,9 @@ export const Header = () => {
   const [formData, setFormData] = useState<FormData>({ code: '', name: '', owner: '' })
   const [warning, setWarning] = useState<string | null>(null)
 
-  const handleCreateInstance = async () => {
+  const handleCreatePool = async () => {
     try {
-      // todo : get sender
+      // todo : replace sender
       const response = await poolsApi.CreatePool('admin', formData.owner, formData.code, formData.name)
       if (!response.success) {
         console.log(response)
@@ -43,7 +43,7 @@ export const Header = () => {
 
     // Call your API with the formData.text value
     console.log(`Create Pool with the code: ${formData.code}, name: ${formData.name}`)
-    handleCreateInstance()
+    handleCreatePool()
   }
 
   const handleOpen = () => {

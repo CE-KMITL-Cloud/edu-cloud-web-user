@@ -53,7 +53,7 @@ export const useSections = () => {
           },
           {
             title: t(sidebar.vmTemplate),
-            path: paths.vmTemplate,
+            path: paths.template,
             icon: (
               <SvgIcon fontSize="small">
                 <BuildingIcon />

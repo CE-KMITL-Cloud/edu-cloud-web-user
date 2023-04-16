@@ -1,7 +1,7 @@
 import { Checkbox, FormControlLabel, TextField, Typography } from '@mui/material'
 import { ChangeEvent, useEffect, useState } from 'react'
 
-import { TemplateCard } from 'views/vm-template-page/TemplateCard'
+import { TemplateCard } from 'views/vm-create-page/TemplateCard'
 
 import { CheckBoxWrapper, TextFieldWrapper } from './styled'
 

@@ -1,6 +1,6 @@
 import { Stack, styled } from '@mui/material'
 
-import { TemplateCard } from 'views/vm-template-page/TemplateCard'
+import { TemplateCard } from 'views/vm-create-page/TemplateCard'
 
 export const StyledTemplateCard = styled(TemplateCard)(({ theme }) => ({
   padding: theme.spacing(2, 2, 8, 2),

@@ -19,8 +19,16 @@ export const ActionZone = () => {
     },
     {
       key: '4',
-      label: 'reboot',
+      label: 'resume',
     },
+    {
+      key: '5',
+      label: 'reset'
+    },
+    {
+      key: '6',
+      label: 'shutdown'
+    }
   ]
 
   const outDropdownItems: Item[] = [
@@ -47,7 +55,7 @@ export const ActionZone = () => {
   return (
     <ActionButtonStack>
       <ActionDropdownButton items={infoDropdownItems} type="info" textTransform="capitalize" />
-      <ActionDropdownButton items={outDropdownItems} type="out" textTransform="capitalize" />
+      {/* <ActionDropdownButton items={outDropdownItems} type="out" textTransform="capitalize" /> */}
       <ActionDropdownButton items={deleteDropdownItems} type="delete" textTransform="capitalize" />
     </ActionButtonStack>
   )

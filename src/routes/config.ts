@@ -37,7 +37,11 @@ export const ROUTES_CONFIG: RoutesConfigType = {
     showNavbar: false,
     showFooter: true,
   },
-  [paths.vmTemplate]: {
+  [paths.template]: {
+    showNavbar: false,
+    showFooter: true,
+  },
+  [paths.vmCreate]: {
     showNavbar: false,
     showFooter: true,
   },

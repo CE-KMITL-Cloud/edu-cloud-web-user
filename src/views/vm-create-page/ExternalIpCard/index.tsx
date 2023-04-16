@@ -1,7 +1,7 @@
 import { Box, FormControl, FormControlLabel, Radio, RadioGroup } from '@mui/material'
 import { ChangeEvent, useEffect, useState } from 'react'
 
-import { TemplateCard } from 'views/vm-template-page/TemplateCard'
+import { TemplateCard } from 'views/vm-create-page/TemplateCard'
 
 enum Option {
   'create' = 'create',

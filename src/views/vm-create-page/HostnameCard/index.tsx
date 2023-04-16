@@ -3,19 +3,26 @@ import { ChangeEvent, useState } from 'react'
 
 import { CoreSvg } from 'components/core/CoreSvg'
 
-import { TemplateCard } from 'views/vm-template-page/TemplateCard'
+import { TemplateCard } from 'views/vm-create-page/TemplateCard'
 
 import { TextFieldWrapper, TextWrapper } from './styled'
 
-export const HostnameCard = () => {
+interface HostnameProps {
+  onHostnameChange: (newHostname: string) => void
+}
+
+export const HostnameCard = (props: HostnameProps) => {
+  const { onHostnameChange } = props
   const [hostname, setHostname] = useState<string>('')
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const newHostname = event.target.value
     setHostname(event.target.value)
+    onHostnameChange(newHostname)
   }
 
   return (
-    <TemplateCard HeaderText="Hostname">
+    <TemplateCard HeaderText="Hostname" glowing={true}>
       <TextFieldWrapper>
         <TextField
           InputProps={{
