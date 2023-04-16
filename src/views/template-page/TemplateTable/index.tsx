@@ -1,6 +1,7 @@
 import { IconButton, Table, TableBody, TableCell, TableRow } from '@mui/material'
 import PropTypes from 'prop-types'
 import type { FC } from 'react'
+import { useState } from 'react'
 
 import { CoreSvg } from 'components/core/CoreSvg'
 
@@ -19,13 +20,17 @@ const RenderVmSpec = ({ spec }: { spec: InstanceSpec }) => {
 
 interface TemplateTableProps {
   templates?: Instance[]
+  onTemplateSelect: (instance: Instance | null) => void
 }
 
 export const TemplateTable: FC<TemplateTableProps> = (props) => {
-  const { templates = [] } = props
+  const { templates = [], onTemplateSelect } = props
+  const [selectedTemplate, setSelectedTemplate] = useState<Instance | null>(null)
+
   const handleButtonClick = (template: Instance) => {
-    console.log('Clicked row data:', template);
-  };
+    console.log('Clicked row data:', template)
+  }
+
   return (
     <Table>
       <StyledTableHead>
@@ -41,7 +46,18 @@ export const TemplateTable: FC<TemplateTableProps> = (props) => {
         {templates.map((template: Instance) => {
           console.log('template :', template)
           return (
-            <StyledTableRow key={template.id}>
+            <StyledTableRow
+              key={template.id}
+              onClick={() => {
+                onTemplateSelect(template)
+                setSelectedTemplate(template)
+                console.log('Selected instance:', template)
+              }}
+              style={{
+                cursor: 'pointer',
+                backgroundColor: selectedTemplate?.vmid === template.vmid ? '#f3f3f3' : '',
+              }}
+            >
               <TableCell>
                 <Center>
                   <CoreSvg src="/static/icons/cloud-server.svg" width={30} />

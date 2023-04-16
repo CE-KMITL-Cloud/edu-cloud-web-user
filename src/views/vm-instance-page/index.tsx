@@ -38,7 +38,7 @@ const useInstancesStore = () => {
     handleInstancesGet()
     const intervalId = setInterval(() => {
       handleInstancesGet()
-    }, 3000) // Fetches data every 3 seconds
+    }, 10000) // Fetches data every 3 seconds
 
     return () => {
       clearInterval(intervalId) // Clears the interval when the component is unmounted
@@ -55,6 +55,7 @@ const useInstancesStore = () => {
 }
 
 export const VmInstancePage: Page = withAuthGuard(() => {
+  const [selectedInstance, setSelectedInstance] = useState<Instance | null>(null)
   const { instances } = useInstancesStore()
   return (
     <>
@@ -62,9 +63,9 @@ export const VmInstancePage: Page = withAuthGuard(() => {
       <Background>
         <StyledPaper>
           <Box pb={4}>
-            <Header />
+            <Header selectedInstance={selectedInstance} />
           </Box>
-          <InstanceTable instances={instances} />
+          <InstanceTable instances={instances} onInstanceSelect={setSelectedInstance} />
         </StyledPaper>
       </Background>
     </>

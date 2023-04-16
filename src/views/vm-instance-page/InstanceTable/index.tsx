@@ -22,17 +22,21 @@ const RenderVmSpec = ({ spec }: { spec: InstanceSpec }) => {
 
 export interface InstanceTableProps {
   instances?: Instance[]
+  onInstanceSelect: (instance: Instance | null) => void
 }
 
 export const InstanceTable: FC<InstanceTableProps> = (props) => {
-  const { instances = [] } = props
+  const { instances = [], onInstanceSelect } = props
   const [url, setUrl] = useState('')
+  const [selectedInstance, setSelectedInstance] = useState<Instance | null>(null)
+
   const handleButtonClick = async (instance: Instance) => {
     console.log('Clicked row data:', instance)
     const response = await consoleApi.fetchConsoleVM(instance.node, `${instance.vmid}`, 'admin')
     console.log(response)
     setUrl(response)
   }
+  
   return (
     <Table>
       <StyledTableHead>
@@ -59,7 +63,18 @@ export const InstanceTable: FC<InstanceTableProps> = (props) => {
         {/* console iframe */}
         {instances.map((instance: Instance) => {
           return (
-            <StyledTableRow key={instance.vmid}>
+            <StyledTableRow
+              key={instance.vmid}
+              onClick={() => {
+                onInstanceSelect(instance)
+                setSelectedInstance(instance)
+                console.log('Selected instance:', instance)
+              }}
+              style={{
+                cursor: 'pointer',
+                backgroundColor: selectedInstance?.vmid === instance.vmid ? '#f3f3f3' : '',
+              }}
+            >
               <TableCell>
                 <Center>
                   <CoreSvg src="/static/icons/cloud-server.svg" width={30} />
@@ -88,4 +103,5 @@ export const InstanceTable: FC<InstanceTableProps> = (props) => {
 
 InstanceTable.propTypes = {
   instances: PropTypes.array,
+  onInstanceSelect: PropTypes.func.isRequired,
 }

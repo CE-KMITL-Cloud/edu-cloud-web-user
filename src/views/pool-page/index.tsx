@@ -33,7 +33,7 @@ const usePoolsStore = () => {
     handlePoolsGet()
     const intervalId = setInterval(() => {
       handlePoolsGet()
-    }, 3000) // Fetches data every 3 seconds
+    }, 10000) // Fetches data every 3 seconds
 
     return () => {
       clearInterval(intervalId) // Clears the interval when the component is unmounted
@@ -50,6 +50,7 @@ const usePoolsStore = () => {
 }
 
 export const PoolPage: Page = withAuthGuard(() => {
+  const [selectedPool, setSelectedPool] = useState<Pool | null>(null)
   const { pools } = usePoolsStore()
   return (
     <>
@@ -59,7 +60,7 @@ export const PoolPage: Page = withAuthGuard(() => {
           <Box pb={4}>
             <Header />
           </Box>
-          <PoolTable pools={pools} />
+          <PoolTable pools={pools} onPoolSelect={setSelectedPool} />
         </StyledPaper>
       </Background>
     </>

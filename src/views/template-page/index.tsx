@@ -48,6 +48,7 @@ const useTemplatesStore = () => {
 }
 
 export const TemplatePage: Page = withAuthGuard(() => {
+  const [selectedTemplate, setSelectedTemplate] = useState<Instance | null>(null)
   const { templates } = useTemplatesStore()
   return (
     <>
@@ -57,7 +58,7 @@ export const TemplatePage: Page = withAuthGuard(() => {
         <Box pb={4}>
             <Header />
           </Box>
-          <TemplateTable templates={templates} />
+          <TemplateTable templates={templates} onTemplateSelect={setSelectedTemplate} />
         </StyledPaper>
       </Background>
     </>
