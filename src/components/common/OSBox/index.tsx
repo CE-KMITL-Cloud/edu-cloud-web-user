@@ -33,7 +33,7 @@ export const OSBox = ({ os, options, defaultOption, glow = false, onChange }: OS
     <Root glow={glow} onClick={handleClick}>
       <Column>
         <Center>
-          <CoreSvg src={osIconSrc} width={32} height={32} />
+          <CoreSvg src={osIconSrc} width={64} height={64} />
         </Center>
         <StyledSelectWrapper>
           <Select options={options} value={option} onChange={(value) => setOption(value)} />

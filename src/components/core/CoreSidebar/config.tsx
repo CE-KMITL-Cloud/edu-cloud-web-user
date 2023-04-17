@@ -4,6 +4,8 @@ import { useTranslation } from 'react-i18next'
 
 import { sidebar, translation } from 'i18n/tokens'
 
+import { Iconify } from 'components/core/CoreIcon'
+
 import { BarChart as BarChartIcon } from 'icons/BarChart'
 import { Building as BuildingIcon } from 'icons/Building'
 import { HomeSmile as HomeSmileIcon } from 'icons/HomeSmile'
@@ -36,8 +38,8 @@ export const useSections = () => {
             title: t(translation.dashboard),
             path: paths.dashboard,
             icon: (
-              <SvgIcon fontSize="small">
-                <HomeSmileIcon />
+              <SvgIcon fontSize="medium">
+                <Iconify icon="ri:dashboard-fill" />
               </SvgIcon>
             ),
           },
@@ -45,8 +47,8 @@ export const useSections = () => {
             title: t(sidebar.vmInstance),
             path: paths.vmInstance,
             icon: (
-              <SvgIcon fontSize="small">
-                <BarChartIcon />
+              <SvgIcon fontSize="medium">
+                <Iconify icon="solar:server-minimalistic-bold" />
               </SvgIcon>
             ),
           },
@@ -54,8 +56,8 @@ export const useSections = () => {
             title: t(sidebar.vmTemplate),
             path: paths.vmTemplate,
             icon: (
-              <SvgIcon fontSize="small">
-                <BuildingIcon />
+              <SvgIcon fontSize="medium">
+                <Iconify icon="ic:round-copy-all" />
               </SvgIcon>
             ),
           },

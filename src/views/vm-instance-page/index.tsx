@@ -18,7 +18,7 @@ import { Background, ScreenFlex, StyledPaper } from './styled'
 export const VmInstancePage: Page = withAuthGuard(() => {
   return (
     <>
-      <HeaderBar iconSrc="/static/icons/server-black.png">VM Instance</HeaderBar>
+      <HeaderBar iconSrc="solar:server-minimalistic-bold">VM Instance</HeaderBar>
       <Background>
         <StyledPaper>
           <Box pb={4}>

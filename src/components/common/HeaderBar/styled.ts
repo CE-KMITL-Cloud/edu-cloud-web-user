@@ -6,6 +6,7 @@ export const Root = styled('div')(({ theme }) => ({
   alignItems: 'center',
   padding: theme.spacing(4, 0, 4, 4),
   boxShadow: theme.shadows[1],
+  fontSize: 28,
 }))
 
 export const Center = styled(Stack)(() => ({

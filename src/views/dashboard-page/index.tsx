@@ -9,7 +9,7 @@ import { Page } from 'types/page'
 export const DashboardPage: Page = withAuthGuard(() => {
   return (
     <>
-      <HeaderBar iconSrc="/static/icons/info.svg">Dashboard</HeaderBar>
+      <HeaderBar iconSrc="ri:dashboard-fill">Dashboard</HeaderBar>
     </>
   )
 })
