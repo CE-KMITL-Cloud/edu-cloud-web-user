@@ -31,6 +31,10 @@ export const ROUTES_CONFIG: RoutesConfigType = {
     showNavbar: false,
     showFooter: false,
   },
+  [paths.vmConsole]: {
+    showNavbar: false,
+    showFooter: true,
+  },
 
   // TODO: fixed to footer layout
   [paths.createInstance]: {

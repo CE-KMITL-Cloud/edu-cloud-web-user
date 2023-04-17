@@ -52,6 +52,15 @@ export const useSections = () => {
             ),
           },
           {
+            title: 'VM Console',
+            path: paths.vmConsole,
+            icon: (
+              <SvgIcon fontSize="small">
+                <BarChartIcon />
+              </SvgIcon>
+            ),
+          },
+          {
             title: t(sidebar.vmTemplate),
             path: paths.template,
             icon: (

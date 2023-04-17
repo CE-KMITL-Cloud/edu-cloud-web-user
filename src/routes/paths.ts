@@ -11,6 +11,7 @@ export const paths = {
   vmCreate: '/vm-create',
   pool: '/pool',
   template: '/template',
+  vmConsole: '/vm-console',
 
   // * Status
   401: '/401',

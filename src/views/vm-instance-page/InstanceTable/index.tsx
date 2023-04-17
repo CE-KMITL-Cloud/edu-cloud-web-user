@@ -34,9 +34,9 @@ export const InstanceTable: FC<InstanceTableProps> = (props) => {
     console.log('Clicked row data:', instance)
     const response = await consoleApi.fetchConsoleVM(instance.node, `${instance.vmid}`, 'admin')
     console.log(response)
-    setUrl(response)
+    setUrl(response.message)
   }
-  
+
   return (
     <Table>
       <StyledTableHead>
@@ -61,7 +61,7 @@ export const InstanceTable: FC<InstanceTableProps> = (props) => {
           ></iframe>
         )}
         {/* console iframe */}
-        {instances.map((instance: Instance) => {
+        {instances?.map((instance: Instance) => {
           return (
             <StyledTableRow
               key={instance.vmid}
