@@ -1,4 +1,5 @@
 import { Box } from '@mui/material'
+import { useRouter } from 'next/router'
 import { useCallback, useEffect, useState } from 'react'
 
 import { accessApi } from 'api/backend/service/access'
@@ -20,6 +21,7 @@ import { Background, ScreenFlex, StyledPaper } from './styled'
 
 const useInstancesStore = () => {
   const [state, setState] = useState<Instance[]>([])
+  const router = useRouter()
   const handleInstancesGet = useCallback(async () => {
     try {
       //////////////////////////////////////////////////////////////////////
@@ -38,12 +40,12 @@ const useInstancesStore = () => {
     handleInstancesGet()
     const intervalId = setInterval(() => {
       handleInstancesGet()
-    }, 10000) // Fetches data every 3 seconds
+    }, 60000)
 
     return () => {
       clearInterval(intervalId) // Clears the interval when the component is unmounted
     }
-  }, [])
+  }, [router.asPath])
 
   useEffect(() => {
     console.log(state)

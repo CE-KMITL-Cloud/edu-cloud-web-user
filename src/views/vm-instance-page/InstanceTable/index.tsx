@@ -7,6 +7,8 @@ import { consoleApi } from 'api/backend/service/console'
 
 import { CoreSvg } from 'components/core/CoreSvg'
 
+import { VncConsole } from 'components/common/VncConsole'
+
 import { Instance, InstanceSpec } from 'types/instance'
 
 import { TableTextCell } from './TableCell'
@@ -28,15 +30,22 @@ export interface InstanceTableProps {
 export const InstanceTable: FC<InstanceTableProps> = (props) => {
   const { instances = [], onInstanceSelect } = props
   const [url, setUrl] = useState('')
+  const [ticket, setTicket] = useState('')
   const [selectedInstance, setSelectedInstance] = useState<Instance | null>(null)
 
   const handleButtonClick = async (instance: Instance) => {
     console.log('Clicked row data:', instance)
-    const response = await consoleApi.fetchConsoleVM(instance.node, `${instance.vmid}`, 'admin')
-    console.log(response)
-    setUrl(response)
+    try {
+      // const response = await consoleApi.fetchConsoleVM(instance.node, `${instance.vmid}`, 'admin')
+      const response = await consoleApi.vncProxy('admin', instance.node, instance.vmid)
+      console.log(response.port, response.ticket, response.url)
+      setTicket(response.ticket)
+      setUrl(response.url)
+    } catch (error) {
+      console.log(error)
+    }
   }
-  
+
   return (
     <Table>
       <StyledTableHead>
@@ -51,7 +60,7 @@ export const InstanceTable: FC<InstanceTableProps> = (props) => {
       </StyledTableHead>
       <TableBody>
         {/* console iframe */}
-        {url && (
+        {/* {url && (
           <iframe
             src={url}
             title="My iframe"
@@ -59,8 +68,9 @@ export const InstanceTable: FC<InstanceTableProps> = (props) => {
             height="600"
             sandbox="allow-same-origin allow-scripts"
           ></iframe>
-        )}
+        )} */}
         {/* console iframe */}
+        <div>{ticket && <VncConsole ticket={ticket} url={url} />}</div>
         {instances.map((instance: Instance) => {
           return (
             <StyledTableRow

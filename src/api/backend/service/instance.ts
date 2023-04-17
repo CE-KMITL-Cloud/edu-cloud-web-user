@@ -1,4 +1,5 @@
 import { httpClient } from 'api/httpClient'
+
 import { CreateInstance } from 'types/instance'
 
 class InstancesApi {
@@ -26,6 +27,52 @@ class InstancesApi {
     } catch (error) {
       console.error('Error creating instance', error)
       return { success: false, warning: 'Error creating instance' }
+    }
+  }
+
+  public async createTemplate(
+    sender: string,
+    node: string,
+    vmid: number,
+  ): Promise<{ success: boolean; message?: string; warning?: string }> {
+    try {
+      const requestBody = {
+        node: node,
+        vmid: vmid,
+      }
+      const response = await httpClient.post(`/vm/template?username=${sender}`, requestBody, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        withCredentials: true,
+      })
+      return { success: true, message: response.data.message }
+    } catch (error) {
+      console.error('Error creating template', error)
+      return { success: false, warning: 'Error creating template' }
+    }
+  }
+
+  public async destroyInstance(
+    sender: string,
+    node: string,
+    vmid: number,
+  ): Promise<{ success: boolean; message?: string; warning?: string }> {
+    try {
+      const requestBody = {
+        node: node,
+        vmid: vmid,
+      }
+      const response = await httpClient.post(`/vm/destroy?username=${sender}`, requestBody, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        withCredentials: true,
+      })
+      return { success: true, message: response.data.message }
+    } catch (error) {
+      console.error('Error destroying instance', error)
+      return { success: false, warning: 'Error destroying instance' }
     }
   }
 }

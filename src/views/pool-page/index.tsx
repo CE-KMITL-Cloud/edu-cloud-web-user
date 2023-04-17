@@ -1,4 +1,5 @@
 import { Box } from '@mui/material'
+import { useRouter } from 'next/router'
 import { useCallback, useEffect, useState } from 'react'
 
 import { poolsApi } from 'api/backend/service/pool'
@@ -12,13 +13,14 @@ import { withAuthGuard } from 'components/hocs/with-auth-guard'
 import { Page } from 'types/page'
 import { Pool } from 'types/pool'
 
-import { PoolTable } from 'views/pool-page/PoolTable'
 import { Header } from 'views/pool-page/Header'
+import { PoolTable } from 'views/pool-page/PoolTable'
 
 import { Background, ScreenFlex, StyledPaper } from './styled'
 
 const usePoolsStore = () => {
   const [state, setState] = useState<Pool[]>([])
+  const router = useRouter()
   const handlePoolsGet = useCallback(async () => {
     try {
       // get username who is request
@@ -33,12 +35,12 @@ const usePoolsStore = () => {
     handlePoolsGet()
     const intervalId = setInterval(() => {
       handlePoolsGet()
-    }, 10000) // Fetches data every 3 seconds
+    }, 60000) // Fetches data every 3 seconds
 
     return () => {
       clearInterval(intervalId) // Clears the interval when the component is unmounted
     }
-  }, [])
+  }, [router.asPath])
 
   useEffect(() => {
     console.log(state)

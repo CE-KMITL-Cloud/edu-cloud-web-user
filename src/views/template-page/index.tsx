@@ -1,4 +1,5 @@
 import { Box } from '@mui/material'
+import { useRouter } from 'next/router'
 import { useCallback, useEffect, useState } from 'react'
 
 import { accessApi } from 'api/backend/service/access'
@@ -12,14 +13,15 @@ import { withAuthGuard } from 'components/hocs/with-auth-guard'
 
 import { Instance } from 'types/instance'
 import { Page } from 'types/page'
-import {Header} from './Header'
 
 import { TemplateTable } from 'views/template-page/TemplateTable'
 
+import { Header } from './Header'
 import { Background, ScreenFlex, StyledPaper } from './styled'
 
 const useTemplatesStore = () => {
   const [state, setState] = useState<Instance[]>([])
+  const router = useRouter()
   const handleTemplatesGet = useCallback(async () => {
     try {
       //////////////////////////////////////////////////////////////////////
@@ -36,7 +38,14 @@ const useTemplatesStore = () => {
 
   useEffect(() => {
     handleTemplatesGet()
-  }, [])
+    const intervalId = setInterval(() => {
+      handleTemplatesGet()
+    }, 60000)
+
+    return () => {
+      clearInterval(intervalId) // Clears the interval when the component is unmounted
+    }
+  }, [router.asPath])
 
   useEffect(() => {
     console.log(state)
@@ -55,7 +64,7 @@ export const TemplatePage: Page = withAuthGuard(() => {
       <HeaderBar iconSrc="/static/icons/server-black.png">Template</HeaderBar>
       <Background>
         <StyledPaper>
-        <Box pb={4}>
+          <Box pb={4}>
             <Header />
           </Box>
           <TemplateTable templates={templates} onTemplateSelect={setSelectedTemplate} />

@@ -10,6 +10,24 @@ class ConsoleApi {
       console.error('Error fetching instances :', error)
     }
   }
+
+  public async vncProxy(username: string, node: string, vmid: number) {
+    try {
+      const requestBody = {
+        node: node,
+        vmid: vmid,
+      }
+      const response = await httpClient.post(`/vm/vncproxy?username=${username}`, requestBody, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        withCredentials: true,
+      })
+      return response.data.message.data
+    } catch (error) {
+      console.error('Error starting instance :', error)
+    }
+  }
 }
 
 export const consoleApi = new ConsoleApi()
