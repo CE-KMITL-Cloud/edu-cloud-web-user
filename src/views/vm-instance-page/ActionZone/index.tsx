@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import type { FC } from 'react'
-import { useCallback, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 
 import { instancesApi } from 'api/backend/service/instance'
 import { powerApi } from 'api/backend/service/power'
@@ -8,6 +8,7 @@ import { powerApi } from 'api/backend/service/power'
 import { ActionDropdownButton } from 'components/common/ActionDropdownButton'
 import { ConfirmationModal } from 'components/common/ConfirmationModal'
 import { Item } from 'components/common/DropdownButton'
+import { EditInstanceModal } from 'components/common/EditInstanceModal'
 
 import { Instance, InstancePropTypes } from 'types/instance'
 
@@ -37,6 +38,38 @@ export const ActionZone: FC<ActionZoneProps> = (props) => {
     },
     [openModalWithAction],
   )
+
+  const calculatedInitialValues = useMemo(() => {
+    return [
+      selectedInstance?.maxcpu ?? 0,
+      (selectedInstance?.maxmem ?? 0) / 1048576,
+      (selectedInstance?.maxdisk ?? 0) / 1073741824,
+    ]
+  }, [selectedInstance])
+
+  const handleConfirmEdit = async (submittedValues: number[] | null) => {
+    if (selectedInstance && submittedValues !== null) {
+      // Set isLoading state to true before starting the API call
+      setIsLoading(true)
+      try {
+        await instancesApi.editInstance(
+          'admin',
+          selectedInstance.node,
+          selectedInstance.vmid,
+          submittedValues[0],
+          submittedValues[1],
+          submittedValues[2],
+        )
+      } catch (error) {
+        // Handle the error here, e.g., showing an error message or logging the error
+        console.error('Error:', error)
+      } finally {
+        // After the API call, set the isLoading state to false and close the modal
+        setIsLoading(false)
+        setIsModalOpen(false)
+      }
+    }
+  }
 
   const confirmAction = async () => {
     if (selectedInstance) {
@@ -101,6 +134,10 @@ export const ActionZone: FC<ActionZoneProps> = (props) => {
 
   const outDropdownItems: Item[] = [
     {
+      key: 'edit',
+      label: 'edit',
+    },
+    {
       key: 'template',
       label: 'template',
     },
@@ -135,15 +172,26 @@ export const ActionZone: FC<ActionZoneProps> = (props) => {
         selectedInstance={selectedInstance}
         onClickItem={onClickItemHandler}
       />
-
-      <ConfirmationModal
-        isOpen={isModalOpen}
-        isLoading={isLoading}
-        title={modalTitle}
-        onConfirm={confirmAction}
-        onClose={closeModal}
-        id={selectedInstance?.id}
-      />
+      {selectedAction == 'edit' ? (
+        <EditInstanceModal
+          isOpen={isModalOpen}
+          isLoading={isLoading}
+          title={modalTitle}
+          onConfirm={handleConfirmEdit}
+          onClose={closeModal}
+          id={selectedInstance?.id}
+          initialValues={calculatedInitialValues}
+        />
+      ) : (
+        <ConfirmationModal
+          isOpen={isModalOpen}
+          isLoading={isLoading}
+          title={modalTitle}
+          onConfirm={confirmAction}
+          onClose={closeModal}
+          id={selectedInstance?.id}
+        />
+      )}
     </ActionButtonStack>
   )
 }

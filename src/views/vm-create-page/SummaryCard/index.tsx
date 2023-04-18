@@ -25,34 +25,34 @@ export const SummaryCard = (props: SummaryProps) => {
         Hostname
       </Typography>
       <Typography variant="body1" color="primary.main" fontWeight={500}>
-        {hostname ? hostname : 'demo-01'}
+        {hostname ? hostname : "Please enter"}
       </Typography>
       <Divider flexItem />
       <Typography variant="body1" color="primary.lightest" gutterBottom>
         Spec
       </Typography>
       <Typography variant="body1" color="primary.main" fontWeight={500}>
-        CPU {cpu ? cpu : 2} vCPU
+        CPU {cpu} vCPU
       </Typography>
       <Typography variant="body1" color="primary.main" fontWeight={500}>
-        RAM {ram ? ram : 2} GB
+        RAM {ram} GB
       </Typography>
       <Typography variant="body1" color="primary.main" fontWeight={500}>
-        Disk size : {disk ? disk : 20} GB
+        Disk size : {disk} GB
       </Typography>
       <Divider flexItem />
       <Typography variant="body1" color="primary.lightest" gutterBottom>
         CDROM
       </Typography>
-      <Typography variant="body1" color="primary.main" fontWeight={500} textAlign={"center"}>
-        {cdrom ? cdrom : "ubuntu-20.04.4-live-server-amd64.iso"}
+      <Typography variant="body1" color="primary.main" fontWeight={500} textAlign={'center'}>
+        {cdrom ? cdrom : "Please select"}
       </Typography>
       <Divider flexItem />
       <Typography variant="body1" color="primary.lightest" gutterBottom>
         Storage
       </Typography>
       <Typography variant="body1" color="primary.main" fontWeight={500}>
-        {storage ? storage : 'ceph-vm'}
+        {storage ? storage : "Please select"}
       </Typography>
     </Root>
   )

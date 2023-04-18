@@ -29,7 +29,7 @@ const useTemplatesStore = () => {
       const ticket = await accessApi.fetchTicket('teacher2', 'teacher2')
       console.log(ticket)
       //////////////////////////////////////////////////////////////////////
-      const response = await templatesApi.fetchTemplates('teacher2')
+      const response = await templatesApi.fetchTemplates('teacher1')
       setState(response)
     } catch (err) {
       console.error(err)

@@ -1,7 +1,8 @@
 import { Button } from '@mui/material'
 import { useRouter } from 'next/router'
-import { useState, useEffect } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
+import { clusterApi } from 'api/backend/service/cluster'
 import { instancesApi } from 'api/backend/service/instance'
 
 import { MainLayout } from 'layouts/MainLayout'
@@ -18,6 +19,7 @@ import { OSCard } from 'views/vm-create-page/OSCard'
 import { StarterCard } from 'views/vm-create-page/StarterCard'
 import { SummaryCard } from 'views/vm-create-page/SummaryCard'
 
+import { StorageCard } from './StorageCard'
 import { Aside, Contents, Section } from './styled'
 
 export const VMCreatePage: Page = () => {
@@ -26,13 +28,40 @@ export const VMCreatePage: Page = () => {
   const [navigate, setNavigate] = useState(false)
   const [loading, setLoading] = useState(false)
 
+  const [spec, setSpec] = useState<number[]>([])
+
   const router = useRouter()
+
+  const [storages, setStorages] = useState<string[]>([])
+  const [selectedStorage, setSelectedStorage] = useState<string>('')
+
+  const handleStorageOptionSelect = (value: string) => {
+    setSelectedStorage(value)
+  }
+
+  const fetchStorages = useCallback(async () => {
+    try {
+      const response = await clusterApi.fetchStorages()
+      setStorages(response)
+      // Transform the data to an array of strings if necessary.
+      // This depends on the response format from your API.
+      // Update this part according to your actual API response.
+    } catch (error) {
+      // Handle the error here, e.g., showing an error message or logging the error
+      console.error('Error:', error)
+      return [] // Return an empty array in case of an error
+    }
+  }, [])
+
+  useEffect(() => {
+    fetchStorages()
+  }, [])
 
   const handleHostnameChange = (newHostname: string) => {
     setHostname(newHostname)
   }
 
-  const handleCreatePool = async (instance: CreateInstance) => {
+  const handleCreateInstance = async (instance: CreateInstance) => {
     try {
       setLoading(true)
       // todo : replace sender
@@ -64,35 +93,43 @@ export const VMCreatePage: Page = () => {
       <HeaderBar iconSrc="/static/icons/server-black.png">Create VM</HeaderBar>
       <Contents>
         <Section>
-          <OSCard />
-          <StarterCard />
           <HostnameCard onHostnameChange={handleHostnameChange} />
+          <StarterCard onDataChange={(data) => setSpec(data)} defaultIndex={0} />
+          <OSCard />
+          <StorageCard storages={storages} onStorageOptionSelect={handleStorageOptionSelect} />
         </Section>
         <Aside>
-          <SummaryCard hostname={hostname} cpu={0} ram={0} disk={0} cdrom="" storage="" />
+          <SummaryCard
+            hostname={hostname}
+            cpu={spec[0]}
+            ram={spec[1]}
+            disk={spec[2]}
+            cdrom=""
+            storage={selectedStorage}
+          />
           {warning && (
             <div>
               <p style={{ color: 'red' }}>{warning}</p>
             </div>
           )}
-            <Button
-              variant="contained"
-              color="success"
-              size="medium"
-              onClick={() => {
-                handleCreatePool({
-                  name: 'demo-01',
-                  cdrom: 'ubuntu-20.04.4-live-server-amd64.iso',
-                  cores: 2,
-                  disk: '2',
-                  memory: 2024,
-                  storage: 'ceph-vm',
-                })
-              }}
-              disabled={loading}
-            >
-              {loading ? 'Loading...' : 'Create instance'}
-            </Button>
+          <Button
+            variant="contained"
+            color="success"
+            size="medium"
+            onClick={() => {
+              handleCreateInstance({
+                name: 'demo-01',
+                cdrom: 'ubuntu-20.04.4-live-server-amd64.iso',
+                cores: spec[0],
+                disk: `${spec[1]}`,
+                memory: spec[2] * 1024,
+                storage: selectedStorage,
+              })
+            }}
+            disabled={loading}
+          >
+            {loading ? 'Loading...' : 'Create instance'}
+          </Button>
         </Aside>
       </Contents>
     </>

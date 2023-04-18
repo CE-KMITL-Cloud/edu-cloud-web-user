@@ -75,6 +75,33 @@ class InstancesApi {
       return { success: false, warning: 'Error destroying instance' }
     }
   }
+
+  public async editInstance(
+    sender: string,
+    node: string,
+    vmid: number,
+    cores: number,
+    memory: number,
+    disk: number,
+  ): Promise<{ success: boolean; message?: string; warning?: string }> {
+    try {
+      const requestBody = {
+        cores: cores,
+        memory: memory,
+        disk: disk,
+      }
+      const response = await httpClient.post(`/vm/edit?vmid=${vmid}&node=${node}&username=${sender}`, requestBody, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        withCredentials: true,
+      })
+      return { success: true, message: response.data.message }
+    } catch (error) {
+      console.error('Error editing instance', error)
+      return { success: false, warning: 'Error editing instance' }
+    }
+  }
 }
 
 export const instancesApi = new InstancesApi()

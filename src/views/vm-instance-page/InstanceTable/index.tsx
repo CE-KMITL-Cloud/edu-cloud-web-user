@@ -29,8 +29,8 @@ export interface InstanceTableProps {
 
 export const InstanceTable: FC<InstanceTableProps> = (props) => {
   const { instances = [], onInstanceSelect } = props
-  const [url, setUrl] = useState('')
-  const [ticket, setTicket] = useState('')
+  // const [url, setUrl] = useState('')
+  // const [ticket, setTicket] = useState('')
   const [selectedInstance, setSelectedInstance] = useState<Instance | null>(null)
 
   const handleButtonClick = async (instance: Instance) => {
@@ -39,8 +39,8 @@ export const InstanceTable: FC<InstanceTableProps> = (props) => {
       // const response = await consoleApi.fetchConsoleVM(instance.node, `${instance.vmid}`, 'admin')
       const response = await consoleApi.vncProxy('admin', instance.node, instance.vmid)
       console.log(response.port, response.ticket, response.url)
-      setTicket(response.ticket)
-      setUrl(response.url)
+      // setTicket(response.ticket)
+      // setUrl(response.url)
     } catch (error) {
       console.log(error)
     }
@@ -70,7 +70,7 @@ export const InstanceTable: FC<InstanceTableProps> = (props) => {
           ></iframe>
         )} */}
         {/* console iframe */}
-        <div>{ticket && <VncConsole ticket={ticket} url={url} />}</div>
+        {/* <div>{ticket && <VncConsole ticket={ticket} url={url} />}</div> */}
         {instances.map((instance: Instance) => {
           return (
             <StyledTableRow

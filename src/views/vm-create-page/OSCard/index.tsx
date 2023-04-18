@@ -13,37 +13,8 @@ import { TemplateCard } from 'views/vm-create-page/TemplateCard'
 
 import { OSBoxContainer } from './styled'
 
-const useOsStore = () => {
-  const [state, setState] = useState<string[]>([])
-  const handleOsGet = useCallback(async () => {
-    try {
-      //////////////////////////////////////////////////////////////////////
-      // ! mock ticket
-      const ticket = await accessApi.fetchTicket('teacher2', 'teacher2')
-      console.log(ticket)
-      //////////////////////////////////////////////////////////////////////
-      const response = await clusterApi.fetchOs()
-      setState(response)
-    } catch (err) {
-      console.error(err)
-    }
-  }, [])
-
-  useEffect(() => {
-    handleOsGet()
-  }, [])
-
-  useEffect(() => {
-    console.log(state)
-  }, [state])
-
-  return {
-    os: state,
-  }
-}
-
 export const OSCard = () => {
-  const { os } = useOsStore()
+  
   const [selectedOs, setSelectedOs] = useState<Os | null>(null)
 
   return (

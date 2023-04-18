@@ -12,11 +12,13 @@ export interface OsItemCardProps {
   glow?: boolean
   spec: Prettify<Omit<VmSpec, 'os'>>
   onChange?: (id: string) => void
+  onSelect?: (cpu: number, mem: number, disk: number) => void
 }
 
-export const OsItemCard = ({ id, glow = false, size, spec, onChange }: OsItemCardProps) => {
+export const OsItemCard = ({ id, glow = false, size, spec, onChange, onSelect }: OsItemCardProps) => {
   const handleClick = (_: MouseEvent<HTMLDivElement>) => {
     onChange?.(id)
+    onSelect?.(spec.vCPUs, spec.RAM, spec.storage) // assuming that vCPUs, RAM, and storage are numbers.
   }
 
   return (
@@ -28,13 +30,13 @@ export const OsItemCard = ({ id, glow = false, size, spec, onChange }: OsItemCar
       </InnerBox>
       <DescriptionWrapper glow={glow}>
         <Typography variant="body1" fontWeight="inherit" color="inherit" textAlign="center">
-          {spec.vCPUs} vCPU
+          CPU {spec.vCPUs} vCPU
         </Typography>
         <Typography variant="body1" fontWeight="inherit" color="inherit" textAlign="center">
-          {spec.RAM} GB RAM
+          RAM {spec.RAM} GB
         </Typography>
         <Typography variant="body1" fontWeight="inherit" color="inherit" textAlign="center">
-          {spec.storage}
+          Disk size {spec.storage} GB
         </Typography>
       </DescriptionWrapper>
     </ItemRoot>
