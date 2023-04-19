@@ -63,7 +63,10 @@ class InstancesApi {
         node: node,
         vmid: vmid,
       }
-      const response = await httpClient.post(`/vm/destroy?username=${sender}`, requestBody, {
+      const response = await httpClient({
+        method: 'delete',
+        url: `/vm/destroy?username=${sender}`,
+        data: requestBody,
         headers: {
           'Content-Type': 'application/json',
         },
@@ -100,6 +103,35 @@ class InstancesApi {
     } catch (error) {
       console.error('Error editing instance', error)
       return { success: false, warning: 'Error editing instance' }
+    }
+  }
+
+  public async cloneInstance(
+    sender: string,
+    node: string,
+    vmid: number,
+    hostname: string,
+    storage: string,
+    ciuser: string,
+    cipassword: string,
+  ): Promise<{ success: boolean; message?: string; warning?: string }> {
+    try {
+      const requestBody = {
+        name: hostname,
+        storage: storage,
+        ciuser: ciuser,
+        cipassword: cipassword,
+      }
+      const response = await httpClient.post(`/vm/clone?vmid=${vmid}&node=${node}&username=${sender}`, requestBody, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        withCredentials: true,
+      })
+      return { success: true, message: response.data.message }
+    } catch (error) {
+      console.error('Error cloning instance', error)
+      return { success: false, warning: 'Error cloning instance' }
     }
   }
 }

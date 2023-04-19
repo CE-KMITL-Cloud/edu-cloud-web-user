@@ -7,6 +7,7 @@ import { instancesApi } from 'api/backend/service/instance'
 
 import { MainLayout } from 'layouts/MainLayout'
 
+import { AlertModal } from 'components/common/AlertModal'
 import { HeaderBar } from 'components/common/HeaderBar'
 
 import { paths } from 'routes/paths'
@@ -20,11 +21,14 @@ import { StarterCard } from 'views/vm-create-page/StarterCard'
 import { SummaryCard } from 'views/vm-create-page/SummaryCard'
 
 import { StorageCard } from './StorageCard'
+import { TempOsCard } from './TempOsCard'
 import { Aside, Contents, Section } from './styled'
 
 export const VMCreatePage: Page = () => {
   const [hostname, setHostname] = useState('')
+
   const [warning, setWarning] = useState<string | null>(null)
+  const [alertModalOpen, setAlertModalOpen] = useState(false)
   const [navigate, setNavigate] = useState(false)
   const [loading, setLoading] = useState(false)
 
@@ -33,21 +37,23 @@ export const VMCreatePage: Page = () => {
   const router = useRouter()
 
   const [storages, setStorages] = useState<string[]>([])
+  const [os, setOs] = useState<string[]>([])
   const [selectedStorage, setSelectedStorage] = useState<string>('')
+  const [selectedOs, setSelectedOs] = useState<string>('')
 
   const handleStorageOptionSelect = (value: string) => {
     setSelectedStorage(value)
+  }
+
+  const handleOsOptionSelect = (value: string) => {
+    setSelectedOs(value)
   }
 
   const fetchStorages = useCallback(async () => {
     try {
       const response = await clusterApi.fetchStorages()
       setStorages(response)
-      // Transform the data to an array of strings if necessary.
-      // This depends on the response format from your API.
-      // Update this part according to your actual API response.
     } catch (error) {
-      // Handle the error here, e.g., showing an error message or logging the error
       console.error('Error:', error)
       return [] // Return an empty array in case of an error
     }
@@ -55,6 +61,20 @@ export const VMCreatePage: Page = () => {
 
   useEffect(() => {
     fetchStorages()
+  }, [])
+
+  const fetchOs = useCallback(async () => {
+    try {
+      const response = await clusterApi.fetchOs()
+      setOs(response)
+    } catch (error) {
+      console.error('Error:', error)
+      return [] // Return an empty array in case of an error
+    }
+  }, [])
+
+  useEffect(() => {
+    fetchOs()
   }, [])
 
   const handleHostnameChange = (newHostname: string) => {
@@ -68,14 +88,16 @@ export const VMCreatePage: Page = () => {
       const response = await instancesApi.createInstance(instance, 'teacher1')
       if (!response.success) {
         console.log(response)
-        setWarning('Warning: API call is unsuccessful.')
+        setWarning('Failed creating VM.')
+        setAlertModalOpen(true)
         setNavigate(false)
       } else {
         setWarning(null)
         setNavigate(true)
       }
     } catch (error) {
-      setWarning('Warning: An error occurred during the API call.')
+      setWarning('Failed creating VM.')
+      setAlertModalOpen(true)
       setNavigate(false)
       console.log(error)
     }
@@ -95,7 +117,8 @@ export const VMCreatePage: Page = () => {
         <Section>
           <HostnameCard onHostnameChange={handleHostnameChange} />
           <StarterCard onDataChange={(data) => setSpec(data)} defaultIndex={0} />
-          <OSCard />
+          {/* <OSCard /> */}
+          <TempOsCard os={os} onOsOptionSelect={handleOsOptionSelect} />
           <StorageCard storages={storages} onStorageOptionSelect={handleStorageOptionSelect} />
         </Section>
         <Aside>
@@ -104,14 +127,10 @@ export const VMCreatePage: Page = () => {
             cpu={spec[0]}
             ram={spec[1]}
             disk={spec[2]}
-            cdrom=""
+            cdrom={selectedOs}
             storage={selectedStorage}
           />
-          {warning && (
-            <div>
-              <p style={{ color: 'red' }}>{warning}</p>
-            </div>
-          )}
+          <AlertModal open={alertModalOpen} title="Error" message={warning} onClose={() => setAlertModalOpen(false)} />
           <Button
             variant="contained"
             color="success"
@@ -119,10 +138,10 @@ export const VMCreatePage: Page = () => {
             onClick={() => {
               handleCreateInstance({
                 name: 'demo-01',
-                cdrom: 'ubuntu-20.04.4-live-server-amd64.iso',
+                cdrom: 'ubuntu-20.04.4-live-server-amd64.iso', // ! please integrate with component
                 cores: spec[0],
-                disk: `${spec[1]}`,
-                memory: spec[2] * 1024,
+                memory: spec[1] * 1024,
+                disk: `${spec[2]}`,
                 storage: selectedStorage,
               })
             }}

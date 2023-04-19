@@ -1,4 +1,5 @@
 import { IconButton, Table, TableBody, TableCell, TableRow } from '@mui/material'
+import { useRouter } from 'next/router'
 import PropTypes from 'prop-types'
 import type { FC } from 'react'
 import { useState } from 'react'
@@ -17,7 +18,7 @@ import { Center, StyledTableHead, StyledTableRow } from './styled'
 const RenderVmSpec = ({ spec }: { spec: InstanceSpec }) => {
   return (
     <>
-      {spec.maxcpu} vCPU, RAM {spec.maxmem / 1073741824} GB <br /> Disk size : {spec.maxdisk / 1073741824} GB
+      CPU {spec.maxcpu} vCPU, RAM {spec.maxmem / 1073741824} GB <br /> Disk size : {spec.maxdisk / 1073741824} GB
     </>
   )
 }
@@ -30,17 +31,25 @@ export interface InstanceTableProps {
 export const InstanceTable: FC<InstanceTableProps> = (props) => {
   const { instances = [], onInstanceSelect } = props
   // const [url, setUrl] = useState('')
+  const router = useRouter()
   // const [ticket, setTicket] = useState('')
   const [selectedInstance, setSelectedInstance] = useState<Instance | null>(null)
+
+  const navigateToVMConsole = (url: string) => {
+    router.push({
+      pathname: '/vm-console',
+      query: { url },
+    })
+  }
 
   const handleButtonClick = async (instance: Instance) => {
     console.log('Clicked row data:', instance)
     try {
-      // const response = await consoleApi.fetchConsoleVM(instance.node, `${instance.vmid}`, 'admin')
-      const response = await consoleApi.vncProxy('admin', instance.node, instance.vmid)
-      console.log(response.port, response.ticket, response.url)
+      const response = await consoleApi.fetchConsoleVM(instance.node, `${instance.vmid}`, 'admin')
+      // const response = await consoleApi.vncProxy('admin', instance.node, instance.vmid)
+      console.log(response)
       // setTicket(response.ticket)
-      // setUrl(response.url)
+      navigateToVMConsole(response)
     } catch (error) {
       console.log(error)
     }
@@ -59,17 +68,6 @@ export const InstanceTable: FC<InstanceTableProps> = (props) => {
         </TableRow>
       </StyledTableHead>
       <TableBody>
-        {/* console iframe */}
-        {/* {url && (
-          <iframe
-            src={url}
-            title="My iframe"
-            width="900"
-            height="600"
-            sandbox="allow-same-origin allow-scripts"
-          ></iframe>
-        )} */}
-        {/* console iframe */}
         {/* <div>{ticket && <VncConsole ticket={ticket} url={url} />}</div> */}
         {instances.map((instance: Instance) => {
           return (

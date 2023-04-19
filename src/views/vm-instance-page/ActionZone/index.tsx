@@ -6,11 +6,13 @@ import { instancesApi } from 'api/backend/service/instance'
 import { powerApi } from 'api/backend/service/power'
 
 import { ActionDropdownButton } from 'components/common/ActionDropdownButton'
+import { AlertModal } from 'components/common/AlertModal'
 import { ConfirmationModal } from 'components/common/ConfirmationModal'
 import { Item } from 'components/common/DropdownButton'
-import { EditInstanceModal } from 'components/common/EditInstanceModal'
 
 import { Instance, InstancePropTypes } from 'types/instance'
+
+import { EditInstanceModal } from 'views/vm-instance-page/EditInstanceModal'
 
 import { ActionButtonStack } from './styled'
 
@@ -25,6 +27,9 @@ export const ActionZone: FC<ActionZoneProps> = (props) => {
   const [modalTitle, setModalTitle] = useState('')
   const [selectedAction, setSelectedAction] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+
+  const [warning, setWarning] = useState<string | null>(null)
+  const [alertModalOpen, setAlertModalOpen] = useState(false)
 
   const openModalWithAction = (action: string) => {
     setModalTitle(`Confirm ${action}`)
@@ -52,7 +57,7 @@ export const ActionZone: FC<ActionZoneProps> = (props) => {
       // Set isLoading state to true before starting the API call
       setIsLoading(true)
       try {
-        await instancesApi.editInstance(
+        const response = await instancesApi.editInstance(
           'admin',
           selectedInstance.node,
           selectedInstance.vmid,
@@ -60,8 +65,17 @@ export const ActionZone: FC<ActionZoneProps> = (props) => {
           submittedValues[1],
           submittedValues[2],
         )
+        if (!response.success) {
+          console.log(response)
+          setWarning('Failed editing VM.')
+          setAlertModalOpen(true)
+        } else {
+          setWarning(null)
+        }
       } catch (error) {
         // Handle the error here, e.g., showing an error message or logging the error
+        setWarning('Failed editing VM.')
+        setAlertModalOpen(true)
         console.error('Error:', error)
       } finally {
         // After the API call, set the isLoading state to false and close the modal
@@ -88,9 +102,18 @@ export const ActionZone: FC<ActionZoneProps> = (props) => {
       }
 
       try {
-        await actionMapping[selectedAction]?.()
+        const response = await actionMapping[selectedAction]?.()
+        if (!response.success) {
+          console.log(response)
+          setWarning(`Failed ${selectedAction} VM.`)
+          setAlertModalOpen(true)
+        } else {
+          setWarning(null)
+        }
       } catch (error) {
         // Handle the error here, e.g., showing an error message or logging the error
+        setWarning(`Failed ${selectedAction} VM.`)
+        setAlertModalOpen(true)
         console.error('Error:', error)
       } finally {
         // After the API call, set the isLoading state to false and close the modal
@@ -172,6 +195,7 @@ export const ActionZone: FC<ActionZoneProps> = (props) => {
         selectedInstance={selectedInstance}
         onClickItem={onClickItemHandler}
       />
+      <AlertModal open={alertModalOpen} title="Error" message={warning} onClose={() => setAlertModalOpen(false)} />
       {selectedAction == 'edit' ? (
         <EditInstanceModal
           isOpen={isModalOpen}

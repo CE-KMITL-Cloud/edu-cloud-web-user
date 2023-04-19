@@ -53,6 +53,14 @@ export const ROUTES_CONFIG: RoutesConfigType = {
     showNavbar: false,
     showFooter: true,
   },
+  [paths.vmConsole]: {
+    showNavbar: false,
+    showFooter: true,
+  },
+  [paths.user]: {
+    showNavbar: false,
+    showFooter: true,
+  },
 
   // * Status
   [paths[401]]: {
