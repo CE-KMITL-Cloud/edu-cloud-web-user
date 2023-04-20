@@ -137,8 +137,8 @@ export const VMCreatePage: Page = () => {
             size="medium"
             onClick={() => {
               handleCreateInstance({
-                name: 'demo-01',
-                cdrom: 'ubuntu-20.04.4-live-server-amd64.iso', // ! please integrate with component
+                name: hostname,
+                cdrom: selectedOs, // ! please integrate with component
                 cores: spec[0],
                 memory: spec[1] * 1024,
                 disk: `${spec[2]}`,

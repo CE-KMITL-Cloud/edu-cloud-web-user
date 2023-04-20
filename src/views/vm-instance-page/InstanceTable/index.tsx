@@ -2,7 +2,7 @@ import { IconButton, Table, TableBody, TableCell, TableRow } from '@mui/material
 // import { useRouter } from 'next/router'
 import PropTypes from 'prop-types'
 import type { FC } from 'react'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 
 import { consoleApi } from 'api/backend/service/console'
 
@@ -37,10 +37,26 @@ export const InstanceTable: FC<InstanceTableProps> = (props) => {
   const windowFeatures =
     'width=800, height=600, toolbar=no, menubar=no, scrollbars=no, resizable=yes, location=no, status=no'
 
-  const openNewWindow = (url: string) => {
-    window.open(url, '_blank', windowFeatures)
-  }
+  const openedWindows = useRef<Map<string, Window>>(new Map())
 
+  const openNewWindow = (url: string) => {
+    // Check if the window is already opened and not closed
+    const existingWindow = openedWindows.current.get(url)
+    if (existingWindow && !existingWindow.closed) {
+      existingWindow.focus()
+    } else {
+      const newWindow = window.open(url, '_blank', windowFeatures)
+
+      if (newWindow) {
+        openedWindows.current.set(url, newWindow)
+
+        // Optional: Close the window when the main page is closed/unloaded
+        window.addEventListener('unload', () => {
+          if (newWindow) newWindow.close()
+        })
+      }
+    }
+  }
   // const navigateToVMConsole = (url: string) => {
   //   router.push({
   //     pathname: '/vm-console',
