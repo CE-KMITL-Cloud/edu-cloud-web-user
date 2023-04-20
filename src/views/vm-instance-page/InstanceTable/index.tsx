@@ -1,5 +1,5 @@
 import { IconButton, Table, TableBody, TableCell, TableRow } from '@mui/material'
-import { useRouter } from 'next/router'
+// import { useRouter } from 'next/router'
 import PropTypes from 'prop-types'
 import type { FC } from 'react'
 import { useState } from 'react'
@@ -8,8 +8,7 @@ import { consoleApi } from 'api/backend/service/console'
 
 import { CoreSvg } from 'components/core/CoreSvg'
 
-import { VncConsole } from 'components/common/VncConsole'
-
+// import { VncConsole } from 'components/common/VncConsole'
 import { Instance, InstanceSpec } from 'types/instance'
 
 import { TableTextCell } from './TableCell'
@@ -31,16 +30,23 @@ export interface InstanceTableProps {
 export const InstanceTable: FC<InstanceTableProps> = (props) => {
   const { instances = [], onInstanceSelect } = props
   // const [url, setUrl] = useState('')
-  const router = useRouter()
+  // const router = useRouter()
   // const [ticket, setTicket] = useState('')
   const [selectedInstance, setSelectedInstance] = useState<Instance | null>(null)
 
-  const navigateToVMConsole = (url: string) => {
-    router.push({
-      pathname: '/vm-console',
-      query: { url },
-    })
+  const windowFeatures =
+    'width=800, height=600, toolbar=no, menubar=no, scrollbars=no, resizable=yes, location=no, status=no'
+
+  const openNewWindow = (url: string) => {
+    window.open(url, '_blank', windowFeatures)
   }
+
+  // const navigateToVMConsole = (url: string) => {
+  //   router.push({
+  //     pathname: '/vm-console',
+  //     query: { url },
+  //   })
+  // }
 
   const handleButtonClick = async (instance: Instance) => {
     console.log('Clicked row data:', instance)
@@ -49,7 +55,8 @@ export const InstanceTable: FC<InstanceTableProps> = (props) => {
       // const response = await consoleApi.vncProxy('admin', instance.node, instance.vmid)
       console.log(response)
       // setTicket(response.ticket)
-      navigateToVMConsole(response)
+      // navigateToVMConsole(response)
+      openNewWindow(response)
     } catch (error) {
       console.log(error)
     }
