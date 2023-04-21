@@ -6,6 +6,11 @@ import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from 'constants/storageKey'
 
 import { authService } from 'services/auth-service'
 
+const httpUnauthClient = axios.create({
+  baseURL: AUTH_BACKEND_URL,
+  timeout: 5000,
+})
+
 const httpAuthClient = axios.create({
   baseURL: AUTH_BACKEND_URL,
   timeout: 5000,
@@ -64,4 +69,4 @@ httpAuthClient.interceptors.response.use(
 
 axiosRetry(httpAuthClient, { retries: 3, retryDelay: () => 500 })
 
-export { httpAuthClient }
+export { httpAuthClient, httpUnauthClient }

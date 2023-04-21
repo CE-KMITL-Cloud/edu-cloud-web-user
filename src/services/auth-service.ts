@@ -9,7 +9,7 @@ import { accountStore } from 'store/account-store'
 
 import { getJwtTokenData } from 'utils/jwt'
 
-import { FunctionResult, JwtPayload } from 'types'
+import { FunctionResult, JwtPayload, Role, isRole } from 'types'
 import { LoginStatus } from 'types/enums'
 
 class AuthService {
@@ -42,7 +42,9 @@ class AuthService {
 
     const email: string = tokenParts.email
     const name: string = tokenParts.name
+    const role: string = tokenParts.role
 
+    isRole(role) ? accountStore.setRole(role) : accountStore.setRole('unknown')
     accountStore.setEmail(email)
     accountStore.setName(name)
     accountStore.setIsLoggedIn(true)
@@ -63,12 +65,13 @@ class AuthService {
    * @param password Password
    * @returns isSuccess
    */
-  public async register(name: string, email: string, password: string): Promise<FunctionResult> {
+  public async register(name: string, email: string, password: string, role: Role): Promise<FunctionResult> {
     try {
       const { accessToken, refreshToken, tokenType } = await authApi.register({
         name,
         email,
         password,
+        role,
       })
       if (tokenType === 'Bearer') {
         localStorage.setItem(ACCESS_TOKEN_KEY, accessToken)

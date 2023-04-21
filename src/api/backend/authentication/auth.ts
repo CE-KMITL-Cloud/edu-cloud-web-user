@@ -1,10 +1,11 @@
-import { httpAuthClient, httpClient } from 'api/httpClient'
+import { httpAuthClient, httpUnauthClient } from 'api/httpClient'
 
+import { Role } from 'types'
 import { TokenResponse } from 'types/dto/auth'
 
 class AuthApi {
-  public async register(data: { email: string; password: string; name: string }): Promise<TokenResponse> {
-    const response = await httpClient.post<TokenResponse>('/auth/user/register', data)
+  public async register(data: { email: string; password: string; name: string; role: Role }): Promise<TokenResponse> {
+    const response = await httpUnauthClient.post<TokenResponse>('/auth/user/register', data)
 
     // * If register success, backend send status `201`
     if (response.status === 201) {
@@ -15,7 +16,7 @@ class AuthApi {
   }
 
   public async login(data: { email: string; password: string }): Promise<TokenResponse> {
-    const response = await httpClient.post<TokenResponse>('/auth/user/login', data)
+    const response = await httpUnauthClient.post<TokenResponse>('/auth/user/login', data)
 
     // * If register success, backend send status `201`
     if (response.status === 201) {
@@ -26,7 +27,7 @@ class AuthApi {
   }
 
   public async refresh(data: { refreshToken: string }): Promise<TokenResponse> {
-    const response = await httpClient.post<TokenResponse>('/auth/user/token', data)
+    const response = await httpUnauthClient.post<TokenResponse>('/auth/user/token', data)
 
     // * If refresh success, backend send status `201`
     if (response.status === 201) {

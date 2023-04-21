@@ -109,7 +109,13 @@ export const LoginSection = () => {
           </Typography>
           {/* TODO: Link to register page*/}
           <CoreLink path="#">
-            <Button variant="contained" color="secondary" size="medium" fullWidth>
+            <Button
+              variant="contained"
+              color="secondary"
+              size="medium"
+              fullWidth
+              onClick={() => authService.register(email, email, password, 'student')}
+            >
               Register
             </Button>
           </CoreLink>

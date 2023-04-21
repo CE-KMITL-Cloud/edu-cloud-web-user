@@ -5,7 +5,7 @@ import { Role } from 'types'
 class AccountStore {
   public email: string | undefined = undefined
   public name: string | undefined = undefined
-  public role: Role | undefined = undefined
+  public role: Role | 'unknown' | undefined = undefined
 
   public isLoggedIn: boolean = false
 
@@ -21,7 +21,7 @@ class AccountStore {
     this.name = name
   }
 
-  public setRole = (role: Role | undefined) => {
+  public setRole = (role: Role | 'unknown' | undefined) => {
     this.role = role
   }
 
