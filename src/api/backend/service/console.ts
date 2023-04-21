@@ -1,16 +1,29 @@
 import { httpClient } from 'api/httpClient'
 
 class ConsoleApi {
+  /**
+   *
+   * @param node
+   * @param vmid
+   * @param username
+   * @returns
+   */
   public async fetchConsoleVM(node: string, vmid: string, username: string) {
     try {
-      const response = await httpClient.get(`/node/${node}/vm/${vmid}/console?username=${username}`, {
-      })
+      const response = await httpClient.get(`/node/${node}/vm/${vmid}/console?username=${username}`, {})
       return response.data.message
     } catch (error) {
       console.error('Error fetching instances :', error)
     }
   }
 
+  /**
+   *
+   * @param username
+   * @param node
+   * @param vmid
+   * @returns
+   */
   public async vncProxy(username: string, node: string, vmid: number) {
     try {
       const requestBody = {

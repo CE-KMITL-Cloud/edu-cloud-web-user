@@ -1,7 +1,9 @@
 import { Box, Button, Grid, Modal, TextField, Typography } from '@mui/material'
-import { useState } from 'react'
+import { FC, useState } from 'react'
 
 import { poolsApi } from 'api/backend/service/pool'
+
+import { AlertModal } from 'components/common/AlertModal'
 
 import { HeaderPaper, Root } from './styled'
 
@@ -11,9 +13,15 @@ interface FormData {
   owner: string
 }
 
-export const Header = () => {
+interface PoolHeaderProps {
+  updateParent: (state: boolean) => void
+}
+
+export const Header: FC<PoolHeaderProps> = (props) => {
+  const { updateParent } = props
   const [open, setOpen] = useState(false)
   const [formData, setFormData] = useState<FormData>({ code: '', name: '', owner: '' })
+  const [alertModalOpen, setAlertModalOpen] = useState(false)
   const [warning, setWarning] = useState<string | null>(null)
 
   const handleCreatePool = async () => {
@@ -22,13 +30,19 @@ export const Header = () => {
       const response = await poolsApi.CreatePool('admin', formData.owner, formData.code, formData.name)
       if (!response.success) {
         console.log(response)
-        setWarning('Warning: API call is unsuccessful.')
+        setWarning('Failed creating pool.')
+        setAlertModalOpen(true)
+        updateParent(false)
       } else {
         setWarning(null)
+        setAlertModalOpen(false)
         handleClose()
+        updateParent(true)
       }
     } catch (error) {
-      setWarning('Warning: An error occurred during the API call.')
+      setWarning('Failed creating pool.')
+      setAlertModalOpen(true)
+      updateParent(false)
       console.log(error)
     }
   }
@@ -120,11 +134,12 @@ export const Header = () => {
                     // readOnly={user.role !== 'admin'}
                   />
                 </Grid>
-                {warning && (
-                  <div>
-                    <p style={{ color: 'red' }}>{warning}</p>
-                  </div>
-                )}
+                <AlertModal
+                  open={alertModalOpen}
+                  title="Error"
+                  message={warning}
+                  onClose={() => setAlertModalOpen(false)}
+                />
                 <Grid item xs={12}>
                   <Button type="submit" variant="contained" color="primary">
                     Create

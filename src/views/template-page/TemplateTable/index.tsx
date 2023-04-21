@@ -1,4 +1,5 @@
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
+import NoteAddIcon from '@mui/icons-material/NoteAdd'
 import { IconButton, Table, TableBody, TableCell, TableRow } from '@mui/material'
 import { useRouter } from 'next/router'
 import PropTypes from 'prop-types'
@@ -173,7 +174,7 @@ export const TemplateTable: FC<TemplateTableProps> = (props) => {
               <TableCell>
                 <IconButton onClick={() => handleButtonClick('form')}>
                   <Center>
-                    <CoreSvg src="/static/icons/console.svg" width={24} />
+                    <NoteAddIcon />
                   </Center>
                 </IconButton>
                 {![8000, 8001, 8002, 8003].includes(template.vmid) && (

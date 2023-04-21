@@ -36,7 +36,7 @@ export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
       <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
-          Are you sure you want to perform this action on {id}?
+          Are you sure you want to perform this action on {id} ?
         </DialogContentText>
       </DialogContent>
       <DialogActions>

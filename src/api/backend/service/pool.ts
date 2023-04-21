@@ -31,12 +31,22 @@ class PoolsApi {
     return [] // Return an empty array in case of no data or error
   }
 
+  public async fetchRemainingStudents(sender: string, owner: string, code: string) {
+    try {
+      const response = await httpClient.get(`/pool/${code}/owner/${owner}/members/remain?username=${sender}`)
+      return response.data.message
+    } catch (error) {
+      console.error('Error fetching remaining students :', error)
+    }
+    return [] // Return an empty array in case of no data or error
+  }
+
   public async DeletePool(sender: string, owner: string, code: string) {
     try {
       const response = await httpClient.delete(`/pool/${code}/owner/${owner}?username=${sender}`)
       return response.data.message
     } catch (error) {
-      console.error('Error fetching by code, owner pool:', error)
+      console.error('Error deleting pool from given code, owner pool:', error)
     }
     return [] // Return an empty array in case of no data or error
   }
