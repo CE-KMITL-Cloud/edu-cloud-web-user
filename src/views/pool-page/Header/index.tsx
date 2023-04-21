@@ -14,7 +14,7 @@ interface FormData {
 }
 
 interface PoolHeaderProps {
-  updateParent: (state: boolean) => void
+  updateParent: () => void
 }
 
 export const Header: FC<PoolHeaderProps> = (props) => {
@@ -32,17 +32,15 @@ export const Header: FC<PoolHeaderProps> = (props) => {
         console.log(response)
         setWarning('Failed creating pool.')
         setAlertModalOpen(true)
-        updateParent(false)
       } else {
         setWarning(null)
         setAlertModalOpen(false)
         handleClose()
-        updateParent(true)
+        updateParent()
       }
     } catch (error) {
       setWarning('Failed creating pool.')
       setAlertModalOpen(true)
-      updateParent(false)
       console.log(error)
     }
   }
@@ -57,7 +55,7 @@ export const Header: FC<PoolHeaderProps> = (props) => {
 
     // Call your API with the formData.text value
     console.log(`Create Pool with the code: ${formData.code}, name: ${formData.name}`)
-    handleCreatePool()
+    await handleCreatePool()
   }
 
   const handleOpen = () => {

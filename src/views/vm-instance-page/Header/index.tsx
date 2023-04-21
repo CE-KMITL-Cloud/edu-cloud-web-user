@@ -12,12 +12,7 @@ import { ActionZone } from 'views/vm-instance-page/ActionZone'
 
 import { HeaderPaper, Root } from './styled'
 
-interface HeaderProps {
-  selectedInstance: Instance | null
-}
-
-export const Header: FC<HeaderProps> = (props) => {
-  const { selectedInstance } = props
+export const Header: FC = () => {
   return (
     <Root>
       <HeaderPaper>
@@ -30,7 +25,7 @@ export const Header: FC<HeaderProps> = (props) => {
           </Button>
         </CoreLink>
       </HeaderPaper>
-      <ActionZone selectedInstance={selectedInstance} />
+      <ActionZone />
     </Root>
   )
 }

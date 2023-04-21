@@ -1,5 +1,4 @@
 import axios from 'axios'
-import axiosRetry from 'axios-retry'
 
 import { SERVICE_BACKEND_URL } from 'constants/constants'
 
@@ -8,7 +7,5 @@ const httpClient = axios.create({
   timeout: 60000,
   withCredentials: true,
 })
-
-axiosRetry(httpClient, { retries: 3, retryDelay: () => 500 })
 
 export { httpClient }

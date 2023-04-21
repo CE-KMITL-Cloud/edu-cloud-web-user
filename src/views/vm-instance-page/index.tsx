@@ -1,8 +1,6 @@
 import { Box } from '@mui/material'
-import { useRouter } from 'next/router'
 import { useCallback, useEffect, useState } from 'react'
 
-import { accessApi } from 'api/backend/service/access'
 import { instancesApi } from 'api/backend/service/instance'
 
 import { MainLayout } from 'layouts/MainLayout'
@@ -11,7 +9,8 @@ import { HeaderBar } from 'components/common/HeaderBar'
 
 import { withAuthGuard } from 'components/hocs/with-auth-guard'
 
-import { Instance } from 'types/instance'
+import { VmInstanceProvider } from 'contexts/vm-instance-page-context'
+
 import { Page } from 'types/page'
 
 import { Header } from 'views/vm-instance-page/Header'
@@ -19,58 +18,19 @@ import { InstanceTable } from 'views/vm-instance-page/InstanceTable'
 
 import { Background, ScreenFlex, StyledPaper } from './styled'
 
-const useInstancesStore = () => {
-  const [state, setState] = useState<Instance[]>([])
-  const router = useRouter()
-  const handleInstancesGet = useCallback(async () => {
-    try {
-      //////////////////////////////////////////////////////////////////////
-      // ! mock ticket
-      const ticket = await accessApi.fetchTicket('teacher2', 'teacher2')
-      console.log(ticket)
-      //////////////////////////////////////////////////////////////////////
-      const response = await instancesApi.fetchInstances('teacher1')
-      setState(response)
-    } catch (err) {
-      console.error(err)
-    }
-  }, [])
-
-  useEffect(() => {
-    handleInstancesGet()
-    const intervalId = setInterval(() => {
-      handleInstancesGet()
-    }, 60000)
-
-    return () => {
-      clearInterval(intervalId) // Clears the interval when the component is unmounted
-    }
-  }, [router.asPath])
-
-  useEffect(() => {
-    console.log(state)
-  }, [state])
-
-  return {
-    instances: state,
-  }
-}
-
 export const VmInstancePage: Page = withAuthGuard(() => {
-  const [selectedInstance, setSelectedInstance] = useState<Instance | null>(null)
-  const { instances } = useInstancesStore()
   return (
-    <>
+    <VmInstanceProvider>
       <HeaderBar iconSrc="/static/icons/server-black.png">VM Instance</HeaderBar>
       <Background>
         <StyledPaper>
           <Box pb={4}>
-            <Header selectedInstance={selectedInstance} />
+            <Header />
           </Box>
-          <InstanceTable instances={instances} onInstanceSelect={setSelectedInstance} />
+          <InstanceTable />
         </StyledPaper>
       </Background>
-    </>
+    </VmInstanceProvider>
   )
 })
 

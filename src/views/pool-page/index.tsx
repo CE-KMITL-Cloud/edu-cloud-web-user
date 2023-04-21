@@ -41,7 +41,7 @@ const usePoolsStore = () => {
     return () => {
       clearInterval(intervalId) // Clears the interval when the component is unmounted
     }
-  }, [router.asPath])
+  }, [handlePoolsGet, router.asPath])
 
   // useEffect(() => {
   //   console.log(state)
@@ -56,10 +56,6 @@ export const PoolPage: Page = withAuthGuard(() => {
   const [pools, setPools] = useState<Pool[]>([])
   const [selectedPool, setSelectedPool] = useState<Pool | null>(null)
   const [childState, setChildState] = useState<boolean>(false)
-
-  const handleChildState = (data: boolean) => {
-    setChildState(data)
-  }
 
   const handlePoolsGet = useCallback(async () => {
     try {
@@ -77,14 +73,7 @@ export const PoolPage: Page = withAuthGuard(() => {
       setChildState(false)
     }
     handlePoolsGet()
-    const intervalId = setInterval(() => {
-      handlePoolsGet()
-    }, 60000) // Fetches data every 3 seconds
-
-    return () => {
-      clearInterval(intervalId) // Clears the interval when the component is unmounted
-    }
-  }, [childState])
+  }, [childState, handlePoolsGet])
 
   return (
     <>
@@ -92,13 +81,13 @@ export const PoolPage: Page = withAuthGuard(() => {
       <Background>
         <StyledPaper>
           <Box pb={4}>
-            <Header updateParent={handleChildState} />
+            <Header updateParent={handlePoolsGet} />
           </Box>
           <PoolTable
             pools={pools}
             onPoolSelect={setSelectedPool}
             selectedPool={selectedPool}
-            updateParent={handleChildState}
+            updateParent={handlePoolsGet}
           />
         </StyledPaper>
       </Background>

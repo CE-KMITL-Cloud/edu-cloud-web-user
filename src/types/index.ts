@@ -17,3 +17,5 @@ export type JwtPayload = {
   iat: number
   isRefreshToken?: boolean
 }
+
+export type Role = 'admin' | 'student' | 'faculty'

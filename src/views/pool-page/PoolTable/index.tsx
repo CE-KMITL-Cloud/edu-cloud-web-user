@@ -23,7 +23,7 @@ interface PoolTableProps {
   onPoolSelect: (pool: Pool | null) => void
   selectedPool: Pool | null
 
-  updateParent: (state: boolean) => void
+  updateParent: () => void
 }
 
 export const PoolTable: FC<PoolTableProps> = (props) => {
@@ -54,25 +54,23 @@ export const PoolTable: FC<PoolTableProps> = (props) => {
           console.log(response)
           setWarning('Failed destroying pool.')
           setAlertModalOpen(true)
-          updateParent(false)
         } else {
           setWarning(null)
           setAlertModalOpen(false)
-          updateParent(true)
+          updateParent()
         }
       } catch (error) {
         // Handle the error here, e.g., showing an error message or logging the error
         console.error('Error:', error)
         setWarning('Failed destroying pool.')
         setAlertModalOpen(true)
-        updateParent(false)
       } finally {
         // After the API call, set the isLoading state to false and close the modal
         setIsLoading(false)
         setConfirmModalOpen(false)
         setWarning(null)
         setAlertModalOpen(false)
-        updateParent(true)
+        updateParent()
       }
     }
   }

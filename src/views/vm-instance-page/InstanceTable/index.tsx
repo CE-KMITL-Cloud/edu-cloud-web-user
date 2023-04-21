@@ -1,12 +1,13 @@
 import { IconButton, Table, TableBody, TableCell, TableRow } from '@mui/material'
 // import { useRouter } from 'next/router'
 import PropTypes from 'prop-types'
-import type { FC } from 'react'
-import { useRef, useState } from 'react'
+import { useRef } from 'react'
 
 import { consoleApi } from 'api/backend/service/console'
 
 import { CoreSvg } from 'components/core/CoreSvg'
+
+import { useVmInstanceContext } from 'contexts/vm-instance-page-context'
 
 // import { VncConsole } from 'components/common/VncConsole'
 import { Instance, InstanceSpec } from 'types/instance'
@@ -22,17 +23,12 @@ const RenderVmSpec = ({ spec }: { spec: InstanceSpec }) => {
   )
 }
 
-export interface InstanceTableProps {
-  instances?: Instance[]
-  onInstanceSelect: (instance: Instance | null) => void
-}
+export const InstanceTable = () => {
+  const { instances, selectedInstance, setSelectedInstance } = useVmInstanceContext()
 
-export const InstanceTable: FC<InstanceTableProps> = (props) => {
-  const { instances = [], onInstanceSelect } = props
   // const [url, setUrl] = useState('')
   // const router = useRouter()
   // const [ticket, setTicket] = useState('')
-  const [selectedInstance, setSelectedInstance] = useState<Instance | null>(null)
 
   const windowFeatures =
     'width=800, height=600, toolbar=no, menubar=no, scrollbars=no, resizable=yes, location=no, status=no'
@@ -97,7 +93,6 @@ export const InstanceTable: FC<InstanceTableProps> = (props) => {
             <StyledTableRow
               key={instance.vmid}
               onClick={() => {
-                onInstanceSelect(instance)
                 setSelectedInstance(instance)
                 console.log('Selected instance:', instance)
               }}
@@ -130,9 +125,4 @@ export const InstanceTable: FC<InstanceTableProps> = (props) => {
       </TableBody>
     </Table>
   )
-}
-
-InstanceTable.propTypes = {
-  instances: PropTypes.array,
-  onInstanceSelect: PropTypes.func.isRequired,
 }

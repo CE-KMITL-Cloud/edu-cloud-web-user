@@ -1,3 +1,4 @@
+import { observer } from 'mobx-react-lite'
 import PropTypes from 'prop-types'
 import type { FC } from 'react'
 import { useCallback, useMemo, useState } from 'react'
@@ -10,18 +11,18 @@ import { AlertModal } from 'components/common/AlertModal'
 import { ConfirmationModal } from 'components/common/ConfirmationModal'
 import { Item } from 'components/common/DropdownButton'
 
-import { Instance, InstancePropTypes } from 'types/instance'
+import { accountStore } from 'store/account-store'
+
+import { useVmInstanceContext } from 'contexts/vm-instance-page-context'
+
+import { InstancePropTypes } from 'types/instance'
 
 import { EditInstanceModal } from 'views/vm-instance-page/EditInstanceModal'
 
 import { ActionButtonStack } from './styled'
 
-interface ActionZoneProps {
-  selectedInstance: Instance | null
-}
-
-export const ActionZone: FC<ActionZoneProps> = (props) => {
-  const { selectedInstance } = props
+export const ActionZone: FC = observer(() => {
+  const { handleInstancesGet, selectedInstance } = useVmInstanceContext()
 
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [modalTitle, setModalTitle] = useState('')
@@ -86,11 +87,13 @@ export const ActionZone: FC<ActionZoneProps> = (props) => {
   }
 
   const confirmAction = async () => {
+    if (!accountStore.name) return
+
     if (selectedInstance) {
       // Set isLoading state to true before starting the API call
       setIsLoading(true)
 
-      const actionMapping: Record<string, () => Promise<any>> = {
+      const actionMapping: Record<string, Function> = {
         start: () => powerApi.startInstance('admin', selectedInstance.node, selectedInstance.vmid),
         stop: () => powerApi.stopInstance('admin', selectedInstance.node, selectedInstance.vmid),
         suspend: () => powerApi.suspendInstance('admin', selectedInstance.node, selectedInstance.vmid),
@@ -109,6 +112,7 @@ export const ActionZone: FC<ActionZoneProps> = (props) => {
           setAlertModalOpen(true)
         } else {
           setWarning(null)
+          handleInstancesGet(accountStore.name)
         }
       } catch (error) {
         // Handle the error here, e.g., showing an error message or logging the error
@@ -218,7 +222,7 @@ export const ActionZone: FC<ActionZoneProps> = (props) => {
       )}
     </ActionButtonStack>
   )
-}
+})
 
 ActionZone.propTypes = {
   selectedInstance: PropTypes.oneOfType([InstancePropTypes, PropTypes.oneOf([null])]),
