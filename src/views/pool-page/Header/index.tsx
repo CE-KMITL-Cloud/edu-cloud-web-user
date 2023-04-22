@@ -1,9 +1,14 @@
 import { Box, Button, Grid, Modal, TextField, Typography } from '@mui/material'
+import { observer } from 'mobx-react-lite'
 import { FC, useState } from 'react'
 
 import { poolsApi } from 'api/backend/service/pool'
 
 import { AlertModal } from 'components/common/AlertModal'
+
+import { accountStore } from 'store/account-store'
+
+import { usePoolContext } from 'contexts/pool-page-context'
 
 import { HeaderPaper, Root } from './styled'
 
@@ -13,21 +18,19 @@ interface FormData {
   owner: string
 }
 
-interface PoolHeaderProps {
-  updateParent: () => void
-}
+export const Header = observer(() => {
+  const { handlePoolsGet } = usePoolContext()
 
-export const Header: FC<PoolHeaderProps> = (props) => {
-  const { updateParent } = props
   const [open, setOpen] = useState(false)
   const [formData, setFormData] = useState<FormData>({ code: '', name: '', owner: '' })
   const [alertModalOpen, setAlertModalOpen] = useState(false)
   const [warning, setWarning] = useState<string | null>(null)
 
   const handleCreatePool = async () => {
+    if (!accountStore.name || !accountStore.role) return
     try {
-      // todo : replace sender
-      const response = await poolsApi.CreatePool('admin', formData.owner, formData.code, formData.name)
+      if (accountStore.role !== 'admin') formData.owner = accountStore.name
+      const response = await poolsApi.CreatePool(accountStore.name, formData.owner, formData.code, formData.name)
       if (!response.success) {
         console.log(response)
         setWarning('Failed creating pool.')
@@ -36,7 +39,7 @@ export const Header: FC<PoolHeaderProps> = (props) => {
         setWarning(null)
         setAlertModalOpen(false)
         handleClose()
-        updateParent()
+        handlePoolsGet(accountStore.name, accountStore.name)
       }
     } catch (error) {
       setWarning('Failed creating pool.')
@@ -120,18 +123,19 @@ export const Header: FC<PoolHeaderProps> = (props) => {
                     required
                   />
                 </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    fullWidth
-                    label="Enter Course owner"
-                    name="owner"
-                    value={formData.owner}
-                    onChange={handleChange}
-                    variant="outlined"
-                    required
-                    // readOnly={user.role !== 'admin'}
-                  />
-                </Grid>
+                {accountStore.role === 'admin' && (
+                  <Grid item xs={12}>
+                    <TextField
+                      fullWidth
+                      label="Enter Course owner"
+                      name="owner"
+                      value={formData.owner}
+                      onChange={handleChange}
+                      variant="outlined"
+                      required
+                    />
+                  </Grid>
+                )}
                 <AlertModal
                   open={alertModalOpen}
                   title="Error"
@@ -139,9 +143,14 @@ export const Header: FC<PoolHeaderProps> = (props) => {
                   onClose={() => setAlertModalOpen(false)}
                 />
                 <Grid item xs={12}>
-                  <Button type="submit" variant="contained" color="primary">
-                    Create
-                  </Button>
+                  <Grid container justifyContent={'flex-end'}>
+                    <Button onClick={handleClose} color="primary">
+                      Cancel
+                    </Button>
+                    <Button type="submit" variant="contained" color="primary">
+                      Create
+                    </Button>
+                  </Grid>
                 </Grid>
               </Grid>
             </form>
@@ -150,4 +159,4 @@ export const Header: FC<PoolHeaderProps> = (props) => {
       </HeaderPaper>
     </Root>
   )
-}
+})

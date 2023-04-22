@@ -17,7 +17,7 @@ import { accountStore } from 'store/account-store'
 import { Instance } from 'types/instance'
 
 export interface VmInstanceContextType {
-  instances: Instance[]
+  instances: Instance[] | null
   selectedInstance: Instance | null
   setSelectedInstance: Dispatch<SetStateAction<Instance | null>>
   handleInstancesGet: (username: string) => Promise<void>

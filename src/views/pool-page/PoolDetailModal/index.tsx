@@ -10,11 +10,17 @@ import {
   Grid,
 } from '@mui/material'
 import React from 'react'
+import { useState } from 'react'
 
-import { Pool } from 'types/pool'
+import { poolsApi } from 'api/backend/service/pool'
+
+import { accountStore } from 'store/account-store'
+
+import { usePoolContext } from 'contexts/pool-page-context'
 
 import { PoolBasicDetails } from '../PoolBasicDetail'
 import { PoolMemberTable } from '../PoolMemberTable'
+import { PoolVmTable } from '../PoolVmTable'
 
 interface PoolDetailModalProps {
   isOpen: boolean
@@ -23,12 +29,47 @@ interface PoolDetailModalProps {
   id?: string
   onConfirm: (values: string[] | null) => void
   onClose: () => void
-  pool: Pool | null
 }
 
-export const PoolDetailModal: React.FC<PoolDetailModalProps> = ({ isOpen, onClose, pool }) => {
+export const PoolDetailModal: React.FC<PoolDetailModalProps> = ({ isOpen, onClose }) => {
+  const { selectedPool, handlePoolsGet } = usePoolContext()
+  const [editMode, setEditMode] = useState(false)
+  const [selectedMembers, setSelectedMembers] = useState<string[]>([])
+
+  const handleSelectedChange = (selectedMembers: string[]) => {
+    setSelectedMembers(selectedMembers)
+  }
+
   const handleCancel = () => {
     onClose()
+    setEditMode(false)
+  }
+
+  const handleSave = async (selectedMembers: string[]) => {
+    if (!accountStore.name) return
+    if (selectedPool) {
+      try {
+        const response = await poolsApi.AddMembersPool(
+          accountStore.name,
+          selectedPool.Owner,
+          selectedPool.Code,
+          selectedMembers, // Assuming your API takes the updated selected members as a parameter
+        )
+        console.log(response)
+        // Update the members state
+      } catch (error) {
+        console.error('Error updating members:', error)
+      }
+    }
+  }
+
+  const handleEditMode = () => {
+    setEditMode(!editMode)
+    if (editMode) {
+      // Call onSave from prop, passing the selected members
+      handleSave(selectedMembers)
+      handleCancel()
+    }
   }
 
   return (
@@ -37,7 +78,7 @@ export const PoolDetailModal: React.FC<PoolDetailModalProps> = ({ isOpen, onClos
       onClose={handleCancel}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
-      maxWidth="lg" // Set modal max width to large
+      maxWidth="md" // Set modal max width to large
       fullWidth={true} // Make it take the full available width
       PaperProps={{ style: { backgroundColor: '#F2F3F5' } }}
     >
@@ -45,12 +86,14 @@ export const PoolDetailModal: React.FC<PoolDetailModalProps> = ({ isOpen, onClos
         <Grid container spacing={2}>
           {/* Left-hand side card */}
           <Grid item xs={12} md={3}>
-            <PoolBasicDetails pool={pool} />
+            <PoolBasicDetails />
           </Grid>
           {/* Right-hand side content */}
           <Grid item xs={12} md={9}>
             <DialogContentText id="alert-dialog-description">
-              <PoolMemberTable pool={pool} />
+              <PoolMemberTable editMode={editMode} onSelectedChange={handleSelectedChange} />
+              <br></br>
+              <PoolVmTable />
             </DialogContentText>
           </Grid>
         </Grid>
@@ -59,6 +102,7 @@ export const PoolDetailModal: React.FC<PoolDetailModalProps> = ({ isOpen, onClos
         <Button onClick={handleCancel} color="primary">
           Cancel
         </Button>
+        <Button onClick={handleEditMode}>{editMode ? 'Save' : 'Edit member'}</Button>
       </DialogActions>
     </Dialog>
   )

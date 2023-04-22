@@ -1,6 +1,4 @@
 import { IconButton, Table, TableBody, TableCell, TableRow } from '@mui/material'
-// import { useRouter } from 'next/router'
-import PropTypes from 'prop-types'
 import { useRef } from 'react'
 
 import { consoleApi } from 'api/backend/service/console'
@@ -26,10 +24,6 @@ const RenderVmSpec = ({ spec }: { spec: InstanceSpec }) => {
 export const InstanceTable = () => {
   const { instances, selectedInstance, setSelectedInstance } = useVmInstanceContext()
 
-  // const [url, setUrl] = useState('')
-  // const router = useRouter()
-  // const [ticket, setTicket] = useState('')
-
   const windowFeatures =
     'width=800, height=600, toolbar=no, menubar=no, scrollbars=no, resizable=yes, location=no, status=no'
 
@@ -53,12 +47,6 @@ export const InstanceTable = () => {
       }
     }
   }
-  // const navigateToVMConsole = (url: string) => {
-  //   router.push({
-  //     pathname: '/vm-console',
-  //     query: { url },
-  //   })
-  // }
 
   const handleButtonClick = async (instance: Instance) => {
     console.log('Clicked row data:', instance)
@@ -66,8 +54,6 @@ export const InstanceTable = () => {
       const response = await consoleApi.fetchConsoleVM(instance.node, `${instance.vmid}`, 'admin')
       // const response = await consoleApi.vncProxy('admin', instance.node, instance.vmid)
       console.log(response)
-      // setTicket(response.ticket)
-      // navigateToVMConsole(response)
       openNewWindow(response)
     } catch (error) {
       console.log(error)
@@ -87,8 +73,7 @@ export const InstanceTable = () => {
         </TableRow>
       </StyledTableHead>
       <TableBody>
-        {/* <div>{ticket && <VncConsole ticket={ticket} url={url} />}</div> */}
-        {instances.map((instance: Instance) => {
+        {instances?.map((instance: Instance) => {
           return (
             <StyledTableRow
               key={instance.vmid}

@@ -1,6 +1,4 @@
 import { observer } from 'mobx-react-lite'
-import PropTypes from 'prop-types'
-import type { FC } from 'react'
 import { useCallback, useMemo, useState } from 'react'
 
 import { instancesApi } from 'api/backend/service/instance'
@@ -15,13 +13,11 @@ import { accountStore } from 'store/account-store'
 
 import { useVmInstanceContext } from 'contexts/vm-instance-page-context'
 
-import { InstancePropTypes } from 'types/instance'
-
 import { EditInstanceModal } from 'views/vm-instance-page/EditInstanceModal'
 
 import { ActionButtonStack } from './styled'
 
-export const ActionZone: FC = observer(() => {
+export const ActionZone = observer(() => {
   const { handleInstancesGet, selectedInstance } = useVmInstanceContext()
 
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -32,11 +28,11 @@ export const ActionZone: FC = observer(() => {
   const [warning, setWarning] = useState<string | null>(null)
   const [alertModalOpen, setAlertModalOpen] = useState(false)
 
-  const openModalWithAction = (action: string) => {
+  const openModalWithAction = useCallback((action: string) => {
     setModalTitle(`Confirm ${action}`)
     setSelectedAction(action)
     setIsModalOpen(true)
-  }
+  }, [])
 
   const onClickItemHandler = useCallback(
     (action: string) => {
@@ -54,12 +50,14 @@ export const ActionZone: FC = observer(() => {
   }, [selectedInstance])
 
   const handleConfirmEdit = async (submittedValues: number[] | null) => {
+    if (!accountStore.name) return
+
     if (selectedInstance && submittedValues !== null) {
       // Set isLoading state to true before starting the API call
       setIsLoading(true)
       try {
         const response = await instancesApi.editInstance(
-          'admin',
+          accountStore.name,
           selectedInstance.node,
           selectedInstance.vmid,
           submittedValues[0],
@@ -88,20 +86,21 @@ export const ActionZone: FC = observer(() => {
 
   const confirmAction = async () => {
     if (!accountStore.name) return
-
     if (selectedInstance) {
       // Set isLoading state to true before starting the API call
       setIsLoading(true)
 
+      const sender = accountStore.name ?? ''
+
       const actionMapping: Record<string, Function> = {
-        start: () => powerApi.startInstance('admin', selectedInstance.node, selectedInstance.vmid),
-        stop: () => powerApi.stopInstance('admin', selectedInstance.node, selectedInstance.vmid),
-        suspend: () => powerApi.suspendInstance('admin', selectedInstance.node, selectedInstance.vmid),
-        resume: () => powerApi.resumeInstance('admin', selectedInstance.node, selectedInstance.vmid),
-        reset: () => powerApi.resetInstance('admin', selectedInstance.node, selectedInstance.vmid),
-        shutdown: () => powerApi.shutdownInstance('admin', selectedInstance.node, selectedInstance.vmid),
-        template: () => instancesApi.createTemplate('admin', selectedInstance.node, selectedInstance.vmid),
-        destroy: () => instancesApi.destroyInstance('admin', selectedInstance.node, selectedInstance.vmid),
+        start: () => powerApi.startInstance(sender, selectedInstance.node, selectedInstance.vmid),
+        stop: () => powerApi.stopInstance(sender, selectedInstance.node, selectedInstance.vmid),
+        suspend: () => powerApi.suspendInstance(sender, selectedInstance.node, selectedInstance.vmid),
+        resume: () => powerApi.resumeInstance(sender, selectedInstance.node, selectedInstance.vmid),
+        reset: () => powerApi.resetInstance(sender, selectedInstance.node, selectedInstance.vmid),
+        shutdown: () => powerApi.shutdownInstance(sender, selectedInstance.node, selectedInstance.vmid),
+        template: () => instancesApi.createTemplate(sender, selectedInstance.node, selectedInstance.vmid),
+        destroy: () => instancesApi.destroyInstance(sender, selectedInstance.node, selectedInstance.vmid),
       }
 
       try {
@@ -223,7 +222,3 @@ export const ActionZone: FC = observer(() => {
     </ActionButtonStack>
   )
 })
-
-ActionZone.propTypes = {
-  selectedInstance: PropTypes.oneOfType([InstancePropTypes, PropTypes.oneOf([null])]),
-}

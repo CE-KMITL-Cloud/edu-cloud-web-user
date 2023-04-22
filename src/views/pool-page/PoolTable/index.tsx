@@ -1,8 +1,8 @@
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import { IconButton, Table, TableBody, TableCell, TableRow } from '@mui/material'
-import PropTypes from 'prop-types'
-import { FC, useEffect } from 'react'
+import { observer } from 'mobx-react-lite'
+import { useEffect } from 'react'
 import { useState } from 'react'
 
 import { poolsApi } from 'api/backend/service/pool'
@@ -12,22 +12,19 @@ import { ConfirmationModal } from 'components/common/ConfirmationModal'
 import { SeverityPill } from 'components/common/ServerityPill'
 import { SeverityPillColor } from 'components/common/ServerityPill/styled'
 
+import { accountStore } from 'store/account-store'
+
+import { usePoolContext } from 'contexts/pool-page-context'
+
 import { Pool } from 'types/pool'
 
 import { PoolDetailModal } from '../PoolDetailModal'
 import { TableTextCell } from './TableCell'
 import { Center, StyledTableHead, StyledTableRow } from './styled'
 
-interface PoolTableProps {
-  pools?: Pool[]
-  onPoolSelect: (pool: Pool | null) => void
-  selectedPool: Pool | null
+export const PoolTable = observer(() => {
+  const { pools, selectedPool, setSelectedPool, handlePoolsGet } = usePoolContext()
 
-  updateParent: () => void
-}
-
-export const PoolTable: FC<PoolTableProps> = (props) => {
-  const { pools = [], onPoolSelect, selectedPool, updateParent } = props
   const [alertModalOpen, setAlertModalOpen] = useState(false)
   const [warning, setWarning] = useState<string | null>(null)
 
@@ -46,10 +43,11 @@ export const PoolTable: FC<PoolTableProps> = (props) => {
   }
 
   const handleConfirmDestroy = async () => {
+    if (!accountStore.name) return
     if (selectedPool !== null) {
       setIsLoading(true)
       try {
-        const response = await poolsApi.DeletePool('admin', selectedPool.Owner, selectedPool.Code)
+        const response = await poolsApi.DeletePool(accountStore.name, selectedPool.Owner, selectedPool.Code)
         if (!response.success) {
           console.log(response)
           setWarning('Failed destroying pool.')
@@ -57,7 +55,7 @@ export const PoolTable: FC<PoolTableProps> = (props) => {
         } else {
           setWarning(null)
           setAlertModalOpen(false)
-          updateParent()
+          handlePoolsGet(accountStore.name, accountStore.name)
         }
       } catch (error) {
         // Handle the error here, e.g., showing an error message or logging the error
@@ -70,7 +68,7 @@ export const PoolTable: FC<PoolTableProps> = (props) => {
         setConfirmModalOpen(false)
         setWarning(null)
         setAlertModalOpen(false)
-        updateParent()
+        handlePoolsGet(accountStore.name, accountStore.name)
       }
     }
   }
@@ -91,18 +89,14 @@ export const PoolTable: FC<PoolTableProps> = (props) => {
         </TableRow>
       </StyledTableHead>
       <TableBody>
-        {pools.map((pool: Pool) => {
+        {pools?.map((pool: Pool) => {
           const pillColor: SeverityPillColor = pool.Status ? 'success' : 'error'
           const pillText: string = pool.Status ? 'active' : 'inactive'
           return (
             <StyledTableRow
               key={pool.ID}
               onClick={() => {
-                onPoolSelect(pool)
-              }}
-              style={{
-                cursor: 'pointer',
-                backgroundColor: selectedPool?.ID === pool.ID ? '#f3f3f3' : '',
+                setSelectedPool(pool)
               }}
             >
               <TableCell>{pool.Code}</TableCell>
@@ -149,13 +143,7 @@ export const PoolTable: FC<PoolTableProps> = (props) => {
         onClose={() => {
           setDetailModalOpen(false)
         }}
-        pool={selectedPool}
       />
     </Table>
   )
-}
-
-PoolTable.propTypes = {
-  pools: PropTypes.array.isRequired,
-  onPoolSelect: PropTypes.func.isRequired,
-}
+})

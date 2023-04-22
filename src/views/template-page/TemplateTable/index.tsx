@@ -1,12 +1,13 @@
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
+import GroupAddIcon from '@mui/icons-material/GroupAdd'
 import NoteAddIcon from '@mui/icons-material/NoteAdd'
 import { IconButton, Table, TableBody, TableCell, TableRow } from '@mui/material'
+import { observer } from 'mobx-react-lite'
 import { useRouter } from 'next/router'
-import PropTypes from 'prop-types'
-import type { FC } from 'react'
 import { useEffect, useState } from 'react'
 
 import { instancesApi } from 'api/backend/service/instance'
+import { poolsApi } from 'api/backend/service/pool'
 
 import { CoreSvg } from 'components/core/CoreSvg'
 
@@ -15,29 +16,21 @@ import { ConfirmationModal } from 'components/common/ConfirmationModal'
 
 import { paths } from 'routes/paths'
 
+import { accountStore } from 'store/account-store'
+
+import { useVmTemplateContext } from 'contexts/vm-template-page-context'
+
 import { Instance, InstanceSpec } from 'types/instance'
+import { Pool } from 'types/pool'
 
 import { CloneInstanceModal } from 'views/template-page/CloneInstanceModal'
 
+import { AddToPoolModal } from '../AddToPoolModal'
 import { TableTextCell } from './TableCell'
 import { Center, StyledTableHead, StyledTableRow } from './styled'
 
-const RenderVmSpec = ({ spec }: { spec: InstanceSpec }) => {
-  return (
-    <>
-      {spec.maxcpu} vCPU, RAM {spec.maxmem / 1073741824} GB <br /> Disk size : {spec.maxdisk / 1073741824} GB
-    </>
-  )
-}
-
-interface TemplateTableProps {
-  templates?: Instance[]
-  onTemplateSelect: (instance: Instance | null) => void
-}
-
-export const TemplateTable: FC<TemplateTableProps> = (props) => {
-  const { templates = [], onTemplateSelect } = props
-  const [selectedTemplate, setSelectedTemplate] = useState<Instance | null>(null)
+export const TemplateTable = observer(() => {
+  const { templates, selectedTemplate, setSelectedTemplate, handleTemplatesGet } = useVmTemplateContext()
 
   const [alertModalOpen, setAlertModalOpen] = useState(false)
   const [warning, setWarning] = useState<string | null>(null)
@@ -46,6 +39,7 @@ export const TemplateTable: FC<TemplateTableProps> = (props) => {
 
   const [confirmModalOpen, setConfirmModalOpen] = useState(false)
   const [formModalOpen, setFormModalOpen] = useState(false)
+  const [formAddModalOpen, setFormAddModalOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
 
   const handleOpenConfirmModal = () => {
@@ -56,12 +50,26 @@ export const TemplateTable: FC<TemplateTableProps> = (props) => {
     setFormModalOpen(true)
   }
 
+  const handleOpenFormAddModal = () => {
+    setFormAddModalOpen(true)
+  }
+
+  const RenderVmSpec = ({ spec }: { spec: InstanceSpec }) => {
+    return (
+      <>
+        {spec.maxcpu} vCPU, RAM {spec.maxmem / 1073741824} GB <br /> Disk size : {spec.maxdisk / 1073741824} GB
+      </>
+    )
+  }
+
   const handleConfirmClone = async (submittedValues: string[] | null) => {
+    if (!accountStore.name) return
+
     if (selectedTemplate && submittedValues !== null) {
       setIsLoading(true)
       try {
         const response = await instancesApi.cloneInstance(
-          'teacher1',
+          accountStore.name,
           selectedTemplate.node,
           selectedTemplate.vmid,
           submittedValues[0],
@@ -96,41 +104,78 @@ export const TemplateTable: FC<TemplateTableProps> = (props) => {
     if (navigate) {
       router.push(paths.vmInstance)
     }
-  }, [navigate])
+  }, [navigate, router])
+
+  const handleConfirmAddToPool = async (pool: Pool | null) => {
+    if (!accountStore.name) return
+
+    if (selectedTemplate && pool !== null) {
+      setIsLoading(true)
+      try {
+        const response = await poolsApi.AddInstancePool(
+          accountStore.name,
+          accountStore.name,
+          pool.Code,
+          selectedTemplate.vmid,
+        )
+        if (!response.success) {
+          console.log(response)
+          setWarning('Failed add template to pool.')
+          setAlertModalOpen(true)
+        } else {
+          setWarning(null)
+        }
+      } catch (error) {
+        // Handle the error here, e.g., showing an error message or logging the error
+        setWarning('Failed add template to pool.')
+        setAlertModalOpen(true)
+        console.error('Error:', error)
+      } finally {
+        // After the API call, set the isLoading state to false and close the modal
+        setIsLoading(false)
+        setFormAddModalOpen(false)
+      }
+    }
+  }
 
   const handleConfirmDestroy = async () => {
+    if (!accountStore.name) return
+
     if (selectedTemplate !== null) {
       setIsLoading(true)
       try {
-        const response = await instancesApi.destroyInstance('admin', selectedTemplate.node, selectedTemplate.vmid)
+        const response = await instancesApi.destroyInstance(
+          accountStore.name,
+          selectedTemplate.node,
+          selectedTemplate.vmid,
+        )
         if (!response.success) {
           console.log(response)
           setWarning('Failed destroying VM.')
           setAlertModalOpen(true)
-          setNavigate(false)
         } else {
           setWarning(null)
-          setNavigate(true)
+          handleTemplatesGet(accountStore.name)
         }
       } catch (error) {
         // Handle the error here, e.g., showing an error message or logging the error
         console.error('Error:', error)
         setWarning('Failed destroying VM.')
         setAlertModalOpen(true)
-        setNavigate(false)
       } finally {
         // After the API call, set the isLoading state to false and close the modal
         setIsLoading(false)
-        setConfirmModalOpen(false)
       }
     }
   }
 
-  const handleButtonClick = (type: 'confirm' | 'form') => {
+  const handleButtonClick = (type: 'confirm' | 'form' | 'add') => {
     if (type === 'confirm') {
       handleOpenConfirmModal()
     } else if (type === 'form') {
       handleOpenFormModal()
+    } else if (type === 'add') {
+      handleOpenFormAddModal()
     }
   }
 
@@ -146,19 +191,13 @@ export const TemplateTable: FC<TemplateTableProps> = (props) => {
         </TableRow>
       </StyledTableHead>
       <TableBody>
-        {templates.map((template: Instance) => {
-          console.log('template :', template)
+        {templates?.map((template: Instance) => {
           return (
             <StyledTableRow
               key={template.id}
               onClick={() => {
-                onTemplateSelect(template)
                 setSelectedTemplate(template)
-                console.log('Selected instance:', template)
-              }}
-              style={{
-                cursor: 'pointer',
-                backgroundColor: selectedTemplate?.vmid === template.vmid ? '#f3f3f3' : '',
+                console.log('Selected template:', template)
               }}
             >
               <TableCell>
@@ -177,6 +216,13 @@ export const TemplateTable: FC<TemplateTableProps> = (props) => {
                     <NoteAddIcon />
                   </Center>
                 </IconButton>
+                {![8000, 8001, 8002, 8003].includes(template.vmid) && (
+                  <IconButton onClick={() => handleButtonClick('add')}>
+                    <Center>
+                      <GroupAddIcon />
+                    </Center>
+                  </IconButton>
+                )}
                 {![8000, 8001, 8002, 8003].includes(template.vmid) && (
                   <IconButton onClick={() => handleButtonClick('confirm')}>
                     <Center>
@@ -198,6 +244,15 @@ export const TemplateTable: FC<TemplateTableProps> = (props) => {
         onConfirm={handleConfirmDestroy}
         onClose={() => setConfirmModalOpen(false)}
       />
+      <AddToPoolModal
+        isOpen={formAddModalOpen}
+        isLoading={isLoading}
+        title="Confirm add template to pool"
+        id={selectedTemplate?.id}
+        onConfirm={handleConfirmAddToPool}
+        onClose={() => setFormAddModalOpen(false)}
+        sender={accountStore.name}
+      />
       <CloneInstanceModal
         isOpen={formModalOpen}
         isLoading={isLoading}
@@ -209,8 +264,4 @@ export const TemplateTable: FC<TemplateTableProps> = (props) => {
       />
     </Table>
   )
-}
-
-TemplateTable.propTypes = {
-  templates: PropTypes.array,
-}
+})

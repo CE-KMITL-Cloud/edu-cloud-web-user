@@ -1,7 +1,4 @@
 import { Box } from '@mui/material'
-import { useCallback, useEffect, useState } from 'react'
-
-import { instancesApi } from 'api/backend/service/instance'
 
 import { MainLayout } from 'layouts/MainLayout'
 

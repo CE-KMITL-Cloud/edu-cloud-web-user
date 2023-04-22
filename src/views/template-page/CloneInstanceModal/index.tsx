@@ -9,7 +9,7 @@ import {
   Select,
   TextField,
 } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 
 import { clusterApi } from 'api/backend/service/cluster'
 
@@ -20,7 +20,7 @@ interface CloneInstanceModalProps {
   id?: string
   onConfirm: (values: string[] | null) => void
   onClose: () => void
-  initialValues: (string | undefined)[]
+  initialValues: string[]
 }
 
 export const CloneInstanceModal: React.FC<CloneInstanceModalProps> = ({
@@ -37,23 +37,31 @@ export const CloneInstanceModal: React.FC<CloneInstanceModalProps> = ({
   const labels = ['Hostname', '', "Cloud-init's username", "Cloud-init's password"]
   const [options, setOptions] = useState<string[]>([])
 
-  useEffect(() => {
-    const fetchOptions = async () => {
-      try {
-        const response = await clusterApi.fetchStorages() // Sample data for testing
-        setOptions(response)
-      } catch (error) {
-        console.error('Error fetching options:', error)
-      }
-    }
+  const handleInputChange = useCallback(
+    (index: number, value: string) => {
+      const newValues = [...values]
+      newValues[index] = value
+      setValues(newValues)
+    },
+    [values],
+  )
 
-    fetchOptions()
+  useEffect(() => {
+    clusterApi
+      .fetchStorages()
+      .then((response) => {
+        setOptions(response)
+      })
+      .catch((error) => {
+        console.error('Error fetching options:', error)
+      })
   }, [])
 
   useEffect(() => {
     if (options.length > 0) {
       handleInputChange(1, options[0])
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [options])
 
   const handleConfirm = () => {
@@ -62,12 +70,6 @@ export const CloneInstanceModal: React.FC<CloneInstanceModalProps> = ({
 
   const handleCancel = () => {
     onClose()
-  }
-
-  const handleInputChange = (index: number, value: string) => {
-    const newValues = [...values]
-    newValues[index] = value
-    setValues(newValues)
   }
 
   const handleSubmit = (event: React.FormEvent) => {
