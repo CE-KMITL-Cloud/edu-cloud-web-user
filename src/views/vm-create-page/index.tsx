@@ -9,6 +9,7 @@ import { MainLayout } from 'layouts/MainLayout'
 
 import { AlertModal } from 'components/common/AlertModal'
 import { HeaderBar } from 'components/common/HeaderBar'
+import { StretchContainer } from 'components/common/StretchContainer'
 
 import { paths } from 'routes/paths'
 
@@ -112,44 +113,51 @@ export const VMCreatePage: Page = () => {
   return (
     <>
       <HeaderBar iconSrc="/static/icons/server-black.png">Create VM</HeaderBar>
-      <Contents>
-        <Section>
-          <HostnameCard onHostnameChange={handleHostnameChange} />
-          <StarterCard onDataChange={(data) => setSpec(data)} defaultIndex={0} />
-          {/* <OSCard /> */}
-          <TempOsCard os={os} onOsOptionSelect={handleOsOptionSelect} />
-          <StorageCard storages={storages} onStorageOptionSelect={handleStorageOptionSelect} />
-        </Section>
-        <Aside>
-          <SummaryCard
-            hostname={hostname}
-            cpu={spec[0]}
-            ram={spec[1]}
-            disk={spec[2]}
-            cdrom={selectedOs}
-            storage={selectedStorage}
-          />
-          <AlertModal open={alertModalOpen} title="Error" message={warning} onClose={() => setAlertModalOpen(false)} />
-          <Button
-            variant="contained"
-            color="success"
-            size="medium"
-            onClick={() => {
-              handleCreateInstance({
-                name: hostname,
-                cdrom: selectedOs, // ! please integrate with component
-                cores: spec[0],
-                memory: spec[1] * 1024,
-                disk: `${spec[2]}`,
-                storage: selectedStorage,
-              })
-            }}
-            disabled={loading}
-          >
-            {loading ? 'Loading...' : 'Create instance'}
-          </Button>
-        </Aside>
-      </Contents>
+      <StretchContainer>
+        <Contents>
+          <Section>
+            <HostnameCard onHostnameChange={handleHostnameChange} />
+            <StarterCard onDataChange={(data) => setSpec(data)} defaultIndex={0} />
+            {/* <OSCard /> */}
+            <TempOsCard os={os} onOsOptionSelect={handleOsOptionSelect} />
+            <StorageCard storages={storages} onStorageOptionSelect={handleStorageOptionSelect} />
+          </Section>
+          <Aside>
+            <SummaryCard
+              hostname={hostname}
+              cpu={spec[0]}
+              ram={spec[1]}
+              disk={spec[2]}
+              cdrom={selectedOs}
+              storage={selectedStorage}
+            />
+            <AlertModal
+              open={alertModalOpen}
+              title="Error"
+              message={warning}
+              onClose={() => setAlertModalOpen(false)}
+            />
+            <Button
+              variant="contained"
+              color="success"
+              size="medium"
+              onClick={() => {
+                handleCreateInstance({
+                  name: hostname,
+                  cdrom: selectedOs, // ! please integrate with component
+                  cores: spec[0],
+                  memory: spec[1] * 1024,
+                  disk: `${spec[2]}`,
+                  storage: selectedStorage,
+                })
+              }}
+              disabled={loading}
+            >
+              {loading ? 'Loading...' : 'Create instance'}
+            </Button>
+          </Aside>
+        </Contents>
+      </StretchContainer>
     </>
   )
 }
