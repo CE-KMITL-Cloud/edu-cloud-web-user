@@ -8,7 +8,11 @@ export const paths = {
   dashboard: '/dashboard',
   createInstance: '/create-instance',
   vmInstance: '/vm-instance',
-  vmTemplate: '/vm-template',
+  vmCreate: '/vm-create',
+  pool: '/pool',
+  template: '/template',
+  // vmConsole: '/vm-console',
+  user: '/user-management',
 
   // * Status
   401: '/401',

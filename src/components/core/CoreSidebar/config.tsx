@@ -1,3 +1,5 @@
+import GroupIcon from '@mui/icons-material/Group'
+import PersonIcon from '@mui/icons-material/Person'
 import { SvgIcon } from '@mui/material'
 import { type ReactNode, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -52,10 +54,28 @@ export const useSections = () => {
           },
           {
             title: t(sidebar.vmTemplate),
-            path: paths.vmTemplate,
+            path: paths.template,
             icon: (
               <SvgIcon fontSize="small">
                 <BuildingIcon />
+              </SvgIcon>
+            ),
+          },
+          {
+            title: 'Resource Pool',
+            path: paths.pool,
+            icon: (
+              <SvgIcon fontSize="small">
+                <GroupIcon />
+              </SvgIcon>
+            ),
+          },
+          {
+            title: 'User Management',
+            path: paths.user,
+            icon: (
+              <SvgIcon fontSize="small">
+                <PersonIcon />
               </SvgIcon>
             ),
           },

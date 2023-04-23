@@ -1,2 +1,2 @@
 export { httpClient } from './httpClient'
-export { httpAuthClient } from './httpAuthClient'
+export { httpAuthClient, httpUnauthClient } from './httpAuthClient'

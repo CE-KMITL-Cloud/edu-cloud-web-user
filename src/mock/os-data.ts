@@ -2,7 +2,7 @@ import { OSBoxProps } from 'components/common/OSBox'
 
 import { Os } from 'types/enums'
 
-import { OsItemCardProps } from 'views/vm-template-page/StarterCard/Item'
+import { OsItemCardProps } from 'views/vm-create-page/StarterCard/Item'
 
 export const osMockData: OSBoxProps[] = [
   {
@@ -27,44 +27,44 @@ export const osStarterMockData: Array<OsItemCardProps & { id: string }> = [
     id: 's',
     size: 's',
     spec: {
-      vCPUs: 1,
-      RAM: 1,
-      storage: '20GB SSD',
+      vCPUs: 2,
+      RAM: 2,
+      storage: 30,
     },
   },
   {
     id: 'm',
     size: 'm',
     spec: {
-      vCPUs: 1,
-      RAM: 2,
-      storage: '30GB SSD',
+      vCPUs: 4,
+      RAM: 4,
+      storage: 30,
     },
   },
   {
     id: 'l',
     size: 'l',
     spec: {
-      vCPUs: 2,
-      RAM: 2,
-      storage: '40GB SSD',
+      vCPUs: 4,
+      RAM: 8,
+      storage: 30,
     },
   },
   {
     id: 'xl',
     size: 'xl',
     spec: {
-      vCPUs: 2,
-      RAM: 4,
-      storage: '60GB SSD',
-    },
-  },
-  {
-    id: 'something',
-    spec: {
       vCPUs: 8,
-      RAM: 24,
-      storage: '512GB SSD',
+      RAM: 16,
+      storage: 30,
     },
   },
+  // {
+  //   id: 'something',
+  //   spec: {
+  //     vCPUs: 8,
+  //     RAM: 24,
+  //     storage: 512,
+  //   },
+  // },
 ]

@@ -1,1 +1,1 @@
-export const needBackend = false
+export const needBackend = true

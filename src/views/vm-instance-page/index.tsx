@@ -7,7 +7,7 @@ import { StretchContainer } from 'components/common/StretchContainer'
 
 import { withAuthGuard } from 'components/hocs/with-auth-guard'
 
-import { mockVmInstances } from 'mock/vm-instance'
+import { VmInstanceProvider } from 'contexts/vm-instance-page-context'
 
 import { Page } from 'types/page'
 
@@ -18,7 +18,7 @@ import { Background, ScreenFlex, StyledPaper } from './styled'
 
 export const VmInstancePage: Page = withAuthGuard(() => {
   return (
-    <>
+    <VmInstanceProvider>
       <HeaderBar iconSrc="/static/icons/server-black.png">VM Instance</HeaderBar>
       <Background>
         <StretchContainer>
@@ -26,11 +26,17 @@ export const VmInstancePage: Page = withAuthGuard(() => {
             <Box pb={4}>
               <Header />
             </Box>
-            <InstanceTable instances={mockVmInstances} />
+            <InstanceTable />
           </StyledPaper>
         </StretchContainer>
+        <StyledPaper>
+          <Box pb={4}>
+            <Header />
+          </Box>
+          <InstanceTable />
+        </StyledPaper>
       </Background>
-    </>
+    </VmInstanceProvider>
   )
 })
 
