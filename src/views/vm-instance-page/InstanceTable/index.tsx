@@ -1,7 +1,7 @@
 import { IconButton, Table, TableBody, TableCell, TableRow } from '@mui/material'
 import { useRef } from 'react'
 
-import { consoleApi } from 'api/backend/service/console'
+import { consoleApi } from 'api/backend/app/console'
 
 import { CoreSvg } from 'components/core/CoreSvg'
 

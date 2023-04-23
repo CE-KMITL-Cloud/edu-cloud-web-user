@@ -11,18 +11,18 @@ const ChangeLanguageEffect = ({ children }: Props) => {
 
   const [isI18nReady, setIsI18nReady] = useState<boolean>(false)
 
-  const { i18n } = useTranslation()
+  const { i18n: i18nBase } = useTranslation()
 
   const changeLangauge = useCallback(async () => {
-    await i18n.changeLanguage(router.locale)
+    await i18nBase.changeLanguage(router.locale)
     setIsI18nReady(true)
-  }, [router.locale])
+  }, [i18nBase, router.locale])
 
   useEffect(() => {
     changeLangauge()
   }, [changeLangauge])
 
-  if (i18n.isInitialized && isI18nReady) return <>{children}</>
+  if (i18nBase.isInitialized && isI18nReady) return <>{children}</>
 
   return null
 }

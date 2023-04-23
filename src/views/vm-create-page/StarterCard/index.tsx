@@ -30,7 +30,7 @@ export const StarterCard = ({ onDataChange, defaultIndex = 0 }: StarterCardProps
       onDataChange?.([defaultOs.spec.vCPUs, defaultOs.spec.RAM, defaultOs.spec.storage])
       initialSelected.current = true
     }
-  }, [osStarterMockData, defaultIndex, onDataChange])
+  }, [defaultIndex, onDataChange])
 
   return (
     <TemplateCard HeaderText="Starter" glowing={true}>

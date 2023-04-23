@@ -1,8 +1,8 @@
 import { observer } from 'mobx-react-lite'
 import { useCallback, useMemo, useState } from 'react'
 
-import { instancesApi } from 'api/backend/service/instance'
-import { powerApi } from 'api/backend/service/power'
+import { instancesApi } from 'api/backend/app/instance'
+import { powerApi } from 'api/backend/app/power'
 
 import { ActionDropdownButton } from 'components/common/ActionDropdownButton'
 import { AlertModal } from 'components/common/AlertModal'

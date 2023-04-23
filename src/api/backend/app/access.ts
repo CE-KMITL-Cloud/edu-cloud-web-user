@@ -1,4 +1,4 @@
-import { httpClient } from 'api/httpClient'
+import { httpAppClient } from 'api/httpClient'
 
 class AccessApi {
   public async fetchTicket(
@@ -14,7 +14,7 @@ class AccessApi {
         username: username,
         password: password,
       }
-      const response = await httpClient.post(`/access/ticket`, requestBody, {
+      const response = await httpAppClient.post(`/access/ticket`, requestBody, {
         withCredentials: true,
       })
       return { success: true, message: response.data.message }

@@ -1,7 +1,7 @@
 import { Box, Button, Grid, Modal, TextField, Typography } from '@mui/material'
 import { useState } from 'react'
 
-import { poolsApi } from 'api/backend/service/pool'
+import { poolsApi } from 'api/backend/app/pool'
 
 import { HeaderPaper, Root } from './styled'
 

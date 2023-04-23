@@ -1,19 +1,14 @@
 import axios from 'axios'
 import axiosRetry from 'axios-retry'
 
-import { AUTH_BACKEND_URL } from 'constants/constants'
+import { SERVICE_BACKEND_URL } from 'constants/constants'
 import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from 'constants/storageKey'
 
 import { authService } from 'services/auth-service'
 
-const httpUnauthClient = axios.create({
-  baseURL: AUTH_BACKEND_URL,
-  timeout: 5000,
-})
-
 const httpAuthClient = axios.create({
-  baseURL: AUTH_BACKEND_URL,
-  timeout: 5000,
+  baseURL: SERVICE_BACKEND_URL,
+  timeout: 60000,
 })
 
 httpAuthClient.interceptors.request.use(
@@ -69,4 +64,4 @@ httpAuthClient.interceptors.response.use(
 
 axiosRetry(httpAuthClient, { retries: 3, retryDelay: () => 500 })
 
-export { httpAuthClient, httpUnauthClient }
+export { httpAuthClient }

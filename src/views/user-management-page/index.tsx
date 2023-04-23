@@ -2,7 +2,7 @@ import { Box } from '@mui/material'
 import { useRouter } from 'next/router'
 import { useCallback, useEffect, useState } from 'react'
 
-import { poolsApi } from 'api/backend/service/pool'
+import { poolsApi } from 'api/backend/app/pool'
 
 import { MainLayout } from 'layouts/MainLayout'
 
@@ -40,7 +40,7 @@ const usePoolsStore = () => {
     return () => {
       clearInterval(intervalId) // Clears the interval when the component is unmounted
     }
-  }, [router.asPath])
+  }, [handlePoolsGet, router.asPath])
 
   useEffect(() => {
     console.log(state)

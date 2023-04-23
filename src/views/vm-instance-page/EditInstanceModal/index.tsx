@@ -8,7 +8,7 @@ interface EditInstanceModalProps {
   id?: string
   onConfirm: (values: number[] | null) => void
   onClose: () => void
-  initialValues: (number | undefined)[]
+  initialValues: Array<number | undefined>
 }
 
 export const EditInstanceModal: React.FC<EditInstanceModalProps> = ({

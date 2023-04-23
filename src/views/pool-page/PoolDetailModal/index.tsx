@@ -1,18 +1,15 @@
 import {
   Button,
-  Card,
-  CardContent,
   Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
-  DialogTitle,
   Grid,
 } from '@mui/material'
 import React from 'react'
 import { useState } from 'react'
 
-import { poolsApi } from 'api/backend/service/pool'
+import { poolsApi } from 'api/backend/app/pool'
 
 import { accountStore } from 'store/account-store'
 

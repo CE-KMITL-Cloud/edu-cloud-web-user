@@ -6,8 +6,8 @@ import { observer } from 'mobx-react-lite'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 
-import { instancesApi } from 'api/backend/service/instance'
-import { poolsApi } from 'api/backend/service/pool'
+import { instancesApi } from 'api/backend/app/instance'
+import { poolsApi } from 'api/backend/app/pool'
 
 import { CoreSvg } from 'components/core/CoreSvg'
 

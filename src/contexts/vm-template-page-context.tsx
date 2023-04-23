@@ -10,8 +10,8 @@ import {
   useState,
 } from 'react'
 
-import { accessApi } from 'api/backend/service/access'
-import { templatesApi } from 'api/backend/service/template'
+import { accessApi } from 'api/backend/app/access'
+import { templatesApi } from 'api/backend/app/template'
 
 import { accountStore } from 'store/account-store'
 

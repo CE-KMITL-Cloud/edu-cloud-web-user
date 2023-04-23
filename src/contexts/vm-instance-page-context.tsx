@@ -10,7 +10,7 @@ import {
   useState,
 } from 'react'
 
-import { instancesApi } from 'api/backend/service/instance'
+import { instancesApi } from 'api/backend/app/instance'
 
 import { accountStore } from 'store/account-store'
 

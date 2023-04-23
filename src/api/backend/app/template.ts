@@ -1,9 +1,9 @@
-import { httpClient } from 'api/httpClient'
+import { httpAppClient } from 'api/httpClient'
 
 class TemplatesApi {
   public async fetchTemplates(username: string) {
     try {
-      const response = await httpClient.get(`/vm/template/list?username=${username}`, {
+      const response = await httpAppClient.get(`/vm/template/list?username=${username}`, {
         headers: {
           'Content-Type': 'application/json',
         },

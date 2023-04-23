@@ -24,11 +24,12 @@ export const VncConsole: React.FC<VncConsoleProps> = ({ ticket, url }) => {
       rfb.addEventListener('disconnect', () => {
         console.log('Disconnected from VNC console')
       })
-
       return () => {
         rfb.disconnect()
       }
     }
+
+    return () => {}
   }, [canvasRef, ticket, url])
 
   return (
