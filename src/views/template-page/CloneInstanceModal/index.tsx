@@ -91,7 +91,7 @@ export const CloneInstanceModal: React.FC<CloneInstanceModalProps> = ({
             Are you sure you want to perform this action on {id}?
           </DialogContentText>
           <br></br>
-          {values.map((item, index) => (
+          {values?.map((item, index) => (
             <div key={index} style={{ display: 'flex', alignItems: 'center', marginBottom: '16px' }}>
               {index === 1 ? (
                 <Select

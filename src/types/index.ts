@@ -1,13 +1,29 @@
-import { type Dayjs } from 'dayjs'
-
 export * from './function-result'
 
+// export type User = {
+//   email: string
+//   name: string
+//   status: boolean
+//   createTime: Dayjs
+//   expireTime: Dayjs
+// }
+
 export type User = {
-  email: string
-  name: string
-  status: boolean
-  createTime: Dayjs
-  expireTime: Dayjs
+  Username: string
+  Password: string
+  Name: string
+  Status: boolean
+  CreateTime: string
+  ExpireTime: string
+  Salt: string
+}
+
+export type UserLimit = {
+  Username: string
+  MaxCPU: number
+  MaxRAM: number
+  MaxDisk: number
+  MaxInstance: number
 }
 
 export type JwtPayload = {
