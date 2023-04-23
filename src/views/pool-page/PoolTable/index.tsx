@@ -106,11 +106,13 @@ export const PoolTable = observer(() => {
                 <SeverityPill color={pillColor} text={pillText} minWidth={80} />
               </TableCell>
               <TableCell>
-                <IconButton onClick={handleOpenConfirmModal}>
-                  <Center>
-                    <DeleteOutlineIcon />
-                  </Center>
-                </IconButton>
+                {accountStore.role !== 'student' && (
+                  <IconButton onClick={handleOpenConfirmModal}>
+                    <Center>
+                      <DeleteOutlineIcon />
+                    </Center>
+                  </IconButton>
+                )}
                 <IconButton
                   onClick={() => {
                     handleOpenDetailModal(pool)

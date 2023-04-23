@@ -77,9 +77,11 @@ export const Header = observer(() => {
         <Typography variant="h6" fontWeight={700}>
           My Pools
         </Typography>
-        <Button variant="contained" onClick={handleOpen}>
-          Create Pool
-        </Button>
+        {accountStore.role === 'admin' && (
+          <Button variant="contained" onClick={handleOpen}>
+            Create Pool
+          </Button>
+        )}
         <Modal open={open} onClose={handleClose} aria-labelledby="modal-title" aria-describedby="modal-description">
           <Box
             sx={{

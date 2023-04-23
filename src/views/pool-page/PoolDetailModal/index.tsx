@@ -1,11 +1,4 @@
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  Grid,
-} from '@mui/material'
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, Grid } from '@mui/material'
 import React from 'react'
 import { useState } from 'react'
 
@@ -99,7 +92,9 @@ export const PoolDetailModal: React.FC<PoolDetailModalProps> = ({ isOpen, onClos
         <Button onClick={handleCancel} color="primary">
           Cancel
         </Button>
-        <Button onClick={handleEditMode}>{editMode ? 'Save' : 'Edit member'}</Button>
+        {accountStore.role !== 'student' && (
+          <Button onClick={handleEditMode}>{editMode ? 'Save' : 'Edit member'}</Button>
+        )}
       </DialogActions>
     </Dialog>
   )

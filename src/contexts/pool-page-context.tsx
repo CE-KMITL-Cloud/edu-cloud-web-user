@@ -36,8 +36,13 @@ export const PoolProvider = observer(({ children }: PoolProviderProps) => {
 
   const handlePoolsGet = useCallback(async (sender: string, owner: string) => {
     try {
-      const response = await poolsApi.fetchOwnerPools(sender, owner)
-      setPools(response)
+      if (accountStore.role === 'student') {
+        const response = await poolsApi.fetchMemberPools(sender)
+        setPools(response)
+      } else {
+        const response = await poolsApi.fetchOwnerPools(sender, owner)
+        setPools(response)
+      }
     } catch (err) {
       console.error(err)
     }
