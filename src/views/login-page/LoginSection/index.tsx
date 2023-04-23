@@ -19,8 +19,8 @@ export const LoginSection = () => {
   const router = useRouter()
 
   // TODO: Remove default value.
-  const [email, setEmail] = useState<string>('62555555@kmitl.ac.th')
-  const [password, setPassword] = useState<string>('Botlee007')
+  const [email, setEmail] = useState<string>('hellobest@kmitl.ac.th')
+  const [password, setPassword] = useState<string>('Hellobest007')
 
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [errorMessage, setErrorMessage] = useState<string>('')

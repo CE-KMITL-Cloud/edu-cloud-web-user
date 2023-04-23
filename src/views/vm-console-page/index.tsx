@@ -1,4 +1,3 @@
-import { Box } from '@mui/material'
 import { useRouter } from 'next/router'
 
 import { MainLayout } from 'layouts/MainLayout'
@@ -9,7 +8,6 @@ import { withAuthGuard } from 'components/hocs/with-auth-guard'
 
 import { Page } from 'types/page'
 
-import { Header } from 'views/vm-console-page/Header'
 
 import { Background, ScreenFlex, StyledPaper } from './styled'
 

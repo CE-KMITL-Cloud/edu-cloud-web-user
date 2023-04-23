@@ -1,5 +1,4 @@
 import { Chip, Stack, Typography } from '@mui/material'
-import type { FC } from 'react'
 
 import type { NavColor } from 'types/settings'
 

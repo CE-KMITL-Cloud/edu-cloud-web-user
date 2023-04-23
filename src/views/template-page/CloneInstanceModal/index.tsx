@@ -11,7 +11,7 @@ import {
 } from '@mui/material'
 import React, { useCallback, useEffect, useState } from 'react'
 
-import { clusterApi } from 'api/backend/service/cluster'
+import { clusterApi } from 'api/backend/app/cluster'
 
 interface CloneInstanceModalProps {
   isOpen: boolean

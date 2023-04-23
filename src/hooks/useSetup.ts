@@ -13,7 +13,7 @@ export const useSetup = () => {
 
   useEffect(() => {
     setup()
-  }, [])
+  }, [setup])
 
   return { isReady }
 }

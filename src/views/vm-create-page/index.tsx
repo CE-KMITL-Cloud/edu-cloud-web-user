@@ -2,8 +2,8 @@ import { Button } from '@mui/material'
 import { useRouter } from 'next/router'
 import { useCallback, useEffect, useState } from 'react'
 
-import { clusterApi } from 'api/backend/service/cluster'
-import { instancesApi } from 'api/backend/service/instance'
+import { clusterApi } from 'api/backend/app/cluster'
+import { instancesApi } from 'api/backend/app/instance'
 
 import { MainLayout } from 'layouts/MainLayout'
 
@@ -16,7 +16,6 @@ import { CreateInstance } from 'types/instance'
 import { Page } from 'types/page'
 
 import { HostnameCard } from 'views/vm-create-page/HostnameCard'
-import { OSCard } from 'views/vm-create-page/OSCard'
 import { StarterCard } from 'views/vm-create-page/StarterCard'
 import { SummaryCard } from 'views/vm-create-page/SummaryCard'
 
@@ -55,13 +54,13 @@ export const VMCreatePage: Page = () => {
       setStorages(response)
     } catch (error) {
       console.error('Error:', error)
-      return [] // Return an empty array in case of an error
+      setStorages([])
     }
   }, [])
 
   useEffect(() => {
     fetchStorages()
-  }, [])
+  }, [fetchStorages])
 
   const fetchOs = useCallback(async () => {
     try {
@@ -69,13 +68,13 @@ export const VMCreatePage: Page = () => {
       setOs(response)
     } catch (error) {
       console.error('Error:', error)
-      return [] // Return an empty array in case of an error
+      setOs([])
     }
   }, [])
 
   useEffect(() => {
     fetchOs()
-  }, [])
+  }, [fetchOs])
 
   const handleHostnameChange = (newHostname: string) => {
     setHostname(newHostname)
@@ -108,7 +107,7 @@ export const VMCreatePage: Page = () => {
     if (navigate) {
       router.push(paths.vmInstance)
     }
-  }, [navigate])
+  }, [navigate, router])
 
   return (
     <>

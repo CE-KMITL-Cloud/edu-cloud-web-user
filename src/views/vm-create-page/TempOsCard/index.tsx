@@ -1,9 +1,9 @@
-import { Checkbox, FormControlLabel, TextField, Typography } from '@mui/material'
-import { ChangeEvent, useEffect, useRef, useState } from 'react'
+import { TextField } from '@mui/material'
+import { ChangeEvent, useState } from 'react'
 
 import { TemplateCard } from 'views/vm-create-page/TemplateCard'
 
-import { CheckBoxWrapper, Row } from './styled'
+import { Row } from './styled'
 
 // Update the StorageCardProps to include the callback function
 export interface OsCardProps {

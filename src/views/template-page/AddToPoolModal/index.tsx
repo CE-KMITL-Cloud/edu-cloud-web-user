@@ -9,9 +9,9 @@ import {
   Select,
 } from '@mui/material'
 import { SelectChangeEvent } from '@mui/material/Select'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
-import { poolsApi } from 'api/backend/service/pool'
+import { poolsApi } from 'api/backend/app/pool'
 
 import { Pool } from 'types/pool'
 

@@ -8,6 +8,7 @@
     "start": "next start",
     "format": "prettier --write \"{src,pages}/**/*.{json,js,jsx,ts,tsx,html}\"",
     "lint": "eslint --quiet \"{src,pages}/**/*.{js,jsx,ts,tsx}\"",
+    "lint:fix": "eslint --fix \"{src,pages}/**/*.{js,jsx,ts,tsx}\"",
     "storybook": "start-storybook -p 6006 -s ./public",
     "build-storybook": "build-storybook -s public"
   },

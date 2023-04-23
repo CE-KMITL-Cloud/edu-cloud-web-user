@@ -1,9 +1,9 @@
-import { httpClient } from 'api/httpClient'
+import { httpAppClient } from 'api/httpClient'
 
 class ClusterApi {
   public async fetchOs() {
     try {
-      const response = await httpClient.get(`/cluster/storage/iso/list`)
+      const response = await httpAppClient.get(`/cluster/storage/iso/list`)
       return response.data.message
     } catch (error) {
       console.error('Error fetching Os :', error)
@@ -12,7 +12,7 @@ class ClusterApi {
 
   public async fetchStorages() {
     try {
-      const response = await httpClient.get(`/cluster/storage/list`)
+      const response = await httpAppClient.get(`/cluster/storage/list`)
       return response.data.message
     } catch (error) {
       console.error('Error fetching storages :', error)

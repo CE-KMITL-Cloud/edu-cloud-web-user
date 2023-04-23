@@ -10,7 +10,7 @@ import {
   useState,
 } from 'react'
 
-import { poolsApi } from 'api/backend/service/pool'
+import { poolsApi } from 'api/backend/app/pool'
 
 import { accountStore } from 'store/account-store'
 

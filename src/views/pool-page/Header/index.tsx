@@ -1,8 +1,8 @@
 import { Box, Button, Grid, Modal, TextField, Typography } from '@mui/material'
 import { observer } from 'mobx-react-lite'
-import { FC, useState } from 'react'
+import { useState } from 'react'
 
-import { poolsApi } from 'api/backend/service/pool'
+import { poolsApi } from 'api/backend/app/pool'
 
 import { AlertModal } from 'components/common/AlertModal'
 

@@ -5,7 +5,7 @@ import { observer } from 'mobx-react-lite'
 import { useEffect } from 'react'
 import { useState } from 'react'
 
-import { poolsApi } from 'api/backend/service/pool'
+import { poolsApi } from 'api/backend/app/pool'
 
 import { AlertModal } from 'components/common/AlertModal'
 import { ConfirmationModal } from 'components/common/ConfirmationModal'

@@ -1,4 +1,4 @@
-import { httpClient } from 'api/httpClient'
+import { httpAppClient } from 'api/httpClient'
 
 class PowerApi {
   public async startInstance(
@@ -11,7 +11,7 @@ class PowerApi {
         node: node,
         vmid: vmid,
       }
-      const response = await httpClient.post(`/vm/status/start?username=${username}`, requestBody, {
+      const response = await httpAppClient.post(`/vm/status/start?username=${username}`, requestBody, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -34,7 +34,7 @@ class PowerApi {
         node: node,
         vmid: vmid,
       }
-      const response = await httpClient.post(`/vm/status/stop?username=${username}`, requestBody, {
+      const response = await httpAppClient.post(`/vm/status/stop?username=${username}`, requestBody, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -57,7 +57,7 @@ class PowerApi {
         node: node,
         vmid: vmid,
       }
-      const response = await httpClient.post(`/vm/status/suspend?username=${username}`, requestBody, {
+      const response = await httpAppClient.post(`/vm/status/suspend?username=${username}`, requestBody, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -80,7 +80,7 @@ class PowerApi {
         node: node,
         vmid: vmid,
       }
-      const response = await httpClient.post(`/vm/status/resume?username=${username}`, requestBody, {
+      const response = await httpAppClient.post(`/vm/status/resume?username=${username}`, requestBody, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -103,7 +103,7 @@ class PowerApi {
         node: node,
         vmid: vmid,
       }
-      const response = await httpClient.post(`/vm/status/reset?username=${username}`, requestBody, {
+      const response = await httpAppClient.post(`/vm/status/reset?username=${username}`, requestBody, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -126,7 +126,7 @@ class PowerApi {
         node: node,
         vmid: vmid,
       }
-      const response = await httpClient.post(`/vm/status/shutdown?username=${username}`, requestBody, {
+      const response = await httpAppClient.post(`/vm/status/shutdown?username=${username}`, requestBody, {
         headers: {
           'Content-Type': 'application/json',
         },

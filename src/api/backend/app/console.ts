@@ -1,4 +1,4 @@
-import { httpClient } from 'api/httpClient'
+import { httpAppClient } from 'api/httpClient'
 
 class ConsoleApi {
   /**
@@ -10,7 +10,7 @@ class ConsoleApi {
    */
   public async fetchConsoleVM(node: string, vmid: string, username: string) {
     try {
-      const response = await httpClient.get(`/node/${node}/vm/${vmid}/console?username=${username}`, {})
+      const response = await httpAppClient.get(`/node/${node}/vm/${vmid}/console?username=${username}`, {})
       return response.data.message
     } catch (error) {
       console.error('Error fetching instances :', error)
@@ -30,7 +30,7 @@ class ConsoleApi {
         node: node,
         vmid: vmid,
       }
-      const response = await httpClient.post(`/vm/vncproxy?username=${username}`, requestBody, {
+      const response = await httpAppClient.post(`/vm/vncproxy?username=${username}`, requestBody, {
         headers: {
           'Content-Type': 'application/json',
         },

@@ -1,11 +1,11 @@
-import { httpClient } from 'api/httpClient'
+import { httpAppClient } from 'api/httpClient'
 
 import { CreateInstance } from 'types/instance'
 
 class InstancesApi {
   public async fetchInstances(username: string) {
     try {
-      const response = await httpClient.get(`/vm/list?username=${username}`, {
+      const response = await httpAppClient.get(`/vm/list?username=${username}`, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -22,7 +22,7 @@ class InstancesApi {
     sender: string,
   ): Promise<{ success: boolean; message?: string; warning?: string }> {
     try {
-      const response = await httpClient.post(`/vm/create?username=${sender}`, instance)
+      const response = await httpAppClient.post(`/vm/create?username=${sender}`, instance)
       return { success: true, message: response.data.message }
     } catch (error) {
       console.error('Error creating instance', error)
@@ -40,7 +40,7 @@ class InstancesApi {
         node: node,
         vmid: vmid,
       }
-      const response = await httpClient.post(`/vm/template?username=${sender}`, requestBody, {
+      const response = await httpAppClient.post(`/vm/template?username=${sender}`, requestBody, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -63,7 +63,7 @@ class InstancesApi {
         node: node,
         vmid: vmid,
       }
-      const response = await httpClient({
+      const response = await httpAppClient({
         method: 'delete',
         url: `/vm/destroy?username=${sender}`,
         data: requestBody,
@@ -93,7 +93,7 @@ class InstancesApi {
         memory: memory,
         disk: disk,
       }
-      const response = await httpClient.post(`/vm/edit?vmid=${vmid}&node=${node}&username=${sender}`, requestBody, {
+      const response = await httpAppClient.post(`/vm/edit?vmid=${vmid}&node=${node}&username=${sender}`, requestBody, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -122,7 +122,7 @@ class InstancesApi {
         ciuser: ciuser,
         cipassword: cipassword,
       }
-      const response = await httpClient.post(`/vm/clone?vmid=${vmid}&node=${node}&username=${sender}`, requestBody, {
+      const response = await httpAppClient.post(`/vm/clone?vmid=${vmid}&node=${node}&username=${sender}`, requestBody, {
         headers: {
           'Content-Type': 'application/json',
         },
