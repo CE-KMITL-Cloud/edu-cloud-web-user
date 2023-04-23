@@ -1,24 +1,32 @@
-import { Avatar, Box, Stack, SvgIcon, Typography } from '@mui/material'
+import OutputIcon from '@mui/icons-material/Output'
+import { Avatar, Box, IconButton, Stack, SvgIcon, Typography } from '@mui/material'
 import User01Icon from '@untitled-ui/icons-react/build/esm/User01'
 import { observer } from 'mobx-react-lite'
 
+import { authService } from 'services/auth-service'
+
 import { accountStore } from 'store/account-store'
 
+import { useForceLoadingContext } from 'contexts/force-loading-context'
+
+import { SignOutButtonWrapper, StyledAvatar, UesrInfoRoot } from './styled'
+
 export const UserInfo = observer(() => {
+  const { load } = useForceLoadingContext()
+
+  const logoutWithDelay = async () => {
+    authService.logout()
+    await load(500)
+  }
+
   return (
-    <Stack direction="row" sx={{ p: 3, backgroundColor: (theme) => theme.palette.secondary.alpha12 }}>
-      <Box pr={2}>
-        <Avatar
-          sx={{
-            height: 40,
-            width: 40,
-          }}
-          src="/static/assets/avatars/avatar-anika-visser.png"
-        >
+    <UesrInfoRoot>
+      <Box pr={1.5}>
+        <StyledAvatar src="/static/assets/avatars/avatar-anika-visser.png">
           <SvgIcon>
             <User01Icon />
           </SvgIcon>
-        </Avatar>
+        </StyledAvatar>
       </Box>
       <Box>
         {accountStore.name && (
@@ -32,6 +40,11 @@ export const UserInfo = observer(() => {
           </Typography>
         )}
       </Box>
-    </Stack>
+      <SignOutButtonWrapper>
+        <IconButton size="small" color="inherit" onClick={logoutWithDelay}>
+          <OutputIcon />
+        </IconButton>
+      </SignOutButtonWrapper>
+    </UesrInfoRoot>
   )
 })

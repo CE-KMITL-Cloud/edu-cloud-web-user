@@ -1,4 +1,4 @@
-import { Stack, styled } from '@mui/material'
+import { Avatar, Stack, styled } from '@mui/material'
 import SimpleBar from 'simplebar-react'
 
 export const StyledScrollbar = styled(SimpleBar)(() => ({
@@ -26,4 +26,22 @@ export const SideNavSectionWrapper = styled('nav')(({ theme }) => ({
   padding: theme.spacing(0, 2),
 }))
 
+export const UesrInfoRoot = styled(Stack)(({ theme }) => ({
+  flexDirection: 'row',
+  alignItems: 'center',
+  padding: theme.spacing(2),
+  backgroundColor: theme.palette.secondary.alpha12,
+}))
+
+export const SignOutButtonWrapper = styled('div')(({ theme }) => ({
+  paddingLeft: theme.spacing(1),
+  marginLeft: 'auto',
+  color: theme.palette.neutral[400],
+}))
+
 export const Contents = styled(Stack)(() => ({ height: '100%' }))
+
+export const StyledAvatar = styled(Avatar)(() => ({
+  height: 40,
+  width: 40,
+}))

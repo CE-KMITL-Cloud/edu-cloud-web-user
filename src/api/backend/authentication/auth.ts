@@ -16,7 +16,9 @@ class AuthApi {
   }
 
   public async login(data: { email: string; password: string }): Promise<TokenResponse> {
-    const response = await httpValifyClient.post<TokenResponse>('/auth/user/login', data)
+    const response = await httpValifyClient.post<TokenResponse>('/auth/user/login', data, {
+      withCredentials: true,
+    })
 
     // * If register success, backend send status `201`
     if (response.status === 201) {
