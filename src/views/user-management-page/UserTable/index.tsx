@@ -1,81 +1,172 @@
-import { IconButton, Table, TableBody, TableCell, TableRow } from '@mui/material'
-import PropTypes from 'prop-types'
-import type { FC } from 'react'
-import { useState } from 'react'
-
-import { CoreSvg } from 'components/core/CoreSvg'
+import ChevronRightIcon from '@mui/icons-material/ChevronRight'
+import { AppBar, IconButton, Tab, Table, TableBody, TableCell, TableRow, Tabs } from '@mui/material'
+import { observer } from 'mobx-react-lite'
+import { ChangeEvent, useState } from 'react'
 
 import { SeverityPill } from 'components/common/ServerityPill'
 import { SeverityPillColor } from 'components/common/ServerityPill/styled'
 
-import { Pool } from 'types/pool'
+import { accountStore } from 'store/account-store'
 
+import { useUserManagementContext } from 'contexts/user-management-page-context'
+
+import { User } from 'types'
+
+import { UserDetailModal } from '../UserDetailModal'
 import { TableTextCell } from './TableCell'
 import { Center, StyledTableHead, StyledTableRow } from './styled'
 
-interface PoolTableProps {
-  pools?: Pool[]
-  onPoolSelect: (pool: Pool | null) => void
-}
+export const UserTable = observer(() => {
+  const { students, faculties, selectedUser, setSelectedUser, handleFacutiesGet, handleStudentsGet } =
+    useUserManagementContext()
 
-export const PoolTable: FC<PoolTableProps> = (props) => {
-  const { pools = [], onPoolSelect } = props
-  const [selectedPool, setSelectedPool] = useState<Pool | null>(null)
-  const handleButtonClick = async (pool: Pool) => {
-    console.log('Clicked row data:', pool)
+  const [value, setValue] = useState<number>(0)
+
+  const handleChange = (_: ChangeEvent<{}>, newValue: number) => {
+    setValue(newValue)
+    if (accountStore.name) {
+      // handleStudentsGet(accountStore.name)
+      // handleFacutiesGet(accountStore.name)
+      handleStudentsGet('admin')
+      handleFacutiesGet('admin')
+    }
+  }
+
+  const [detailModalOpen, setDetailModalOpen] = useState(false)
+
+  const handleOpenDetailModal = async (user: User) => {
+    setDetailModalOpen(true)
+    console.log('Clicked row data:', user)
   }
 
   return (
-    <Table>
-      <StyledTableHead>
-        <TableRow>
-          <TableTextCell type="header">Course Code</TableTextCell>
-          <TableTextCell type="header">Course Name</TableTextCell>
-          <TableTextCell type="header">Course Owner</TableTextCell>
-          <TableTextCell type="header">Status</TableTextCell>
-          <TableTextCell type="header">Details</TableTextCell>
-        </TableRow>
-      </StyledTableHead>
-      <TableBody>
-        {pools.map((pool: Pool) => {
-          const pillColor: SeverityPillColor = pool.Status ? 'success' : 'error'
-          const pillText: string = pool.Status ? 'active' : 'inactive'
-          console.log('pool :', pool)
-          return (
-            <StyledTableRow
-              key={pool.ID}
-              onClick={() => {
-                onPoolSelect(pool)
-                setSelectedPool(pool)
-                console.log('Selected pool:', pool)
-              }}
-              style={{
-                cursor: 'pointer',
-                backgroundColor: selectedPool?.ID === pool.ID ? '#f3f3f3' : '',
-              }}
-            >
-              <TableCell>{pool.Code}</TableCell>
-              <TableTextCell>{pool.Name}</TableTextCell>
-              <TableTextCell>{pool.Owner}</TableTextCell>
-              <TableCell>
-                <SeverityPill color={pillColor} text={pillText} minWidth={80} />
-              </TableCell>
-              <TableCell>
-                <IconButton onClick={() => handleButtonClick(pool)}>
-                  <Center>
-                    <CoreSvg src="/static/icons/console.svg" width={24} />
-                  </Center>
-                </IconButton>
-              </TableCell>
-            </StyledTableRow>
-          )
-        })}
-      </TableBody>
-    </Table>
+    <>
+      <AppBar
+        position="static"
+        sx={{
+          backgroundColor: '#F7F7F7',
+          boxShadow: 'none',
+          borderRadius: '8px 8px 0 0',
+        }}
+      >
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          textColor="inherit"
+          indicatorColor="primary"
+          sx={{ minHeight: '48px' }}
+        >
+          <Tab
+            label="Students"
+            sx={{
+              fontWeight: 'bold',
+              textTransform: 'none',
+              minHeight: '48px',
+              minWidth: 'auto',
+              px: 2,
+              color: 'black',
+            }}
+          />
+          <Tab
+            label="Faculties"
+            sx={{
+              fontWeight: 'bold',
+              textTransform: 'none',
+              minHeight: '48px',
+              minWidth: 'auto',
+              px: 4,
+              color: 'black',
+            }}
+          />
+        </Tabs>
+      </AppBar>
+      <Table>
+        <StyledTableHead>
+          <TableRow>
+            <TableTextCell type="header">Email</TableTextCell>
+            <TableTextCell type="header">Full Name</TableTextCell>
+            <TableTextCell type="header">Status</TableTextCell>
+            <TableTextCell type="header">Expire</TableTextCell>
+            <TableTextCell type="header">Details</TableTextCell>
+          </TableRow>
+        </StyledTableHead>
+        {value === 0 ? (
+          <TableBody>
+            {students?.map((student: User) => {
+              const pillColor: SeverityPillColor = student.Status ? 'success' : 'error'
+              const pillText: string = student.Status ? 'active' : 'inactive'
+              return (
+                <StyledTableRow
+                  key={student.Username}
+                  onClick={() => {
+                    setSelectedUser(student)
+                  }}
+                >
+                  <TableCell>{student.Username}</TableCell>
+                  <TableTextCell>{student.Name}</TableTextCell>
+                  <TableCell>
+                    <SeverityPill color={pillColor} text={pillText} minWidth={80} />
+                  </TableCell>
+                  <TableTextCell>{student.ExpireTime}</TableTextCell>
+                  <TableCell>
+                    <IconButton
+                      onClick={() => {
+                        handleOpenDetailModal(student)
+                      }}
+                    >
+                      <Center>
+                        <ChevronRightIcon />
+                      </Center>
+                    </IconButton>
+                  </TableCell>
+                </StyledTableRow>
+              )
+            })}
+          </TableBody>
+        ) : (
+          <TableBody>
+            {faculties?.map((faculty: User) => {
+              const pillColor: SeverityPillColor = faculty.Status ? 'success' : 'error'
+              const pillText: string = faculty.Status ? 'active' : 'inactive'
+              return (
+                <StyledTableRow
+                  key={faculty.Username}
+                  onClick={() => {
+                    setSelectedUser(faculty)
+                  }}
+                >
+                  <TableCell>{faculty.Username}</TableCell>
+                  <TableTextCell>{faculty.Name}</TableTextCell>
+                  <TableCell>
+                    <SeverityPill color={pillColor} text={pillText} minWidth={80} />
+                  </TableCell>
+                  <TableTextCell>{faculty.ExpireTime}</TableTextCell>
+                  <TableCell>
+                    <IconButton
+                      onClick={() => {
+                        handleOpenDetailModal(faculty)
+                      }}
+                    >
+                      <Center>
+                        <ChevronRightIcon />
+                      </Center>
+                    </IconButton>
+                  </TableCell>
+                </StyledTableRow>
+              )
+            })}
+          </TableBody>
+        )}
+        <UserDetailModal
+          isOpen={detailModalOpen}
+          title="User Detail"
+          id={'user : ' + selectedUser?.Username}
+          onConfirm={() => {}}
+          onClose={() => {
+            setDetailModalOpen(false)
+          }}
+        />
+      </Table>
+    </>
   )
-}
-
-PoolTable.propTypes = {
-  pools: PropTypes.array.isRequired,
-  onPoolSelect: PropTypes.func.isRequired,
-}
+})

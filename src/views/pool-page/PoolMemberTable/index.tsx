@@ -35,7 +35,7 @@ export const PoolMemberTable = observer(({ editMode, onSelectedChange }: PoolMem
   useEffect(() => {
     const fetchStudents = async () => {
       if (!accountStore.name) return
-      const response = await userApi.fetchStudents(accountStore.name)
+      const response = await userApi.fetchStudentsUsername(accountStore.name)
       // console.log(response)
       setStudents(response)
     }

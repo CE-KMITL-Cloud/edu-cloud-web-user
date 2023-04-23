@@ -60,11 +60,11 @@ export const Header = () => {
     <Root>
       <HeaderPaper>
         <Typography variant="h6" fontWeight={700}>
-          User Dashboard
+          Dashboard
         </Typography>
-        <Button variant="contained" onClick={handleOpen}>
+        {/* <Button variant="contained" onClick={handleOpen}>
           Create Pool
-        </Button>
+        </Button> */}
         <Modal open={open} onClose={handleClose} aria-labelledby="modal-title" aria-describedby="modal-description">
           <Box
             sx={{

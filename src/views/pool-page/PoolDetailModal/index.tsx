@@ -29,7 +29,7 @@ interface PoolDetailModalProps {
 }
 
 export const PoolDetailModal: React.FC<PoolDetailModalProps> = ({ isOpen, onClose }) => {
-  const { selectedPool, handlePoolsGet } = usePoolContext()
+  const { selectedPool } = usePoolContext()
   const [editMode, setEditMode] = useState(false)
   const [selectedMembers, setSelectedMembers] = useState<string[]>([])
 
