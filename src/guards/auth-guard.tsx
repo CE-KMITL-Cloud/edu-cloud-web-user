@@ -1,4 +1,3 @@
-import { needBackend } from 'dev'
 import { observer } from 'mobx-react-lite'
 import { useRouter } from 'next/router'
 import { type ReactNode, useCallback, useEffect, useState } from 'react'
@@ -24,16 +23,12 @@ export const AuthGuard = observer(({ children }: AuthGuardProps) => {
     } else {
       setChecked(true)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accountStore.isLoggedIn, router])
 
   useEffect(() => {
-    // Todo: remove `needBackend`
-    if (needBackend) {
-      check()
-    } else {
-      setChecked(true)
-    }
-  }, [])
+    check()
+  }, [check])
 
   if (!checked) {
     return null
