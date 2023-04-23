@@ -9,6 +9,8 @@ import { I18nProvider } from 'i18n/provider'
 import { CoreRTL } from 'components/core/CoreRtl'
 
 import { LoadingScreen } from 'components/common/LoadingScreen'
+import { SettingsButton } from 'components/common/SettingsButton'
+import { SettingsDrawer } from 'components/common/SettingsDrawer'
 
 import { createEmotionCache } from 'libs/emotion'
 
@@ -39,7 +41,7 @@ const CustomApp = ({ Component, emotionCache = clientSideEmotionCache, pageProps
               {(settings) => {
                 // * Prevent theme flicker when restoring custom settings from browser storage
                 if (!settings.isInitialized) {
-                  // return null;
+                  return null
                 }
 
                 const theme = createTheme({
@@ -51,9 +53,6 @@ const CustomApp = ({ Component, emotionCache = clientSideEmotionCache, pageProps
                   responsiveFontSizes: settings.responsiveFontSizes,
                 })
 
-                // * Prevent guards from redirecting
-                // const showSlashScreen = !auth.isInitialized
-
                 return (
                   <I18nProvider>
                     <MaterialThemeProvider theme={theme}>
@@ -64,7 +63,33 @@ const CustomApp = ({ Component, emotionCache = clientSideEmotionCache, pageProps
                             <meta name="theme-color" content={theme.palette.neutral[900]} />
                           </Head>
                           <CssBaseline />
-                          {isReady ? getLayout(<Component {...pageProps} />) : <LoadingScreen />}
+                          {isReady ? (
+                            getLayout(
+                              <>
+                                <Component {...pageProps} />
+                                <SettingsButton onClick={settings.handleDrawerOpen} />
+                                <SettingsDrawer
+                                  canReset={settings.isCustom}
+                                  onClose={settings.handleDrawerClose}
+                                  onReset={settings.handleReset}
+                                  onUpdate={settings.handleUpdate}
+                                  open={settings.openDrawer}
+                                  values={{
+                                    primaryColorPreset: settings.primaryColorPreset,
+                                    secondaryColorPreset: settings.secondaryColorPreset,
+                                    contrast: settings.contrast,
+                                    direction: settings.direction,
+                                    paletteMode: settings.paletteMode,
+                                    responsiveFontSizes: settings.responsiveFontSizes,
+                                    stretch: settings.stretch,
+                                    navColor: settings.navColor,
+                                  }}
+                                />
+                              </>,
+                            )
+                          ) : (
+                            <LoadingScreen />
+                          )}
                         </CoreRTL>
                       </EmotionThemeProvider>
                     </MaterialThemeProvider>

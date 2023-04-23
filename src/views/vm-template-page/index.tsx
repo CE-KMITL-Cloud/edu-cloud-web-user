@@ -5,6 +5,7 @@ import { MainLayout } from 'layouts/MainLayout'
 import { CoreLink } from 'components/core/CoreLink'
 
 import { HeaderBar } from 'components/common/HeaderBar'
+import { StretchContainer } from 'components/common/StretchContainer'
 
 import { paths } from 'routes/paths'
 
@@ -25,25 +26,27 @@ export const VmTemplatePage: Page = () => {
   return (
     <>
       <HeaderBar iconSrc="/static/icons/server-black.png">VM Template</HeaderBar>
-      <Contents>
-        <Section>
-          <OSCard />
-          <StarterCard />
-          <HostnameCard />
-          <AuthenticationCard />
-          <NetworkCard />
-          <ExternalIpCard />
-          <AttachVolumnCard />
-        </Section>
-        <Aside>
-          <SummaryCard />
-          <CoreLink path={paths.createInstance}>
-            <Button variant="contained" color="success" size="medium">
-              Create instance
-            </Button>
-          </CoreLink>
-        </Aside>
-      </Contents>
+      <StretchContainer>
+        <Contents>
+          <Section>
+            <OSCard />
+            <StarterCard />
+            <HostnameCard />
+            <AuthenticationCard />
+            <NetworkCard />
+            <ExternalIpCard />
+            <AttachVolumnCard />
+          </Section>
+          <Aside>
+            <SummaryCard />
+            <CoreLink path={paths.createInstance}>
+              <Button variant="contained" color="success" size="medium">
+                Create instance
+              </Button>
+            </CoreLink>
+          </Aside>
+        </Contents>
+      </StretchContainer>
     </>
   )
 }

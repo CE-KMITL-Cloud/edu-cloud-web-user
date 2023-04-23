@@ -3,6 +3,7 @@ import { Box } from '@mui/material'
 import { MainLayout } from 'layouts/MainLayout'
 
 import { HeaderBar } from 'components/common/HeaderBar'
+import { StretchContainer } from 'components/common/StretchContainer'
 
 import { withAuthGuard } from 'components/hocs/with-auth-guard'
 
@@ -20,12 +21,14 @@ export const VmInstancePage: Page = withAuthGuard(() => {
     <>
       <HeaderBar iconSrc="/static/icons/server-black.png">VM Instance</HeaderBar>
       <Background>
-        <StyledPaper>
-          <Box pb={4}>
-            <Header />
-          </Box>
-          <InstanceTable instances={mockVmInstances} />
-        </StyledPaper>
+        <StretchContainer>
+          <StyledPaper>
+            <Box pb={4}>
+              <Header />
+            </Box>
+            <InstanceTable instances={mockVmInstances} />
+          </StyledPaper>
+        </StretchContainer>
       </Background>
     </>
   )

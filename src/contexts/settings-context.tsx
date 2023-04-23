@@ -43,7 +43,6 @@ export const initialSettings: Settings = {
   secondaryColorPreset: 'gray',
   contrast: 'normal',
   direction: 'ltr',
-  layout: 'vertical',
   navColor: 'evident',
   paletteMode: 'light',
   responsiveFontSizes: true,
@@ -94,6 +93,12 @@ export const SettingsProvider = ({ children }: SettingsProviderProps) => {
         ...restored,
         isInitialized: true,
       }))
+    } else {
+      storeSettings(initialSettings)
+      setState((prevState) => ({
+        ...prevState,
+        isInitialized: true,
+      }))
     }
   }, [])
 
@@ -112,7 +117,6 @@ export const SettingsProvider = ({ children }: SettingsProviderProps) => {
         secondaryColorPreset: prevState.secondaryColorPreset,
         contrast: prevState.contrast,
         direction: prevState.direction,
-        layout: prevState.layout,
         navColor: prevState.navColor,
         paletteMode: prevState.paletteMode,
         responsiveFontSizes: prevState.responsiveFontSizes,
@@ -148,7 +152,6 @@ export const SettingsProvider = ({ children }: SettingsProviderProps) => {
         secondaryColorPreset: state.secondaryColorPreset,
         contrast: state.contrast,
         direction: state.direction,
-        layout: state.layout,
         navColor: state.navColor,
         paletteMode: state.paletteMode,
         responsiveFontSizes: state.responsiveFontSizes,
