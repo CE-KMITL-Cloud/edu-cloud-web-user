@@ -1,4 +1,5 @@
 import { Button } from '@mui/material'
+import { observer } from 'mobx-react-lite'
 import { useRouter } from 'next/router'
 import { useCallback, useEffect, useState } from 'react'
 
@@ -13,6 +14,8 @@ import { StretchContainer } from 'components/common/StretchContainer'
 
 import { paths } from 'routes/paths'
 
+import { accountStore } from 'store/account-store'
+
 import { CreateInstance } from 'types/instance'
 import { Page } from 'types/page'
 
@@ -24,7 +27,7 @@ import { StorageCard } from './StorageCard'
 import { TempOsCard } from './TempOsCard'
 import { Aside, Contents, Section } from './styled'
 
-export const VMCreatePage: Page = () => {
+export const VMCreatePage: Page = observer(() => {
   const [hostname, setHostname] = useState('')
 
   const [warning, setWarning] = useState<string | null>(null)
@@ -82,10 +85,12 @@ export const VMCreatePage: Page = () => {
   }
 
   const handleCreateInstance = async (instance: CreateInstance) => {
+    if (!accountStore.email) return
+
     try {
       setLoading(true)
       // todo : replace sender
-      const response = await instancesApi.createInstance(instance, 'teacher1')
+      const response = await instancesApi.createInstance(instance, accountStore.email)
       if (!response.success) {
         console.log(response)
         setWarning('Failed creating VM.')
@@ -160,6 +165,6 @@ export const VMCreatePage: Page = () => {
       </StretchContainer>
     </>
   )
-}
+})
 
 VMCreatePage.getLayout = (page) => <MainLayout>{page}</MainLayout>

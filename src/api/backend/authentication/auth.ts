@@ -5,7 +5,9 @@ import { TokenResponse } from 'types/dto/auth'
 
 class AuthApi {
   public async register(data: { email: string; password: string; name: string; role: Role }): Promise<TokenResponse> {
-    const response = await httpValifyClient.post<TokenResponse>('/auth/user/register', data)
+    const response = await httpValifyClient.post<TokenResponse>('/auth/user/register', data, {
+      withCredentials: true,
+    })
 
     // * If register success, backend send status `201`
     if (response.status === 201) {

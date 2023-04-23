@@ -5,14 +5,16 @@ import { useState } from 'react'
 
 import { CoreLink } from 'components/core/CoreLink'
 
+import { AgreementBox } from 'components/common/AgreementBox'
 import { HideableTextField } from 'components/common/HideableTextField'
 import { Logo } from 'components/common/Logo'
+
+import { paths } from 'routes/paths'
 
 import { authService } from 'services/auth-service'
 
 import { LoginStatus } from 'types/enums'
 
-import { AgreementBox } from './AgreementBox'
 import { ButtonGroup, ContentsWrapper, Root, TextFieldWrapper } from './styled'
 
 export const LoginSection = () => {
@@ -107,15 +109,8 @@ export const LoginSection = () => {
           <Typography variant="body2" color="text.dark">
             or
           </Typography>
-          {/* TODO: Link to register page*/}
-          <CoreLink path="#">
-            <Button
-              variant="contained"
-              color="secondary"
-              size="medium"
-              fullWidth
-              onClick={() => authService.register(email, email, password, 'student')}
-            >
+          <CoreLink path={paths.register}>
+            <Button variant="contained" color="secondary" size="medium" fullWidth>
               Register
             </Button>
           </CoreLink>

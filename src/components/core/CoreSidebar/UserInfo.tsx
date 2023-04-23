@@ -28,14 +28,14 @@ export const UserInfo = observer(() => {
           </SvgIcon>
         </StyledAvatar>
       </Box>
-      <Box>
+      <Box maxWidth={160}>
         {accountStore.name && (
-          <Typography variant="body1" color="primary.contrastText">
+          <Typography variant="body1" color="primary.contrastText" textOverflow="ellipsis" noWrap>
             {accountStore.name}
           </Typography>
         )}
         {accountStore.email && (
-          <Typography variant="body2" color="secondary.main">
+          <Typography variant="body2" color="secondary.main" textOverflow="ellipsis" noWrap>
             {accountStore.email}
           </Typography>
         )}

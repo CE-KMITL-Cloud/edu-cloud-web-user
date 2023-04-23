@@ -37,8 +37,6 @@ export const VmTemplateProvider = observer(({ children }: VmTemplateProviderProp
 
   const handleTemplatesGet = useCallback(async (username: string) => {
     try {
-      const ticket = await accessApi.fetchTicket('teacher2', 'teacher2')
-      console.log(ticket)
       const response = await templatesApi.fetchTemplates(username)
       setTemplates(response)
     } catch (err) {

@@ -1,7 +1,7 @@
 import { Checkbox, FormControlLabel, FormGroup, Typography } from '@mui/material'
 import { ChangeEvent } from 'react'
 
-import { AgreementBoxRoot } from './styled'
+import { Root } from './styled'
 
 interface AgreementBoxProps {
   isCheck?: boolean
@@ -14,7 +14,7 @@ export const AgreementBox = ({ setIsCheck, isCheck }: AgreementBoxProps) => {
   }
 
   return (
-    <AgreementBoxRoot>
+    <Root>
       <FormGroup>
         <FormControlLabel
           control={<Checkbox checked={isCheck} onChange={handleCheckboxChange} disableRipple />}
@@ -25,6 +25,6 @@ export const AgreementBox = ({ setIsCheck, isCheck }: AgreementBoxProps) => {
           }
         />
       </FormGroup>
-    </AgreementBoxRoot>
+    </Root>
   )
 }

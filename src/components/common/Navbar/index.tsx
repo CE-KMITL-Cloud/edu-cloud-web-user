@@ -60,9 +60,6 @@ export const Navbar = observer(() => {
               <LinkButton path="/about" glow={router.pathname === '/about'}>
                 About
               </LinkButton>
-              <LinkButton path="/service" glow={router.pathname === '/service'}>
-                Service
-              </LinkButton>
               <LinkButton path="/blog" glow={router.pathname === '/blog'}>
                 Blog
               </LinkButton>
