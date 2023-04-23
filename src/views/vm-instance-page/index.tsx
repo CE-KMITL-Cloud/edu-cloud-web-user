@@ -29,12 +29,6 @@ export const VmInstancePage: Page = withAuthGuard(() => {
             <InstanceTable />
           </StyledPaper>
         </StretchContainer>
-        <StyledPaper>
-          <Box pb={4}>
-            <Header />
-          </Box>
-          <InstanceTable />
-        </StyledPaper>
       </Background>
     </VmInstanceProvider>
   )

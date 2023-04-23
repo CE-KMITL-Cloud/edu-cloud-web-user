@@ -2,7 +2,7 @@ import { Card, CardHeader } from '@mui/material'
 import { observer } from 'mobx-react-lite'
 import { FC, use, useEffect, useState } from 'react'
 
-import { userApi } from 'api/backend/service/user'
+import { userApi } from 'api/backend/app/user'
 
 import { EditablePropertyListItem } from 'components/common/PropertyList/editable-property-list-item'
 import { PropertyList } from 'components/common/PropertyList/property-list'

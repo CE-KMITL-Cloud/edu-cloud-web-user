@@ -12,7 +12,7 @@ import {
 import React from 'react'
 import { useState } from 'react'
 
-import { userApi } from 'api/backend/service/user'
+import { userApi } from 'api/backend/app/user'
 
 import { accountStore } from 'store/account-store'
 
