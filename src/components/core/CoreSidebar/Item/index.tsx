@@ -4,6 +4,8 @@ import ChevronRightIcon from '@untitled-ui/icons-react/build/esm/ChevronRight'
 import Link, { type LinkProps } from 'next/link'
 import { type FC, type ReactNode, forwardRef, useCallback, useState } from 'react'
 
+import { StartIconInner, StartIconWrapper } from './styled'
+
 const RouterLink = forwardRef<HTMLAnchorElement, LinkProps>((props: LinkProps, ref) => <Link ref={ref} {...props} />)
 
 interface SideNavItemProps {
@@ -27,45 +29,19 @@ export const SideNavItem: FC<SideNavItemProps> = (props) => {
     setOpen((prevOpen) => !prevOpen)
   }, [])
 
-  // Icons can be defined at top level only, deep levels have bullets instead of actual icons.
-
   let startIcon: ReactNode
 
   if (depth === 0) {
     startIcon = icon
   } else {
     startIcon = (
-      <Box
-        sx={{
-          alignItems: 'center',
-          display: 'center',
-          height: 20,
-          justifyContent: 'center',
-          width: 20,
-        }}
-      >
-        <Box
-          sx={{
-            backgroundColor: 'var(--nav-item-icon-color)',
-            borderRadius: '50%',
-            height: 4,
-            opacity: 0, // remove this if you want it to be visible
-            width: 4,
-            ...(active && {
-              backgroundColor: 'var(--nav-item-icon-active-color)',
-              height: 6,
-              opacity: 1,
-              width: 6,
-            }),
-          }}
-        />
-      </Box>
+      <StartIconWrapper>
+        <StartIconInner active={active} />
+      </StartIconWrapper>
     )
   }
 
   const offset = depth === 0 ? 0 : (depth - 1) * 16
-
-  // Branch
 
   if (children) {
     return (
