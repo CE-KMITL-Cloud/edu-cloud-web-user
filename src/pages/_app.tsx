@@ -16,6 +16,7 @@ import { createEmotionCache } from 'libs/emotion'
 
 import { useSetup } from 'hooks/useSetup'
 
+import { ForceLoadingConsumer, ForceLoadingProvider } from 'contexts/force-loading-context'
 import { SettingsConsumer, SettingsProvider } from 'contexts/settings-context'
 
 import { createTheme } from 'themes'
@@ -63,33 +64,39 @@ const CustomApp = ({ Component, emotionCache = clientSideEmotionCache, pageProps
                             <meta name="theme-color" content={theme.palette.neutral[900]} />
                           </Head>
                           <CssBaseline />
-                          {isReady ? (
-                            getLayout(
-                              <>
-                                <Component {...pageProps} />
-                                <SettingsButton onClick={settings.handleDrawerOpen} />
-                                <SettingsDrawer
-                                  canReset={settings.isCustom}
-                                  onClose={settings.handleDrawerClose}
-                                  onReset={settings.handleReset}
-                                  onUpdate={settings.handleUpdate}
-                                  open={settings.openDrawer}
-                                  values={{
-                                    primaryColorPreset: settings.primaryColorPreset,
-                                    secondaryColorPreset: settings.secondaryColorPreset,
-                                    contrast: settings.contrast,
-                                    direction: settings.direction,
-                                    paletteMode: settings.paletteMode,
-                                    responsiveFontSizes: settings.responsiveFontSizes,
-                                    stretch: settings.stretch,
-                                    navColor: settings.navColor,
-                                  }}
-                                />
-                              </>,
-                            )
-                          ) : (
-                            <LoadingScreen />
-                          )}
+                          <ForceLoadingProvider>
+                            <ForceLoadingConsumer>
+                              {({ isForceLoading }) =>
+                                isReady && !isForceLoading ? (
+                                  getLayout(
+                                    <>
+                                      <Component {...pageProps} />
+                                      <SettingsButton onClick={settings.handleDrawerOpen} />
+                                      <SettingsDrawer
+                                        canReset={settings.isCustom}
+                                        onClose={settings.handleDrawerClose}
+                                        onReset={settings.handleReset}
+                                        onUpdate={settings.handleUpdate}
+                                        open={settings.openDrawer}
+                                        values={{
+                                          primaryColorPreset: settings.primaryColorPreset,
+                                          secondaryColorPreset: settings.secondaryColorPreset,
+                                          contrast: settings.contrast,
+                                          direction: settings.direction,
+                                          paletteMode: settings.paletteMode,
+                                          responsiveFontSizes: settings.responsiveFontSizes,
+                                          stretch: settings.stretch,
+                                          navColor: settings.navColor,
+                                        }}
+                                      />
+                                    </>,
+                                  )
+                                ) : (
+                                  <LoadingScreen />
+                                )
+                              }
+                            </ForceLoadingConsumer>
+                          </ForceLoadingProvider>
                         </CoreRTL>
                       </EmotionThemeProvider>
                     </MaterialThemeProvider>
