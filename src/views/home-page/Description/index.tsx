@@ -19,7 +19,7 @@ export const Description = () => {
         {t(home.description)}
       </Typography>
       <ButtonWrapper>
-        <Button variant="contained" color="primary" size="medium">
+        <Button variant="contained" color="primary" size="medium" href='https://blog.ce.kmitl.cloud/'>
           {t(translation.more)}
         </Button>
       </ButtonWrapper>

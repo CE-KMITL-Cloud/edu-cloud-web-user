@@ -58,7 +58,7 @@ export const CloneInstanceModal: React.FC<CloneInstanceModalProps> = ({
   }, [])
 
   useEffect(() => {
-    if (options.length > 0) {
+    if (options?.length > 0) {
       handleInputChange(1, options[0])
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -100,7 +100,7 @@ export const CloneInstanceModal: React.FC<CloneInstanceModalProps> = ({
                   fullWidth
                   style={{ margin: '0 8px' }}
                 >
-                  {options.map((option, index) => (
+                  {options?.map((option, index) => (
                     <MenuItem key={index} value={option}>
                       {option}
                     </MenuItem>
