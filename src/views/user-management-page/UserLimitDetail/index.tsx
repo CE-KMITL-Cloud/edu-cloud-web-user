@@ -68,7 +68,7 @@ export const UserLimitDetails: FC<UserLimitDetailsProps> = observer(({ updateLim
   useEffect(() => {
     if (selectedUser) {
       const fetchMembers = async () => {
-        if (!accountStore.name) return
+        if (!accountStore.email) return
         const response = await userApi.fetchUserLimit('admin', selectedUser.Username)
         console.log(response)
         setUserLimit(response)

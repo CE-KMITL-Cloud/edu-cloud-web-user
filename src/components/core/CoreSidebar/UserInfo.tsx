@@ -29,9 +29,9 @@ export const UserInfo = observer(() => {
         </StyledAvatar>
       </Box>
       <Box maxWidth={160}>
-        {accountStore.name && (
+        {accountStore.email && (
           <Typography variant="body1" color="primary.contrastText" textOverflow="ellipsis" noWrap>
-            {accountStore.name}
+            {accountStore.email}
           </Typography>
         )}
         {accountStore.email && (

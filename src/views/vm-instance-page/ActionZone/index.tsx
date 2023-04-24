@@ -50,14 +50,14 @@ export const ActionZone = observer(() => {
   }, [selectedInstance])
 
   const handleConfirmEdit = async (submittedValues: number[] | null) => {
-    if (!accountStore.name) return
+    if (!accountStore.email) return
 
     if (selectedInstance && submittedValues !== null) {
       // Set isLoading state to true before starting the API call
       setIsLoading(true)
       try {
         const response = await instancesApi.editInstance(
-          accountStore.name,
+          accountStore.email,
           selectedInstance.node,
           selectedInstance.vmid,
           submittedValues[0],
@@ -70,6 +70,7 @@ export const ActionZone = observer(() => {
           setAlertModalOpen(true)
         } else {
           setWarning(null)
+          handleInstancesGet(accountStore.email)
         }
       } catch (error) {
         // Handle the error here, e.g., showing an error message or logging the error
@@ -80,17 +81,18 @@ export const ActionZone = observer(() => {
         // After the API call, set the isLoading state to false and close the modal
         setIsLoading(false)
         setIsModalOpen(false)
+        handleInstancesGet(accountStore.email)
       }
     }
   }
 
   const confirmAction = async () => {
-    if (!accountStore.name) return
+    if (!accountStore.email) return
     if (selectedInstance) {
       // Set isLoading state to true before starting the API call
       setIsLoading(true)
 
-      const sender = accountStore.name ?? ''
+      const sender = accountStore.email ?? ''
 
       const actionMapping: Record<string, Function> = {
         start: () => powerApi.startInstance(sender, selectedInstance.node, selectedInstance.vmid),
@@ -111,7 +113,7 @@ export const ActionZone = observer(() => {
           setAlertModalOpen(true)
         } else {
           setWarning(null)
-          handleInstancesGet(accountStore.name)
+          handleInstancesGet(accountStore.email)
         }
       } catch (error) {
         // Handle the error here, e.g., showing an error message or logging the error
@@ -122,6 +124,7 @@ export const ActionZone = observer(() => {
         // After the API call, set the isLoading state to false and close the modal
         setIsLoading(false)
         setIsModalOpen(false)
+        handleInstancesGet(accountStore.email)
       }
     }
   }

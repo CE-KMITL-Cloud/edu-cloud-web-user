@@ -27,10 +27,10 @@ export const Header = observer(() => {
   const [warning, setWarning] = useState<string | null>(null)
 
   const handleCreatePool = async () => {
-    if (!accountStore.name || !accountStore.role) return
+    if (!accountStore.email || !accountStore.role) return
     try {
-      if (accountStore.role !== 'admin') formData.owner = accountStore.name
-      const response = await poolsApi.CreatePool(accountStore.name, formData.owner, formData.code, formData.name)
+      if (accountStore.role !== 'admin') formData.owner = accountStore.email
+      const response = await poolsApi.CreatePool(accountStore.email, formData.owner, formData.code, formData.name)
       if (!response.success) {
         console.log(response)
         setWarning('Failed creating pool.')
@@ -39,7 +39,7 @@ export const Header = observer(() => {
         setWarning(null)
         setAlertModalOpen(false)
         handleClose()
-        handlePoolsGet(accountStore.name, accountStore.name)
+        handlePoolsGet(accountStore.email, accountStore.email)
       }
     } catch (error) {
       setWarning('Failed creating pool.')
@@ -77,7 +77,7 @@ export const Header = observer(() => {
         <Typography variant="h6" fontWeight={700}>
           My Pools
         </Typography>
-        {accountStore.role === 'admin' && (
+        {accountStore.role !== 'student' && (
           <Button variant="contained" onClick={handleOpen}>
             Create Pool
           </Button>

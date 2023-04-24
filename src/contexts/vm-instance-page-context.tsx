@@ -44,12 +44,12 @@ export const VmInstanceProvider = observer(({ children }: VmInstanceProviderProp
   }, [])
 
   useEffect(() => {
-    if (!accountStore.name) return
-    handleInstancesGet(accountStore.name)
+    if (!accountStore.email) return
+    handleInstancesGet(accountStore.email)
 
     const intervalId = setInterval(() => {
-      if (!accountStore.name) return
-      handleInstancesGet(accountStore.name)
+      if (!accountStore.email) return
+      handleInstancesGet(accountStore.email)
     }, 60000)
 
     return () => {

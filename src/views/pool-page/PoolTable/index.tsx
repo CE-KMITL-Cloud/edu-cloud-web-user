@@ -43,11 +43,11 @@ export const PoolTable = observer(() => {
   }
 
   const handleConfirmDestroy = async () => {
-    if (!accountStore.name) return
+    if (!accountStore.email) return
     if (selectedPool !== null) {
       setIsLoading(true)
       try {
-        const response = await poolsApi.DeletePool(accountStore.name, selectedPool.Owner, selectedPool.Code)
+        const response = await poolsApi.DeletePool(accountStore.email, selectedPool.Owner, selectedPool.Code)
         if (!response.success) {
           console.log(response)
           setWarning('Failed destroying pool.')
@@ -55,7 +55,7 @@ export const PoolTable = observer(() => {
         } else {
           setWarning(null)
           setAlertModalOpen(false)
-          handlePoolsGet(accountStore.name, accountStore.name)
+          handlePoolsGet(accountStore.email, accountStore.email)
         }
       } catch (error) {
         // Handle the error here, e.g., showing an error message or logging the error
@@ -68,7 +68,7 @@ export const PoolTable = observer(() => {
         setConfirmModalOpen(false)
         setWarning(null)
         setAlertModalOpen(false)
-        handlePoolsGet(accountStore.name, accountStore.name)
+        handlePoolsGet(accountStore.email, accountStore.email)
       }
     }
   }

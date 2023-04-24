@@ -40,7 +40,7 @@ export const UserDetailModal: React.FC<UserDetailModalProps> = ({ isOpen, onClos
   }
 
   const saveUserLimits = async () => {
-    if (!accountStore.name || !updatedUserLimits) return
+    if (!accountStore.email || !updatedUserLimits) return
     console.log('update limit :', updatedUserLimits)
     if (selectedUser) {
       try {

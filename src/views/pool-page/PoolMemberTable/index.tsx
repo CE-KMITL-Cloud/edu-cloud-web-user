@@ -27,7 +27,7 @@ export const PoolMemberTable = observer(({ editMode, onSelectedChange }: PoolMem
 
   useEffect(() => {
     const fetchStudents = async () => {
-      if (!accountStore.name) return
+      if (!accountStore.email) return
       const response = await userApi.fetchStudentsUsername('admin')
       // console.log(response)
       setStudents(response)
@@ -38,7 +38,7 @@ export const PoolMemberTable = observer(({ editMode, onSelectedChange }: PoolMem
   useEffect(() => {
     if (selectedPool) {
       const fetchMembers = async () => {
-        if (!accountStore.name) return
+        if (!accountStore.email) return
         const response = await poolsApi.fetchRemainingStudents('admin', selectedPool.Owner, selectedPool.Code)
         // console.log(response)
         setMembers(response)

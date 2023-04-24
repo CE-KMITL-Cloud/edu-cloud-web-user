@@ -24,9 +24,9 @@ export const UserTable = observer(() => {
 
   const handleChange = (_: ChangeEvent<{}>, newValue: number) => {
     setValue(newValue)
-    if (accountStore.name) {
-      // handleStudentsGet(accountStore.name)
-      // handleFacutiesGet(accountStore.name)
+    if (accountStore.email) {
+      // handleStudentsGet(accountStore.email)
+      // handleFacutiesGet(accountStore.email)
       handleStudentsGet('admin')
       handleFacutiesGet('admin')
     }

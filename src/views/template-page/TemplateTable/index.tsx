@@ -63,13 +63,13 @@ export const TemplateTable = observer(() => {
   }
 
   const handleConfirmClone = async (submittedValues: string[] | null) => {
-    if (!accountStore.name) return
+    if (!accountStore.email) return
 
     if (selectedTemplate && submittedValues !== null) {
       setIsLoading(true)
       try {
         const response = await instancesApi.cloneInstance(
-          accountStore.name,
+          accountStore.email,
           selectedTemplate.node,
           selectedTemplate.vmid,
           submittedValues[0],
@@ -107,14 +107,14 @@ export const TemplateTable = observer(() => {
   }, [navigate, router])
 
   const handleConfirmAddToPool = async (pool: Pool | null) => {
-    if (!accountStore.name) return
+    if (!accountStore.email) return
 
     if (selectedTemplate && pool !== null) {
       setIsLoading(true)
       try {
         const response = await poolsApi.AddInstancePool(
-          accountStore.name,
-          accountStore.name,
+          accountStore.email,
+          accountStore.email,
           pool.Code,
           selectedTemplate.vmid,
         )
@@ -139,13 +139,13 @@ export const TemplateTable = observer(() => {
   }
 
   const handleConfirmDestroy = async () => {
-    if (!accountStore.name) return
+    if (!accountStore.email) return
 
     if (selectedTemplate !== null) {
       setIsLoading(true)
       try {
         const response = await instancesApi.destroyInstance(
-          accountStore.name,
+          accountStore.email,
           selectedTemplate.node,
           selectedTemplate.vmid,
         )
@@ -155,7 +155,7 @@ export const TemplateTable = observer(() => {
           setAlertModalOpen(true)
         } else {
           setWarning(null)
-          handleTemplatesGet(accountStore.name)
+          handleTemplatesGet(accountStore.email)
         }
       } catch (error) {
         // Handle the error here, e.g., showing an error message or logging the error
@@ -251,7 +251,7 @@ export const TemplateTable = observer(() => {
         id={selectedTemplate?.id}
         onConfirm={handleConfirmAddToPool}
         onClose={() => setFormAddModalOpen(false)}
-        sender={accountStore.name}
+        sender={accountStore.email}
       />
       <CloneInstanceModal
         isOpen={formModalOpen}

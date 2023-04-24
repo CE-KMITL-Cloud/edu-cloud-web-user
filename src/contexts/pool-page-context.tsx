@@ -49,12 +49,12 @@ export const PoolProvider = observer(({ children }: PoolProviderProps) => {
   }, [])
 
   useEffect(() => {
-    if (!accountStore.name) return
-    handlePoolsGet(accountStore.name, accountStore.name)
+    if (!accountStore.email) return
+    handlePoolsGet(accountStore.email, accountStore.email)
 
     const intervalId = setInterval(() => {
-      if (!accountStore.name) return
-      handlePoolsGet(accountStore.name, accountStore.name)
+      if (!accountStore.email) return
+      handlePoolsGet(accountStore.email, accountStore.email)
     }, 60000)
 
     return () => {

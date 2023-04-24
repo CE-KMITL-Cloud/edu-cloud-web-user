@@ -36,11 +36,11 @@ export const PoolDetailModal: React.FC<PoolDetailModalProps> = ({ isOpen, onClos
   }
 
   const handleSave = async (selectedMembers: string[]) => {
-    if (!accountStore.name) return
+    if (!accountStore.email) return
     if (selectedPool) {
       try {
         const response = await poolsApi.AddMembersPool(
-          accountStore.name,
+          accountStore.email,
           selectedPool.Owner,
           selectedPool.Code,
           selectedMembers, // Assuming your API takes the updated selected members as a parameter

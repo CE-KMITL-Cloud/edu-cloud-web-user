@@ -48,13 +48,13 @@ export const UserManagementProvider = observer(({ children }: UserManagementProv
   }, [])
 
   useEffect(() => {
-    // if (!accountStore.name) return
-    // handleStudentsGet(accountStore.name)
+    // if (!accountStore.email) return
+    // handleStudentsGet(accountStore.email)
     handleStudentsGet('admin')
 
     const intervalId = setInterval(() => {
-      // if (!accountStore.name) return
-      // handleStudentsGet(accountStore.name)
+      // if (!accountStore.email) return
+      // handleStudentsGet(accountStore.email)
       handleStudentsGet('admin')
     }, 60000)
 
@@ -78,14 +78,14 @@ export const UserManagementProvider = observer(({ children }: UserManagementProv
   }, [])
 
   useEffect(() => {
-    // if (!accountStore.name) return
-    // handleFacultiesGet(accountStore.name)
+    // if (!accountStore.email) return
+    // handleFacultiesGet(accountStore.email)
     handleFacultiesGet('admin')
 
     const intervalId = setInterval(() => {
       // todo : testing
-      // if (!accountStore.name) return
-      // handleFacultiesGet(accountStore.name)
+      // if (!accountStore.email) return
+      // handleFacultiesGet(accountStore.email)
       handleFacultiesGet('admin')
     }, 60000)
 

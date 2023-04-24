@@ -45,12 +45,12 @@ export const VmTemplateProvider = observer(({ children }: VmTemplateProviderProp
   }, [])
 
   useEffect(() => {
-    if (!accountStore.name) return
-    handleTemplatesGet(accountStore.name)
+    if (!accountStore.email) return
+    handleTemplatesGet(accountStore.email)
 
     const intervalId = setInterval(() => {
-      if (!accountStore.name) return
-      handleTemplatesGet(accountStore.name)
+      if (!accountStore.email) return
+      handleTemplatesGet(accountStore.email)
     }, 60000)
 
     return () => {
