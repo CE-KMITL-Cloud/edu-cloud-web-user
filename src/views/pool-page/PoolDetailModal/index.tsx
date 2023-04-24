@@ -68,25 +68,29 @@ export const PoolDetailModal: React.FC<PoolDetailModalProps> = ({ isOpen, onClos
       onClose={handleCancel}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
-      maxWidth="md" // Set modal max width to large
+      maxWidth={accountStore.role !== 'student' ? 'md' : 'sm'} // Set modal max width to large
       fullWidth={true} // Make it take the full available width
       PaperProps={{ style: { backgroundColor: '#F2F3F5' } }}
     >
       <DialogContent>
-        <Grid container spacing={2}>
-          {/* Left-hand side card */}
-          <Grid item xs={12} md={3}>
-            <PoolBasicDetails />
+        {accountStore.role !== 'student' ? (
+          <Grid container spacing={2}>
+            {/* Left-hand side card */}
+            <Grid item xs={12} md={5}>
+              <PoolBasicDetails />
+            </Grid>
+            {/* Right-hand side content */}
+            <Grid item xs={12} md={7}>
+              <DialogContentText id="alert-dialog-description">
+                <PoolMemberTable editMode={editMode} onSelectedChange={handleSelectedChange} />
+                <br></br>
+                <PoolVmTable />
+              </DialogContentText>
+            </Grid>
           </Grid>
-          {/* Right-hand side content */}
-          <Grid item xs={12} md={9}>
-            <DialogContentText id="alert-dialog-description">
-              <PoolMemberTable editMode={editMode} onSelectedChange={handleSelectedChange} />
-              <br></br>
-              <PoolVmTable />
-            </DialogContentText>
-          </Grid>
-        </Grid>
+        ) : (
+          <PoolBasicDetails />
+        )}
       </DialogContent>
       <DialogActions>
         <Button onClick={handleCancel} color="primary">

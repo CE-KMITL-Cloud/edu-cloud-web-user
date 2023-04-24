@@ -216,14 +216,14 @@ export const TemplateTable = observer(() => {
                     <NoteAddIcon />
                   </Center>
                 </IconButton>
-                {![8000, 8001, 8002, 8003].includes(template.vmid) && (
+                {![8000, 8001, 8002, 8003].includes(template.vmid) && accountStore.role !== 'student' && (
                   <IconButton onClick={() => handleButtonClick('add')}>
                     <Center>
                       <GroupAddIcon />
                     </Center>
                   </IconButton>
                 )}
-                {![8000, 8001, 8002, 8003].includes(template.vmid) && (
+                {![8000, 8001, 8002, 8003].includes(template.vmid) && accountStore.role !== 'student' && (
                   <IconButton onClick={() => handleButtonClick('confirm')}>
                     <Center>
                       <DeleteOutlineIcon />

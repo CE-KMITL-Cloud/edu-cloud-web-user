@@ -22,7 +22,7 @@ export const UserInfo = observer(() => {
   return (
     <UesrInfoRoot>
       <Box pr={1.5}>
-        <StyledAvatar src="/static/assets/avatars/avatar-anika-visser.png">
+        <StyledAvatar src="/static/assets/avatars/icon.jpg">
           <SvgIcon>
             <User01Icon />
           </SvgIcon>

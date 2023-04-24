@@ -1,11 +1,4 @@
-import {
-  Checkbox,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableRow,
-} from '@mui/material'
+import { Checkbox, Paper, Table, TableBody, TableCell, TableRow } from '@mui/material'
 import { observer } from 'mobx-react-lite'
 import { useEffect, useState } from 'react'
 

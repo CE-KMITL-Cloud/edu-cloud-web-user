@@ -3,6 +3,10 @@ import { Trans, useTranslation } from 'react-i18next'
 
 import { home, translation } from 'i18n/tokens'
 
+import { CoreLink } from 'components/core/CoreLink'
+
+import { paths } from 'routes/paths'
+
 import { ButtonWrapper, Root } from './styled'
 
 export const Description = () => {
@@ -19,9 +23,11 @@ export const Description = () => {
         {t(home.description)}
       </Typography>
       <ButtonWrapper>
-        <Button variant="contained" color="primary" size="medium" href='https://blog.ce.kmitl.cloud/'>
-          {t(translation.more)}
-        </Button>
+        <CoreLink path={paths.about}>
+          <Button variant="contained" color="primary" size="medium">
+            {t(translation.more)}
+          </Button>
+        </CoreLink>
       </ButtonWrapper>
     </Root>
   )

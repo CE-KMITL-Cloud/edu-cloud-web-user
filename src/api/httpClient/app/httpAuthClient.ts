@@ -9,6 +9,7 @@ import { authService } from 'services/auth-service'
 const httpAuthClient = axios.create({
   baseURL: SERVICE_BACKEND_URL,
   timeout: 60000,
+  withCredentials: true,
 })
 
 httpAuthClient.interceptors.request.use(

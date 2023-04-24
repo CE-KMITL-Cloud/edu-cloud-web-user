@@ -169,6 +169,13 @@ export const ActionZone = observer(() => {
     },
   ]
 
+  const outDropdownStudentItems: Item[] = [
+    {
+      key: 'edit',
+      label: 'edit',
+    },
+  ]
+
   const deleteDropdownItems: Item[] = [
     {
       key: 'destroy',
@@ -185,7 +192,7 @@ export const ActionZone = observer(() => {
         onClickItem={onClickItemHandler}
       />
       <ActionDropdownButton
-        items={outDropdownItems}
+        items={accountStore.role !== 'student' ? outDropdownItems : outDropdownStudentItems}
         type="out"
         textTransform="capitalize"
         selectedInstance={selectedInstance}
