@@ -1,5 +1,5 @@
 import OutputIcon from '@mui/icons-material/Output'
-import { Avatar, Box, IconButton, Stack, SvgIcon, Typography } from '@mui/material'
+import { Box, IconButton, SvgIcon, Typography } from '@mui/material'
 import User01Icon from '@untitled-ui/icons-react/build/esm/User01'
 import { observer } from 'mobx-react-lite'
 

@@ -11,6 +11,7 @@ export const getJwtTokenData = (token: string): JwtPayload => {
     const name: string = tokenParts.name
     const exp: number = tokenParts.exp
     const iat: number = tokenParts.iat
+    const role: string = tokenParts.role
 
     return {
       isRefreshToken,
@@ -18,6 +19,7 @@ export const getJwtTokenData = (token: string): JwtPayload => {
       name,
       exp,
       iat,
+      role,
     }
   } catch (err) {
     throw new Error('getJwtTokenData error')

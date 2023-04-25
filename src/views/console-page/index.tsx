@@ -1,8 +1,6 @@
 import { BoxLayout } from 'layouts/BoxLayout'
 import { MainLayout } from 'layouts/MainLayout'
 
-import { withAuthGuard } from 'components/hocs/with-auth-guard'
-
 import { Page } from 'types/page'
 
 import { Sidebar } from 'views/console-page/Sidebar'
@@ -21,7 +19,7 @@ $ sudo nano /etc/network/interfaces
 $ sudo service networking restart
 `
 
-export const ConsolePage: Page = withAuthGuard(() => {
+export const ConsolePage: Page = () => {
   return (
     <Root>
       <ConsoleWrapper>
@@ -30,7 +28,7 @@ export const ConsolePage: Page = withAuthGuard(() => {
       <Sidebar />
     </Root>
   )
-})
+}
 
 ConsolePage.getLayout = (page) => (
   <MainLayout>

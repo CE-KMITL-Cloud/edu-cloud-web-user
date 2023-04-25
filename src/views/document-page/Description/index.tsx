@@ -1,12 +1,9 @@
 import ArticleIcon from '@mui/icons-material/Article'
-import { Divider, IconButton, Typography } from '@mui/material'
-import { Trans, useTranslation } from 'react-i18next'
+import { IconButton, Typography } from '@mui/material'
 
 import { Root, StyledDivider } from './styled'
 
 export const Description = () => {
-  const { t } = useTranslation(['home', 'translation'])
-
   return (
     <Root>
       <Typography variant="body1" color="text.darken">

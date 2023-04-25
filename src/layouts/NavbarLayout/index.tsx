@@ -21,7 +21,7 @@ export const NavbarLayout = ({ children }: NavbarLayoutProps) => {
     if (isPathsValueType(router.pathname)) {
       return ROUTES_CONFIG[router.pathname]
     }
-    return {}
+    return { showNavbar: undefined, showFooter: undefined }
   }, [router.pathname])
 
   return (

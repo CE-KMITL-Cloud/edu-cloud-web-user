@@ -1,6 +1,6 @@
 import { LoadingButton } from '@mui/lab'
 import { Box, Stack, TextField, Typography } from '@mui/material'
-import { FormEventHandler, useState } from 'react'
+import { useState } from 'react'
 import { FormEvent } from 'react'
 
 import { NavbarLayout } from 'layouts/NavbarLayout'
@@ -9,15 +9,13 @@ import { AgreementBox } from 'components/common/AgreementBox'
 import { HideableTextField } from 'components/common/HideableTextField'
 import { Logo } from 'components/common/Logo'
 
-import { withGuestGuard } from 'components/hocs/with-guest-guard'
-
 import { authService } from 'services/auth-service'
 
 import { Page } from 'types/page'
 
 import { Contents, Root, TextFieldWrapper } from './styled'
 
-export const RegisterPage: Page = withGuestGuard(() => {
+export const RegisterPage: Page = () => {
   const [name, setName] = useState<string>('')
   const [surname, setSurname] = useState<string>('')
 
@@ -108,6 +106,6 @@ export const RegisterPage: Page = withGuestGuard(() => {
       </Contents>
     </Root>
   )
-})
+}
 
 RegisterPage.getLayout = (page) => <NavbarLayout>{page}</NavbarLayout>

@@ -12,6 +12,8 @@ import { LoadingScreen } from 'components/common/LoadingScreen'
 import { SettingsButton } from 'components/common/SettingsButton'
 import { SettingsDrawer } from 'components/common/SettingsDrawer'
 
+import { RoleGuard } from 'guards/role-guard'
+
 import { createEmotionCache } from 'libs/emotion'
 
 import { useSetup } from 'hooks/useSetup'
@@ -69,7 +71,7 @@ const CustomApp = ({ Component, emotionCache = clientSideEmotionCache, pageProps
                               {({ isForceLoading }) =>
                                 isReady && !isForceLoading ? (
                                   getLayout(
-                                    <>
+                                    <RoleGuard>
                                       <Component {...pageProps} />
                                       <SettingsButton onClick={settings.handleDrawerOpen} />
                                       <SettingsDrawer
@@ -89,7 +91,7 @@ const CustomApp = ({ Component, emotionCache = clientSideEmotionCache, pageProps
                                           navColor: settings.navColor,
                                         }}
                                       />
-                                    </>,
+                                    </RoleGuard>,
                                   )
                                 ) : (
                                   <LoadingScreen />

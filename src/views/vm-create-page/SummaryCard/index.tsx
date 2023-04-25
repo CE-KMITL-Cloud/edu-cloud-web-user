@@ -25,7 +25,7 @@ export const SummaryCard = (props: SummaryProps) => {
         Hostname
       </Typography>
       <Typography variant="body1" color="primary.main" fontWeight={500}>
-        {hostname ? hostname : "Please enter"}
+        {hostname ? hostname : 'Please enter'}
       </Typography>
       <Divider flexItem />
       <Typography variant="body1" color="primary.lightest" gutterBottom>
@@ -45,14 +45,14 @@ export const SummaryCard = (props: SummaryProps) => {
         CDROM
       </Typography>
       <Typography variant="body1" color="primary.main" fontWeight={500} textAlign={'center'}>
-        {cdrom ? cdrom : "Please select"}
+        {cdrom ? cdrom : 'Please select'}
       </Typography>
       <Divider flexItem />
       <Typography variant="body1" color="primary.lightest" gutterBottom>
         Storage
       </Typography>
       <Typography variant="body1" color="primary.main" fontWeight={500}>
-        {storage ? storage : "Please select"}
+        {storage ? storage : 'Please select'}
       </Typography>
     </Root>
   )

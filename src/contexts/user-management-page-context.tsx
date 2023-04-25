@@ -12,7 +12,6 @@ import {
 
 import { userApi } from 'api/backend/app/user'
 
-import { accountStore } from 'store/account-store'
 
 import { User } from 'types'
 

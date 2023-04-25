@@ -1,6 +1,6 @@
 import { Card, CardHeader } from '@mui/material'
 import { observer } from 'mobx-react-lite'
-import { FC, use, useEffect, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 
 import { userApi } from 'api/backend/app/user'
 

@@ -22,7 +22,7 @@ export const EditInstanceModal: React.FC<EditInstanceModalProps> = ({
 }) => {
   const defaultValues = initialValues.map((value) => value ?? 0)
   const [values, setValues] = useState<number[]>(defaultValues)
-  const labels = ["vCPU (core)", "Memory (MB)", "Add disk size (GB)"];
+  const labels = ['vCPU (core)', 'Memory (MB)', 'Add disk size (GB)']
 
   const handleConfirm = () => {
     onConfirm(values)
@@ -67,10 +67,9 @@ export const EditInstanceModal: React.FC<EditInstanceModalProps> = ({
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >
-      
       <form onSubmit={handleSubmit}>
         <DialogContent>
-        <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
+          <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
           <DialogContentText id="alert-dialog-description">
             Are you sure you want to perform this action on {id}?
           </DialogContentText>

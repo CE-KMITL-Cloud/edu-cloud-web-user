@@ -1,6 +1,5 @@
 import { useState } from 'react'
 
-
 import { OSBox } from 'components/common/OSBox'
 
 import { osMockData } from 'mock/os-data'
@@ -12,7 +11,6 @@ import { TemplateCard } from 'views/vm-create-page/TemplateCard'
 import { OSBoxContainer } from './styled'
 
 export const OSCard = () => {
-  
   const [selectedOs, setSelectedOs] = useState<Os | null>(null)
 
   return (

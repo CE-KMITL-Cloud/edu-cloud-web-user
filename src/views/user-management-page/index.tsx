@@ -4,8 +4,6 @@ import { MainLayout } from 'layouts/MainLayout'
 
 import { HeaderBar } from 'components/common/HeaderBar'
 
-import { withAuthGuard } from 'components/hocs/with-auth-guard'
-
 import { UserManagementProvider } from 'contexts/user-management-page-context'
 
 import { Page } from 'types/page'
@@ -15,7 +13,7 @@ import { UserTable } from 'views/user-management-page/UserTable'
 
 import { Background, ScreenFlex, StyledPaper } from './styled'
 
-export const UserManagementPage: Page = withAuthGuard(() => {
+export const UserManagementPage: Page = () => {
   return (
     <UserManagementProvider>
       <HeaderBar iconSrc="/static/icons/server-black.png">User Management</HeaderBar>
@@ -29,7 +27,7 @@ export const UserManagementPage: Page = withAuthGuard(() => {
       </Background>
     </UserManagementProvider>
   )
-})
+}
 
 UserManagementPage.getLayout = (page) => (
   <MainLayout>

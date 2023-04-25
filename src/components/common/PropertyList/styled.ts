@@ -1,5 +1,5 @@
 import { styled } from '@mui/material'
-import { Divider, ListItem, ListItemSecondaryAction, ListItemText } from '@mui/material'
+import { ListItem } from '@mui/material'
 
 export const StyledListItem = styled(ListItem)(() => ({
   paddingLeft: 25,

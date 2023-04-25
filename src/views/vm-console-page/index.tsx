@@ -4,14 +4,11 @@ import { MainLayout } from 'layouts/MainLayout'
 
 import { HeaderBar } from 'components/common/HeaderBar'
 
-import { withAuthGuard } from 'components/hocs/with-auth-guard'
-
 import { Page } from 'types/page'
-
 
 import { Background, ScreenFlex, StyledPaper } from './styled'
 
-export const VmConsolePage: Page = withAuthGuard(() => {
+export const VmConsolePage: Page = () => {
   const router = useRouter()
   const url = router.query.url as string
   console.log(url)
@@ -34,7 +31,7 @@ export const VmConsolePage: Page = withAuthGuard(() => {
       </Background>
     </>
   )
-})
+}
 
 VmConsolePage.getLayout = (page) => (
   <MainLayout>

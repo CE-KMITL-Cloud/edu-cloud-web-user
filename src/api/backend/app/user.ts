@@ -22,7 +22,7 @@ class UserApi {
     }
     return [] // Return an empty array in case of no data or error
   }
-  
+
   public async fetchFaculties(sender: string) {
     try {
       const response = await httpAppClient.get(`/user/group/faculty?username=${sender}`)

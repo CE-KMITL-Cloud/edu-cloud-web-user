@@ -4,8 +4,6 @@ import { MainLayout } from 'layouts/MainLayout'
 
 import { HeaderBar } from 'components/common/HeaderBar'
 
-import { withAuthGuard } from 'components/hocs/with-auth-guard'
-
 import { PoolProvider } from 'contexts/pool-page-context'
 
 import { Page } from 'types/page'
@@ -15,7 +13,7 @@ import { PoolTable } from 'views/pool-page/PoolTable'
 
 import { Background, ScreenFlex, StyledPaper } from './styled'
 
-export const PoolPage: Page = withAuthGuard(() => {
+export const PoolPage: Page = () => {
   return (
     <PoolProvider>
       <HeaderBar iconSrc="/static/icons/server-black.png">Resource Pool</HeaderBar>
@@ -29,7 +27,7 @@ export const PoolPage: Page = withAuthGuard(() => {
       </Background>
     </PoolProvider>
   )
-})
+}
 
 PoolPage.getLayout = (page) => (
   <MainLayout>

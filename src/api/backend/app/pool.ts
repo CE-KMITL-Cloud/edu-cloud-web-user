@@ -82,7 +82,10 @@ class PoolsApi {
       const requestBody = {
         members: members,
       }
-      const response = await httpAppClient.post(`/pool/${code}/owner/${owner}/members/add?username=${sender}`, requestBody)
+      const response = await httpAppClient.post(
+        `/pool/${code}/owner/${owner}/members/add?username=${sender}`,
+        requestBody,
+      )
       return { success: true, message: response.data.message }
     } catch (error) {
       console.error('Error adding vmid to pool :', error)
@@ -100,7 +103,10 @@ class PoolsApi {
       const requestBody = {
         vmid: vmid,
       }
-      const response = await httpAppClient.post(`/pool/${code}/owner/${owner}/instances/remove?username=${sender}`, requestBody)
+      const response = await httpAppClient.post(
+        `/pool/${code}/owner/${owner}/instances/remove?username=${sender}`,
+        requestBody,
+      )
       return { success: true, message: response.data.message }
     } catch (error) {
       console.error('Error editing instances in pool :', error)

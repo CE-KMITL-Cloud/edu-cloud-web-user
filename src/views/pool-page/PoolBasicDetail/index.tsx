@@ -11,7 +11,7 @@ export const PoolBasicDetails = () => {
     <Card>
       <CardHeader title="Details" />
       <PropertyList>
-      <PropertyListItem divider label="ID" value={`${selectedPool?.ID}`} />
+        <PropertyListItem divider label="ID" value={`${selectedPool?.ID}`} />
         <PropertyListItem divider label="Course Code" value={selectedPool?.Code} />
         <PropertyListItem divider label="Course Owner" value={selectedPool?.Owner} />
         <PropertyListItem divider label="Status" value={selectedPool?.Status ? 'Active' : 'Deactive'} />
