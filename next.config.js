@@ -25,7 +25,6 @@ const securityHeaders = [
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-  distDir: 'out',
   env: {
     APP_ENV: process.env.APP_ENV,
   },
