@@ -29,6 +29,7 @@ class AuthService {
   public initUser() {
     const refreshToken = localStorage.getItem(REFRESH_TOKEN_KEY)
     if (!refreshToken) {
+      accountStore.setRole('unknown')
       return
     }
 
@@ -56,6 +57,7 @@ class AuthService {
     accountStore.setEmail(undefined)
     accountStore.setName(undefined)
     accountStore.setIsLoggedIn(false)
+    accountStore.setRole('unknown')
   }
 
   /**

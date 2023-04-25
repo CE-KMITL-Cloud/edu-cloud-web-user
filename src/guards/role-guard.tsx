@@ -51,14 +51,34 @@ export const RoleGuard = observer(({ children }: AuthGuardProps) => {
       return
     }
 
-    router.replace(paths.login)
+    if (pathname === paths.login) {
+      router.replace(paths.index)
+    }
+
+    if (accountStore.role === 'unknown') {
+      router.replace(paths.login)
+      return
+    }
+
+    if (accountStore.role === 'student' || accountStore.role === 'faculty') {
+      router.replace(paths.vmInstance)
+      return
+    }
+
+    if (accountStore.role === 'admin') {
+      router.replace(paths.dashboard)
+      return
+    }
+
+    router.replace(paths.index)
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [router, accountStore.role, accountStore.isLoggedIn])
+  }, [accountStore.role, router, accountStore.isLoggedIn])
 
   useEffect(() => {
     check()
-  }, [check])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [accountStore.role, router])
 
   if (!checked) {
     return null
