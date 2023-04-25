@@ -57,7 +57,7 @@ export const UserDetailModal: React.FC<UserDetailModalProps> = ({ isOpen, onClos
   return (
     <Dialog
       open={isOpen}
-      onClose={handleCancel}
+      // onClose={handleCancel}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
       maxWidth="sm" // Set modal max width to large

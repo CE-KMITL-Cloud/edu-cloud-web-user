@@ -49,7 +49,7 @@ export const PoolMemberTable = observer(({ editMode, onSelectedChange }: PoolMem
   }, [selectedPool, students])
 
   useEffect(() => {
-    console.log('selected array :', selected)
+    console.log('selected members :', selected)
   }, [selected])
 
   useEffect(() => {

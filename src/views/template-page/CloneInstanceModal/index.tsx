@@ -80,7 +80,7 @@ export const CloneInstanceModal: React.FC<CloneInstanceModalProps> = ({
   return (
     <Dialog
       open={isOpen}
-      onClose={handleCancel}
+      // onClose={handleCancel}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >

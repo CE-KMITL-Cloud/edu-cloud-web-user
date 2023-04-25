@@ -74,7 +74,7 @@ export const AddToPoolModal: React.FC<AddToPoolProps> = observer(
     return (
       <Dialog
         open={isOpen}
-        onClose={handleCancel}
+        // onClose={handleCancel}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >

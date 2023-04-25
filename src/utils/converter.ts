@@ -1,5 +1,6 @@
-import { TemplateSpec } from "types/template"
+import dayjs from 'dayjs'
 
-export const specConverter = (spec: TemplateSpec): string => {
-    return `${spec.maxcpu} core, RAM ${spec.maxmem/1073741824} GiB, Disk ${spec.maxdisk/1073741824} GiB`
-  }
+export const formatDateFromUnix = (timestamp: string): string => {
+  const intTimestamp = parseInt(timestamp)
+  return dayjs.unix(intTimestamp).format('YYYY-MM-DD')
+}

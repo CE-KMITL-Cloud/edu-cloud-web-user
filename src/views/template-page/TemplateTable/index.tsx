@@ -165,6 +165,7 @@ export const TemplateTable = observer(() => {
       } finally {
         // After the API call, set the isLoading state to false and close the modal
         setIsLoading(false)
+        setConfirmModalOpen(false)
       }
     }
   }

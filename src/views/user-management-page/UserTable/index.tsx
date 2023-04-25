@@ -10,6 +10,8 @@ import { accountStore } from 'store/account-store'
 
 import { useUserManagementContext } from 'contexts/user-management-page-context'
 
+import { formatDateFromUnix } from 'utils/converter'
+
 import { User } from 'types'
 
 import { UserDetailModal } from '../UserDetailModal'
@@ -95,6 +97,7 @@ export const UserTable = observer(() => {
             {students?.map((student: User) => {
               const pillColor: SeverityPillColor = student.Status ? 'success' : 'error'
               const pillText: string = student.Status ? 'active' : 'inactive'
+              const expireDate = formatDateFromUnix(student.ExpireTime)
               return (
                 <StyledTableRow
                   key={student.Username}
@@ -107,7 +110,7 @@ export const UserTable = observer(() => {
                   <TableCell>
                     <SeverityPill color={pillColor} text={pillText} minWidth={80} />
                   </TableCell>
-                  <TableTextCell>{student.ExpireTime}</TableTextCell>
+                  <TableTextCell>{expireDate}</TableTextCell>
                   <TableCell>
                     <IconButton
                       onClick={() => {
@@ -128,6 +131,7 @@ export const UserTable = observer(() => {
             {faculties?.map((faculty: User) => {
               const pillColor: SeverityPillColor = faculty.Status ? 'success' : 'error'
               const pillText: string = faculty.Status ? 'active' : 'inactive'
+              const expireDate = formatDateFromUnix(faculty.ExpireTime)
               return (
                 <StyledTableRow
                   key={faculty.Username}
@@ -140,7 +144,7 @@ export const UserTable = observer(() => {
                   <TableCell>
                     <SeverityPill color={pillColor} text={pillText} minWidth={80} />
                   </TableCell>
-                  <TableTextCell>{faculty.ExpireTime}</TableTextCell>
+                  <TableTextCell>{expireDate}</TableTextCell>
                   <TableCell>
                     <IconButton
                       onClick={() => {

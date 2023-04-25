@@ -22,42 +22,61 @@ interface PoolDetailModalProps {
 }
 
 export const PoolDetailModal: React.FC<PoolDetailModalProps> = ({ isOpen, onClose }) => {
-  const { selectedPool } = usePoolContext()
+  const { selectedPool, handlePoolsGet } = usePoolContext()
+
   const [editMode, setEditMode] = useState(false)
+  const [editInstancesMode, setEditInstancesMode] = useState(false)
+
   const [selectedMembers, setSelectedMembers] = useState<string[]>([])
+  const [selectedInstances, setSelectedInstances] = useState<string[]>([])
 
   const handleSelectedChange = (selectedMembers: string[]) => {
     setSelectedMembers(selectedMembers)
   }
 
+  const handleSelectedInstancesChange = (selectedInstances: string[]) => {
+    setSelectedInstances(selectedInstances)
+  }
+
   const handleCancel = () => {
     onClose()
     setEditMode(false)
+    setEditInstancesMode(false)
   }
 
-  const handleSave = async (selectedMembers: string[]) => {
+  const handleSave = async (selectedMembers: string[], selectedInstances: string[]) => {
     if (!accountStore.email) return
     if (selectedPool) {
       try {
-        const response = await poolsApi.AddMembersPool(
+        // Update the members state
+        const res = await poolsApi.AddMembersPool(
           accountStore.email,
           selectedPool.Owner,
           selectedPool.Code,
-          selectedMembers, // Assuming your API takes the updated selected members as a parameter
+          selectedMembers,
+        )
+        console.log(res)
+        // Update the instances state
+        const response = await poolsApi.EditInstancePool(
+          accountStore.email,
+          selectedPool.Owner,
+          selectedPool.Code,
+          selectedInstances,
         )
         console.log(response)
-        // Update the members state
+        handlePoolsGet(accountStore.email, accountStore.email)
       } catch (error) {
-        console.error('Error updating members:', error)
+        console.error('Error updating pool:', error)
       }
     }
   }
 
   const handleEditMode = () => {
     setEditMode(!editMode)
-    if (editMode) {
+    setEditInstancesMode(!editInstancesMode)
+    if (editMode && editInstancesMode) {
       // Call onSave from prop, passing the selected members
-      handleSave(selectedMembers)
+      handleSave(selectedMembers, selectedInstances)
       handleCancel()
     }
   }
@@ -84,7 +103,7 @@ export const PoolDetailModal: React.FC<PoolDetailModalProps> = ({ isOpen, onClos
               <DialogContentText id="alert-dialog-description">
                 <PoolMemberTable editMode={editMode} onSelectedChange={handleSelectedChange} />
                 <br></br>
-                <PoolVmTable />
+                <PoolVmTable editMode={editInstancesMode} onSelectedChange={handleSelectedInstancesChange} />
               </DialogContentText>
             </Grid>
           </Grid>
@@ -97,7 +116,7 @@ export const PoolDetailModal: React.FC<PoolDetailModalProps> = ({ isOpen, onClos
           Cancel
         </Button>
         {accountStore.role !== 'student' && (
-          <Button onClick={handleEditMode}>{editMode ? 'Save' : 'Edit member'}</Button>
+          <Button onClick={handleEditMode}>{editMode && editInstancesMode ? 'Save' : 'Edit'}</Button>
         )}
       </DialogActions>
     </Dialog>
