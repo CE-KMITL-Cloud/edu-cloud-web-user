@@ -52,17 +52,17 @@ export const useSections = (role: Role | 'unknown' | undefined) => {
     () => [
       {
         items: compact([
-          checkRole(paths.dashboard)
-            ? {
-                title: t(translation.dashboard),
-                path: paths.dashboard,
-                icon: (
-                  <SvgIcon fontSize="small">
-                    <HomeSmileIcon />
-                  </SvgIcon>
-                ),
-              }
-            : undefined,
+          // checkRole(paths.dashboard)
+          //   ? {
+          //       title: t(translation.dashboard),
+          //       path: paths.dashboard,
+          //       icon: (
+          //         <SvgIcon fontSize="small">
+          //           <HomeSmileIcon />
+          //         </SvgIcon>
+          //       ),
+          //     }
+          //   : undefined,
           checkRole(paths.vmInstance)
             ? {
                 title: t(sidebar.vmInstance),
