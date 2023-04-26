@@ -5,22 +5,24 @@ import { useState } from 'react'
 
 import { CoreLink } from 'components/core/CoreLink'
 
+import { AgreementBox } from 'components/common/AgreementBox'
 import { HideableTextField } from 'components/common/HideableTextField'
 import { Logo } from 'components/common/Logo'
+
+import { paths } from 'routes/paths'
 
 import { authService } from 'services/auth-service'
 
 import { LoginStatus } from 'types/enums'
 
-import { AgreementBox } from './AgreementBox'
 import { ButtonGroup, ContentsWrapper, Root, TextFieldWrapper } from './styled'
 
 export const LoginSection = () => {
   const router = useRouter()
 
   // TODO: Remove default value.
-  const [email, setEmail] = useState<string>('62555555@kmitl.ac.th')
-  const [password, setPassword] = useState<string>('Botlee007')
+  const [email, setEmail] = useState<string>('')
+  const [password, setPassword] = useState<string>('')
 
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [errorMessage, setErrorMessage] = useState<string>('')
@@ -107,8 +109,7 @@ export const LoginSection = () => {
           <Typography variant="body2" color="text.dark">
             or
           </Typography>
-          {/* TODO: Link to register page*/}
-          <CoreLink path="#">
+          <CoreLink path={paths.register}>
             <Button variant="contained" color="secondary" size="medium" fullWidth>
               Register
             </Button>

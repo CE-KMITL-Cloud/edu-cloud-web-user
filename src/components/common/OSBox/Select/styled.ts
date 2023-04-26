@@ -10,7 +10,7 @@ export const StyledSelect = styled(Select<string>)(({ theme }) => ({
     border: 0,
     boxShadow: 'none !important', // ! Use important
   },
-  '& .MuiSelect-select': {
+  '& > .MuiSelect-select': {
     padding: '0 10px',
     textAlign: 'center',
     height: 36,
@@ -18,18 +18,21 @@ export const StyledSelect = styled(Select<string>)(({ theme }) => ({
     border: 0,
     backgroundColor: 'transparent',
     color: theme.palette.text.primary,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
     fontSize: 14,
     '&:focus': {
       backgroundColor: 'transparent',
     },
   },
-  '& .MuiSelect-icon': {
+  '& > .MuiSelect-icon': {
     color: theme.palette.text.primary,
   },
-  '& .MuiSelect-selectMenu': {
+  '& > .MuiSelect-selectMenu': {
     height: 36,
   },
-  '& fieldset': {
+  '&  fieldset': {
     border: 0,
   },
 }))

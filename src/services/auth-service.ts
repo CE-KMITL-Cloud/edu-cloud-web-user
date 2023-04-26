@@ -9,7 +9,7 @@ import { accountStore } from 'store/account-store'
 
 import { getJwtTokenData } from 'utils/jwt'
 
-import { FunctionResult, JwtPayload } from 'types'
+import { FunctionResult, JwtPayload, Role, isRole } from 'types'
 import { LoginStatus } from 'types/enums'
 
 class AuthService {
@@ -29,6 +29,7 @@ class AuthService {
   public initUser() {
     const refreshToken = localStorage.getItem(REFRESH_TOKEN_KEY)
     if (!refreshToken) {
+      accountStore.setRole('unknown')
       return
     }
 
@@ -42,7 +43,9 @@ class AuthService {
 
     const email: string = tokenParts.email
     const name: string = tokenParts.name
+    const role: string = tokenParts.role
 
+    isRole(role) ? accountStore.setRole(role) : accountStore.setRole('unknown')
     accountStore.setEmail(email)
     accountStore.setName(name)
     accountStore.setIsLoggedIn(true)
@@ -54,6 +57,7 @@ class AuthService {
     accountStore.setEmail(undefined)
     accountStore.setName(undefined)
     accountStore.setIsLoggedIn(false)
+    accountStore.setRole('unknown')
   }
 
   /**
@@ -63,21 +67,36 @@ class AuthService {
    * @param password Password
    * @returns isSuccess
    */
-  public async register(name: string, email: string, password: string): Promise<FunctionResult> {
+  public async register(
+    name: string,
+    email: string,
+    password: string,
+    role: Role,
+    needToLogin: boolean = true,
+  ): Promise<FunctionResult> {
     try {
       const { accessToken, refreshToken, tokenType } = await authApi.register({
         name,
         email,
         password,
+        role,
       })
-      if (tokenType === 'Bearer') {
-        localStorage.setItem(ACCESS_TOKEN_KEY, accessToken)
-        localStorage.setItem(REFRESH_TOKEN_KEY, refreshToken)
 
-        this.initUser()
+      if (tokenType !== 'Bearer') {
+        return { success: false }
+      }
 
+      // * Don't login
+      if (needToLogin === false) {
         return { success: true }
       }
+
+      localStorage.setItem(ACCESS_TOKEN_KEY, accessToken)
+      localStorage.setItem(REFRESH_TOKEN_KEY, refreshToken)
+
+      this.initUser()
+
+      return { success: true }
     } catch (err) {
       console.error(err)
       if (axios.isAxiosError(err)) {

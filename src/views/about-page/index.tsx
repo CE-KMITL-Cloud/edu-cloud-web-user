@@ -19,7 +19,7 @@ export const AboutPage: Page = () => {
               Background
             </Typography>
           </Box>
-          <Typography variant="body1" color="text.lighten">
+          <Typography variant="body1" color="text.darken">
             Educational cloud platform services are based on open-source software such as KVM, LXC/LXD, Libvirt library,
             and Infrastructure. Existing for internal use Department of Computer Engineering by the department has
             realized the importance of bringing the private cloud to use in teaching and research for services to

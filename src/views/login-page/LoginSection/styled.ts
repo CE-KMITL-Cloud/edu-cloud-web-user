@@ -25,11 +25,6 @@ export const ButtonGroup = styled(Stack)(({ theme }) => ({
   gap: theme.spacing(1.5),
 }))
 
-export const AgreementBoxRoot = styled('div')(({ theme }) => ({
-  width: '100%',
-  paddingLeft: theme.spacing(2),
-}))
-
 export const TextFieldWrapper = styled('div')(({ theme }) => ({
   width: '100%',
   padding: theme.spacing(2, 0, 1, 0),

@@ -25,12 +25,18 @@
     "noUnusedParameters": true,
     "incremental": true,
     "baseUrl": "./src",
+    "typeRoots": [
+      "./types",
+      "./node_modules/@types"
+    ]
   },
   "include": [
     "next-env.d.ts",
     "**/*.ts",
-    "**/*.tsx"
-, "src/middleware.unused", "src/unuse_auth.unused"  ],
+    "**/*.tsx",
+    "src/middleware.unused",
+    "src/unuse_auth.unused"
+  ],
   "exclude": [
     "node_modules"
   ]

@@ -3,14 +3,12 @@ import Image from 'next/image'
 
 import { NavbarLayout } from 'layouts/NavbarLayout'
 
-import { withGuestGuard } from 'components/hocs/with-guest-guard'
-
 import { Page } from 'types/page'
 
 import { LoginSection } from './LoginSection'
 import { ImgCon1, ImgCon2, Root, StyledBox, StyledStack, TextWrapper } from './styled'
 
-export const LoginPage: Page = withGuestGuard(() => {
+export const LoginPage: Page = () => {
   return (
     <Root>
       <StyledBox>
@@ -32,6 +30,6 @@ export const LoginPage: Page = withGuestGuard(() => {
       <LoginSection />
     </Root>
   )
-})
+}
 
 LoginPage.getLayout = (page) => <NavbarLayout>{page}</NavbarLayout>
