@@ -1,3 +1,4 @@
+import AppRegistrationIcon from '@mui/icons-material/AppRegistration'
 import GroupIcon from '@mui/icons-material/Group'
 import PersonIcon from '@mui/icons-material/Person'
 import { SvgIcon } from '@mui/material'
@@ -102,6 +103,17 @@ export const useSections = (role: Role | 'unknown' | undefined) => {
                 icon: (
                   <SvgIcon fontSize="small">
                     <PersonIcon />
+                  </SvgIcon>
+                ),
+              }
+            : undefined,
+          checkRole(paths.registerFaculty)
+            ? {
+                title: 'Register Faculty',
+                path: paths.registerFaculty,
+                icon: (
+                  <SvgIcon fontSize="small">
+                    <AppRegistrationIcon />
                   </SvgIcon>
                 ),
               }

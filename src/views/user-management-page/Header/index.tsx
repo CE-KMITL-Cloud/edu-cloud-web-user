@@ -1,7 +1,11 @@
-import { Box, Button, Grid, Modal, TextField, Typography } from '@mui/material'
+import { Box, Button, Grid, Modal, Stack, TextField, Typography } from '@mui/material'
 import { useState } from 'react'
 
 import { poolsApi } from 'api/backend/app/pool'
+
+import { CoreLink } from 'components/core/CoreLink'
+
+import { paths } from 'routes/paths'
 
 import { HeaderPaper, Root } from './styled'
 
@@ -59,9 +63,16 @@ export const Header = () => {
   return (
     <Root>
       <HeaderPaper>
-        <Typography variant="h6" fontWeight={700}>
-          Dashboard
-        </Typography>
+        <Stack direction="row" justifyContent="space-between" alignItems="center" width="100%">
+          <Typography variant="h6" fontWeight={700}>
+            Dashboard
+          </Typography>
+          <CoreLink path={paths.registerFaculty}>
+            <Button variant="contained" color="primary">
+              Create faculty
+            </Button>
+          </CoreLink>
+        </Stack>
         {/* <Button variant="contained" onClick={handleOpen}>
           Create Pool
         </Button> */}

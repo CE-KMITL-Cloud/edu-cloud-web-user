@@ -67,7 +67,13 @@ class AuthService {
    * @param password Password
    * @returns isSuccess
    */
-  public async register(name: string, email: string, password: string, role: Role): Promise<FunctionResult> {
+  public async register(
+    name: string,
+    email: string,
+    password: string,
+    role: Role,
+    needToLogin: boolean = true,
+  ): Promise<FunctionResult> {
     try {
       const { accessToken, refreshToken, tokenType } = await authApi.register({
         name,
@@ -75,14 +81,22 @@ class AuthService {
         password,
         role,
       })
-      if (tokenType === 'Bearer') {
-        localStorage.setItem(ACCESS_TOKEN_KEY, accessToken)
-        localStorage.setItem(REFRESH_TOKEN_KEY, refreshToken)
 
-        this.initUser()
+      if (tokenType !== 'Bearer') {
+        return { success: false }
+      }
 
+      // * Don't login
+      if (needToLogin === false) {
         return { success: true }
       }
+
+      localStorage.setItem(ACCESS_TOKEN_KEY, accessToken)
+      localStorage.setItem(REFRESH_TOKEN_KEY, refreshToken)
+
+      this.initUser()
+
+      return { success: true }
     } catch (err) {
       console.error(err)
       if (axios.isAxiosError(err)) {
