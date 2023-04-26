@@ -13,6 +13,7 @@ export const paths = {
   register: '/register',
   // vmConsole: '/vm-console',
   user: '/user-management',
+  registerFaculty: '/register-faculty',
 
   // * Status
   401: '/401',
