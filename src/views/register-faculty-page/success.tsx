@@ -22,7 +22,7 @@ export const Success = ({ resetAllValue }: SuccessProps) => {
         </Button>
       </CoreLink>
       <Button variant="outlined" color="primary" onClick={resetAllValue}>
-        continue sign up
+        Continue to Sign up
       </Button>
     </ScreenFlexCenter>
   )
