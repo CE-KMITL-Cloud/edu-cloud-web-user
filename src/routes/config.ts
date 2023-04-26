@@ -138,6 +138,16 @@ export const ROUTES_CONFIG: RoutesConfigType = {
       admin: true,
     },
   },
+  [paths.registerFaculty]: {
+    showNavbar: false,
+    showFooter: true,
+    protect: {
+      guess: false,
+      student: false,
+      faculty: false,
+      admin: true,
+    },
+  },
 
   // * Status
   [paths[401]]: {
