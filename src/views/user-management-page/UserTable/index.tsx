@@ -29,8 +29,8 @@ export const UserTable = observer(() => {
     if (accountStore.email) {
       // handleStudentsGet(accountStore.email)
       // handleFacutiesGet(accountStore.email)
-      handleStudentsGet('admin')
-      handleFacutiesGet('admin')
+      handleStudentsGet('admin@kmitl.ac.th')
+      handleFacutiesGet('admin@kmitl.ac.th')
     }
   }
 

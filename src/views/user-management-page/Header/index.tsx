@@ -46,9 +46,9 @@ export const Header = () => {
     handleCreatePool()
   }
 
-  const handleOpen = () => {
-    setOpen(true)
-  }
+//  const handleOpen = () => {
+//    setOpen(true)
+//  }
 
   const handleClose = () => {
     setOpen(false)

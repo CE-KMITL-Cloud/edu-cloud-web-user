@@ -49,12 +49,12 @@ export const UserManagementProvider = observer(({ children }: UserManagementProv
   useEffect(() => {
     // if (!accountStore.email) return
     // handleStudentsGet(accountStore.email)
-    handleStudentsGet('admin')
+    handleStudentsGet('admin@kmitl.ac.th')
 
     const intervalId = setInterval(() => {
       // if (!accountStore.email) return
       // handleStudentsGet(accountStore.email)
-      handleStudentsGet('admin')
+      handleStudentsGet('admin@kmitl.ac.th')
     }, 60000)
 
     return () => {
@@ -79,13 +79,13 @@ export const UserManagementProvider = observer(({ children }: UserManagementProv
   useEffect(() => {
     // if (!accountStore.email) return
     // handleFacultiesGet(accountStore.email)
-    handleFacultiesGet('admin')
+    handleFacultiesGet('admin@kmitl.ac.th')
 
     const intervalId = setInterval(() => {
       // todo : testing
       // if (!accountStore.email) return
       // handleFacultiesGet(accountStore.email)
-      handleFacultiesGet('admin')
+      handleFacultiesGet('admin@kmitl.ac.th')
     }, 60000)
 
     return () => {

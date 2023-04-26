@@ -15,11 +15,12 @@ module.exports = {
   },
   rules: {
     'no-empty': 'off',
+    'no-unused-vars': 'off',
     'react/react-in-jsx-scope': 'off',
     'react/display-name': 'off',
     'react/prop-types': 'off',
     'react-hooks/exhaustive-deps': 'warn',
-    'unused-imports/no-unused-imports': 'warn',
+    'unused-imports/no-unused-imports': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-undef': 'off',
     '@typescript-eslint/no-explicit-any': 'error',

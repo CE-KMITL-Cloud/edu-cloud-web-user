@@ -41,7 +41,7 @@ export const UserDetailModal: React.FC<UserDetailModalProps> = ({ isOpen, onClos
     console.log('update limit :', updatedUserLimits)
     if (selectedUser) {
       try {
-        const response = await userApi.UpdateUserLimit('admin', selectedUser.Username, updatedUserLimits)
+        const response = await userApi.UpdateUserLimit('admin@kmitl.ac.th', selectedUser.Username, updatedUserLimits)
         console.log(response)
         handleCancel()
         // Update the members state

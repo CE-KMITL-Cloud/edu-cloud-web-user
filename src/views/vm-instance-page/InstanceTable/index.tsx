@@ -51,7 +51,7 @@ export const InstanceTable = () => {
   const handleButtonClick = async (instance: Instance) => {
     console.log('Clicked row data:', instance)
     try {
-      const response = await consoleApi.fetchConsoleVM(instance.node, `${instance.vmid}`, 'admin')
+      const response = await consoleApi.fetchConsoleVM(instance.node, `${instance.vmid}`, 'admin@kmitl.ac.th')
       // const response = await consoleApi.vncProxy('admin', instance.node, instance.vmid)
       console.log(response)
       openNewWindow(response)

@@ -11,7 +11,7 @@ services:
     build: 
       context: .
       dockerfile: Dockerfile
-    image: ce-cloud-Frontend
+    image: ce-cloud-frontend
     container_name: frontend
     # env_file: .env
     # environment:
