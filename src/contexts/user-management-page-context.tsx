@@ -12,6 +12,7 @@ import {
 
 import { userApi } from 'api/backend/app/user'
 
+import { accountStore } from 'store/account-store'
 
 import { User } from 'types'
 
@@ -47,14 +48,14 @@ export const UserManagementProvider = observer(({ children }: UserManagementProv
   }, [])
 
   useEffect(() => {
-    // if (!accountStore.email) return
-    // handleStudentsGet(accountStore.email)
-    handleStudentsGet('admin@kmitl.ac.th')
+    if (!accountStore.email) return
+    handleStudentsGet(accountStore.email)
+    // handleStudentsGet('admin@kmitl.ac.th')
 
     const intervalId = setInterval(() => {
-      // if (!accountStore.email) return
-      // handleStudentsGet(accountStore.email)
-      handleStudentsGet('admin@kmitl.ac.th')
+      if (!accountStore.email) return
+      handleStudentsGet(accountStore.email)
+      // handleStudentsGet('admin@kmitl.ac.th')
     }, 60000)
 
     return () => {
@@ -77,15 +78,15 @@ export const UserManagementProvider = observer(({ children }: UserManagementProv
   }, [])
 
   useEffect(() => {
-    // if (!accountStore.email) return
-    // handleFacultiesGet(accountStore.email)
-    handleFacultiesGet('admin@kmitl.ac.th')
+    if (!accountStore.email) return
+    handleFacultiesGet(accountStore.email)
+    // handleFacultiesGet('admin@kmitl.ac.th')
 
     const intervalId = setInterval(() => {
       // todo : testing
-      // if (!accountStore.email) return
-      // handleFacultiesGet(accountStore.email)
-      handleFacultiesGet('admin@kmitl.ac.th')
+      if (!accountStore.email) return
+      handleFacultiesGet(accountStore.email)
+      // handleFacultiesGet('admin@kmitl.ac.th')
     }, 60000)
 
     return () => {

@@ -1,11 +1,4 @@
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  Grid,
-} from '@mui/material'
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, Grid } from '@mui/material'
 import React from 'react'
 import { useState } from 'react'
 
@@ -41,7 +34,7 @@ export const UserDetailModal: React.FC<UserDetailModalProps> = ({ isOpen, onClos
     console.log('update limit :', updatedUserLimits)
     if (selectedUser) {
       try {
-        const response = await userApi.UpdateUserLimit('admin@kmitl.ac.th', selectedUser.Username, updatedUserLimits)
+        const response = await userApi.UpdateUserLimit(accountStore.email, selectedUser.Username, updatedUserLimits)
         console.log(response)
         handleCancel()
         // Update the members state

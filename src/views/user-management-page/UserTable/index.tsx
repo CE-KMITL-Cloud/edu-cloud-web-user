@@ -27,10 +27,10 @@ export const UserTable = observer(() => {
   const handleChange = (_: ChangeEvent<{}>, newValue: number) => {
     setValue(newValue)
     if (accountStore.email) {
-      // handleStudentsGet(accountStore.email)
-      // handleFacutiesGet(accountStore.email)
-      handleStudentsGet('admin@kmitl.ac.th')
-      handleFacutiesGet('admin@kmitl.ac.th')
+      handleStudentsGet(accountStore.email)
+      handleFacutiesGet(accountStore.email)
+      // handleStudentsGet('admin@kmitl.ac.th')
+      // handleFacutiesGet('admin@kmitl.ac.th')
     }
   }
 
