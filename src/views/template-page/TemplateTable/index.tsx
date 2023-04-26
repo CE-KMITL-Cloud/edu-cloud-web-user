@@ -114,7 +114,7 @@ export const TemplateTable = observer(() => {
       try {
         const response = await poolsApi.AddInstancePool(
           accountStore.email,
-          accountStore.email,
+          accountStore.role === 'admin' ? pool.Owner : accountStore.email,
           pool.Code,
           selectedTemplate.vmid,
         )
